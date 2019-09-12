@@ -6,10 +6,14 @@ using PI.ProjectionToolkit.UI;
 
 namespace PI.ProjectionToolkit
 {
-    public class ProjectionSiteDetailsManager : UiDetailsBase
+    public class ProjectorDetailsManager : MonoBehaviour
     {
         private ProjectionSite _projectionSite;
         public GameObject objTitle;
+        public GameObject objList;
+        public GameObject prefabUiHeader;
+        public GameObject prefabUiTextLine;
+        public GameObject prefabUiTextLineButton;
         public Sprite imgLocationIcon;
 
         void Start()
@@ -32,26 +36,23 @@ namespace PI.ProjectionToolkit
             AddTextLine("CITY/TOWN", _projectionSite.location.town);
             TextLineButton btnLoc = AddTextLineButton("GEO LOCATION", _projectionSite.location.geoLocation.latLng, imgLocationIcon);
             btnLoc.OnButtonClick += BtnLoc_OnButtonClick;
-            AddTextLine("PROJECTOR STACKS", _projectionSite.projectors.Count.ToString());
-            AddTextLine("CAMERAS", _projectionSite.cameras.Count.ToString());
-            AddSeperator();
 
-            AddProjectorStack(_projectionSite.projectors);
+            AddHeader("PROJECTORS");
+            AddTextLine("COUNT", _projectionSite.projectors.Count.ToString());
 
-            AddCamera(_projectionSite.cameras, true);
+            AddHeader("CAMERAS");
+            AddTextLine("COUNT", _projectionSite.cameras.Count.ToString());
 
             AddHeader("DETAILS");
             AddTextLine("ID", _projectionSite.id);
             AddTextLine("VERSION ID", _projectionSite.versionId);
             AddTextLine("ASSET BUNDLE", _projectionSite.assetBundleName);
-            AddSeperator();
 
             AddHeader("AUDIT");
             AddTextLine("LAST UPDATED", _projectionSite.updated.ToString("yyyy-MM-dd HH:mm"));
             AddTextLine("UPDATED BY", _projectionSite.updatedBy);
             AddTextLine("CREATED", _projectionSite.created.ToString("yyyy-MM-dd HH:mm"));
             AddTextLine("CREATED BY", _projectionSite.createdBy);
-            AddSeperator();
         }
 
         private void BtnLoc_OnButtonClick()
@@ -60,5 +61,26 @@ namespace PI.ProjectionToolkit
             Application.OpenURL(url);
         }
 
+        private void AddHeader(string header)
+        {
+            var projectGameObject = Instantiate(prefabUiHeader, objList.transform);
+            var u = projectGameObject.GetComponent<Header>();
+            u.SetData(header);
+        }
+
+        private void AddTextLine(string title, string value)
+        {
+            var projectGameObject = Instantiate(prefabUiTextLine, objList.transform);
+            var u = projectGameObject.GetComponent<TextLine>();
+            if(u != null) u.SetData(title, value);
+        }
+
+        private TextLineButton AddTextLineButton(string title, string value, Sprite icon)
+        {
+            var projectGameObject = Instantiate(prefabUiTextLineButton, objList.transform);
+            var u = projectGameObject.GetComponent<TextLineButton>();
+            if (u != null) u.SetData(title, value, icon);
+            return u;
+        }
     }
 }

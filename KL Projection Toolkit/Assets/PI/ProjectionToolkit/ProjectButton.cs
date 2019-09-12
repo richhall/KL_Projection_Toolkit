@@ -122,14 +122,14 @@ namespace PI.ProjectionToolkit
             {
                 if (isLatestProjection)
                 {
-                    if (this.isOn)
-                    {
-                        projectManager.ShowErrorMessage("Your locally installed site is up to date");
-                    }
-                    else
-                    {
-                        projectManager.UpdateLocalProjectionSiteLaunch(projectionSite);
-                    }
+                    projectManager.UpdateLocalProjectionSiteLaunch(projectionSite);
+                    //if (this.isOn)
+                    //{
+                    //    projectManager.ShowErrorMessage("Your locally installed site is up to date");
+                    //}
+                    //else
+                    //{
+                    //}
                 } else
                 {
                     projectManager.CreateNewProjection(projectionSite);

@@ -15,15 +15,15 @@ namespace PI.ProjectionToolkit.Models
     [Serializable]
     public class Camera : Transform
     {
-        public string name { get; set; } = "Main Projector";
-        public bool physical { get; set; } = true;
-        public float fieldOfView { get; set; } = 0f;
-        public float focalLength { get; set; } = 0f;
-        public Vector2 sensorSize { get; set; } = new Vector2();
-        public Vector2 lensShift { get; set; } = new Vector2();
-        public UnityEngine.Camera.GateFitMode gateFit { get; set; } = UnityEngine.Camera.GateFitMode.Horizontal;
-        public float nearClipPlane { get; set; } = 0.3f;
-        public float farClipPlane { get; set; } = 1000f;
+        public string name = "Main Projector";
+        public bool physical  = true;
+        public float fieldOfView = 0f;
+        public float focalLength = 0f;
+        public Vector2 sensorSize = new Vector2();
+        public Vector2 lensShift = new Vector2();
+        public UnityEngine.Camera.GateFitMode gateFit  = UnityEngine.Camera.GateFitMode.Horizontal;
+        public float nearClipPlane = 0.3f;
+        public float farClipPlane = 1000f;
 
         public void SetCamera(UnityEngine.Camera camera)
         {

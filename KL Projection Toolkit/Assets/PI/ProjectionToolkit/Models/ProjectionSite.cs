@@ -22,7 +22,7 @@ namespace PI.ProjectionToolkit.Models
         public int minorVersion = 0;
         public string version { get { return majorVersion.ToString() + "." + minorVersion.ToString(); } }
         public string notes = "";
-        public GeoLocation location = new GeoLocation();
+        public Location location = new Location();
         public string assetBundleName = "Site";
         public List<ProjectorStack> projectors = new List<ProjectorStack>();
         public List<Camera> cameras = new List<Camera>();

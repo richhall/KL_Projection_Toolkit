@@ -16,5 +16,12 @@ namespace PI.Common.Models
         public double lat = 0f;
         public double lng = 0f;
 
+        public string latLng
+        {
+            get
+            {
+                return lat.ToString() + "," + lng.ToString();
+            }
+        }
     }
 }

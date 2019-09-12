@@ -189,13 +189,65 @@ namespace PI.ProjectionToolkit
                             projectionSites.AddSite(new ProjectionSite()
                             {
                                 name = "Custom House",
-                                createdBy = "pete"
+                                createdBy = "pete",
+                                location = new Common.Models.Location()
+                                {
+                                    name = "Custom House",
+                                    town = "Kings Lynn",
+                                    geoLocation = new Common.Models.GeoLocation()
+                                    {
+                                        lat = 52.753848,
+                                        lng = 0.3913075
+                                    }
+                                }
                             });
-                            projectionSites.AddSite(new ProjectionSite()
+                            var site = new ProjectionSite()
                             {
                                 name = "St Nicks",
-                                createdBy = "pete"
+                                createdBy = "pete",
+                                location = new Common.Models.Location()
+                                {
+                                    name = "St. Nicholas' Chapel",
+                                    town = "Kings Lynn",
+                                    geoLocation = new Common.Models.GeoLocation()
+                                    {
+                                        lat = 52.7575175,
+                                        lng = 0.394143
+                                    }
+                                }
+                            };
+                            var stack = new ProjectorStack()
+                            {
+                                name = "Main Stack",
+                                majorVersion = 1,
+                                minorVersion = 0,
+                                siteId = site.id
+                            };
+                            stack.projectors.Add(new Models.Camera()
+                            {
+                                name = "Base Projector",
+                                physical = true
                             });
+                            stack.projectors.Add(new Models.Camera()
+                            {
+                                name = "Top Projector",
+                                position = new Common.Vector3()
+                                {
+                                    y = 20
+                                },
+                                physical = true
+                            });
+                            site.projectors.Add(stack);
+                            site.cameras.Add(new Models.Camera()
+                            {
+                                name = "View 1",
+                                position = new Common.Vector3()
+                                {
+                                    x = 100,
+                                    z = 20
+                                }
+                            });
+                            projectionSites.AddSite(site);
                             SaveProjectionSites(projectionSites);
                         }
                     }
