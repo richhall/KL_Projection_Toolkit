@@ -8,7 +8,7 @@ namespace PI.ProjectionToolkit
     public class ProjectButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public bool showCheckBox = false;
-        public GameObject checkBox;
+        public GameObject objCheckBox;
         public bool isOn;
         private Animator buttonAnimator;
         bool isHovering;
@@ -79,7 +79,7 @@ namespace PI.ProjectionToolkit
         public void CheckStart()
         {
             buttonAnimator = this.GetComponent<Animator>();
-            checkBox.SetActive(showCheckBox);
+            objCheckBox.SetActive(showCheckBox);
             if (isOn == true)
             {
                 buttonAnimator.Play("Normal to Pressed");

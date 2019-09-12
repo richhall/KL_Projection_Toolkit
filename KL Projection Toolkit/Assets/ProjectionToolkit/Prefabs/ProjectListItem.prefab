@@ -564,7 +564,7 @@ GameObject:
   - component: {fileID: 279880334526152259}
   - component: {fileID: 7856699268699767529}
   m_Layer: 5
-  m_Name: ProjectLaunch
+  m_Name: ProjectListItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -721,7 +721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showCheckBox: 0
-  checkBox: {fileID: 698762242581915993}
+  objCheckBox: {fileID: 698762242581915993}
   isOn: 0
   projectionSite:
     createdBy: 

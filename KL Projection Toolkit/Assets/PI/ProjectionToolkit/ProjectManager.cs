@@ -25,16 +25,17 @@ namespace PI.ProjectionToolkit
         public UnityEngine.UI.Button btnUpdateProjectionSiteMinor;
         public UnityEngine.UI.Button btnInstalledSites;
         public TextMeshProUGUI loadingText;
-        public GameObject projectPrefab;
-        public GameObject projectList;
-        public GameObject projectionSiteList;
-        public GameObject latestProjectionSiteList;
+        public GameObject prefabProjectListItem;
+        public GameObject objProjectList;
+        public GameObject objProjectionSiteList;
+        public GameObject objLatestProjectionSiteList;
+        public GameObject objUpdateProjectionSiteMinorModal;
 
         public void Awake()
         {
             Load();
+            AudioListener.volume = 0.5f;
         }
-
 
         #region PlayerPrefs
         private bool _noRootPathSet = true;
@@ -268,11 +269,11 @@ namespace PI.ProjectionToolkit
             {
                 ShowErrorMessage(ex.Message);
             }
-            if (projectList != null)
+            if (objProjectList != null)
             {
                 foreach (var project in projects.projects.OrderByDescending(o => o.updated))
                 {
-                    var projectGameObject = Instantiate(projectPrefab, projectList.transform);
+                    var projectGameObject = Instantiate(prefabProjectListItem, objProjectList.transform);
                     var btn = projectGameObject.GetComponent<ProjectButton>();
                     btn.projectManager = this;
                     btn.SetProjectReference(project);
@@ -343,11 +344,11 @@ namespace PI.ProjectionToolkit
         private void RebuildProjectionSites()
         {
             //clear the transform
-            foreach (Transform child in projectionSiteList.transform) Destroy(child.gameObject);
+            foreach (Transform child in objProjectionSiteList.transform) Destroy(child.gameObject);
             //add new ones in
             foreach (var projectionSite in projectionSites.sites.OrderBy(o => o.name).ThenByDescending(o => o.majorVersion))
             {
-                var projectionSiteGameObject = Instantiate(projectPrefab, projectionSiteList.transform);
+                var projectionSiteGameObject = Instantiate(prefabProjectListItem, objProjectionSiteList.transform);
                 var btn = projectionSiteGameObject.GetComponent<ProjectButton>();
                 btn.projectManager = this;
                 btn.SetProjectionSite(projectionSite, null);
@@ -358,6 +359,8 @@ namespace PI.ProjectionToolkit
         public void UpdateLocalProjectionSiteLaunch(ProjectionSite projectionSite)
         {
             holdingProjectionSiteMinor = projectionSite;
+            ProjectionSiteDetailsManager man = objUpdateProjectionSiteMinorModal.GetComponent<ProjectionSiteDetailsManager>();
+            man.SetData(holdingProjectionSiteMinor);
             btnUpdateProjectionSiteMinor.onClick.Invoke();
         }
 
@@ -383,7 +386,7 @@ namespace PI.ProjectionToolkit
         private void RebuildLatestProjectionSites()
         {
             //clear the transform
-            foreach (Transform child in latestProjectionSiteList.transform) Destroy(child.gameObject);
+            foreach (Transform child in objLatestProjectionSiteList.transform) Destroy(child.gameObject);
             //add new ones in
             foreach (var projectionSite in latestProjectionSites.sites)
             {
@@ -391,7 +394,7 @@ namespace PI.ProjectionToolkit
                 ProjectionSite match = projectionSites.sites.FirstOrDefault(c => c.versionId == projectionSite.versionId);
                 //on id
                 if(match == null) match = projectionSites.sites.FirstOrDefault(c => c.id == projectionSite.id);
-                var projectionSiteGameObject = Instantiate(projectPrefab, latestProjectionSiteList.transform);
+                var projectionSiteGameObject = Instantiate(prefabProjectListItem, objLatestProjectionSiteList.transform);
                 var btn = projectionSiteGameObject.GetComponent<ProjectButton>();
                 btn.projectManager = this;
                 btn.SetProjectionSite(projectionSite, match, true);
@@ -472,7 +475,7 @@ namespace PI.ProjectionToolkit
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                AudioListener.volume = (AudioListener.volume == 0) ? 1 : 0;
+                AudioListener.volume = (AudioListener.volume == 0) ? 0.5f : 0;
             }
         }
     }
