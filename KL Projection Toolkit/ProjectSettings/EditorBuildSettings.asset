@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/ProjectionToolkit/Scenes/TextureExample.unity
-    guid: 6b8bb8d3b30bb674b8cd8685b5c660ef
+    path: Assets/ProjectionToolkit/Scenes/Toolkit.unity
+    guid: fc44c2688063fbd4a850ed5c47bb1ee5
   m_configObjects: {}

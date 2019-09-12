@@ -12,12 +12,12 @@ PlayerSettings:
   targetDevice: 1
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: PI & Mash
+  companyName: PI And Mash
   productName: Projection Toolkit
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
-  m_ShowUnitySplashScreen: 1
+  m_ShowUnitySplashScreen: 0
   m_ShowUnitySplashLogo: 0
   m_SplashScreenOverlayOpacity: 0.25
   m_SplashScreenAnimation: 1
