@@ -11,6 +11,7 @@ namespace PI.ProjectionToolkit
         private ProjectionSite _projectionSite;
         public GameObject objTitle;
         public Sprite imgLocationIcon;
+        public UnityEngine.UI.Scrollbar scrollbar;
 
         void Start()
         {
@@ -21,6 +22,7 @@ namespace PI.ProjectionToolkit
             _projectionSite = projectionSite;
             Header header = objTitle.GetComponent<Header>();
             header.SetData(_projectionSite.name);
+            scrollbar.value = 1; //set scrollbar to top
 
             //clear the transform
             foreach (Transform child in objList.transform) Destroy(child.gameObject);
@@ -34,6 +36,7 @@ namespace PI.ProjectionToolkit
             btnLoc.OnButtonClick += BtnLoc_OnButtonClick;
             AddTextLine("PROJECTOR STACKS", _projectionSite.projectors.Count.ToString());
             AddTextLine("CAMERAS", _projectionSite.cameras.Count.ToString());
+            AddTextLine("NOTES", _projectionSite.notes, true);
             AddSeperator();
 
             AddProjectorStack(_projectionSite.projectors);

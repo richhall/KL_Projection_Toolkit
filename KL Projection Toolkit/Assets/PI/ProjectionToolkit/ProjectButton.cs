@@ -8,7 +8,17 @@ namespace PI.ProjectionToolkit
     public class ProjectButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public bool showCheckBox = false;
+        public Sprite imgCheckBoxIconUpToDate;
+        public Sprite imgCheckBoxIconOutOfDate;
+        public Sprite imgCheckBoxIconNotOnServer;
+        public Sprite imgCheckBoxIconUnknown;
+        public Sprite imgCheckBoxIconNewOnServer;
         public GameObject objCheckBox;
+        public GameObject objCheckBoxFill;
+        public GameObject objCheckBoxIcon;
+        private Color colorWhite = new Color(1, 1, 1);
+        private Color colorBlack = new Color(0, 0, 0);
+        public Color colorAlert;
         public bool isOn;
         private Animator buttonAnimator;
         bool isHovering;
@@ -100,17 +110,43 @@ namespace PI.ProjectionToolkit
             CheckStart();
         }
 
-        public void SetProjectionSite(ProjectionSite projectionSite, ProjectionSite match, bool isLatestProjection = false)
+        public void SetProjectionSite(ProjectionSite projectionSite, bool showCheckBox = false, bool isLatestProjection = false)
         {
             this.isLatestProjection = isLatestProjection;
             isProject = false;
             this.projectionSite = projectionSite;
-            this.showCheckBox = match != null;
-            this.isOn = match != null && projectionSite.versionId == match.versionId;
+            this.showCheckBox = showCheckBox;
+            this.isOn = projectionSite.status == ProjectionSiteStatus.UpToDate || projectionSite.status == ProjectionSiteStatus.OutOfDate;
+            var imgIcon = objCheckBoxIcon.GetComponent<UnityEngine.UI.Image>();
+            var img = objCheckBox.GetComponent<UnityEngine.UI.Image>();
+            var imgFill = objCheckBoxFill.GetComponent<UnityEngine.UI.Image>();
+            switch (projectionSite.status)
+            {
+                case ProjectionSiteStatus.UpToDate:
+                    imgIcon.sprite = imgCheckBoxIconUpToDate;
+                    break;
+                case ProjectionSiteStatus.OutOfDate:
+                    imgIcon.sprite = imgCheckBoxIconOutOfDate;
+                    break;
+                case ProjectionSiteStatus.NotOnServer:
+                    imgIcon.sprite = imgCheckBoxIconNotOnServer;
+                    break;
+                case ProjectionSiteStatus.Unknown:
+                    imgIcon.sprite = imgCheckBoxIconUnknown;
+                    break;
+                case ProjectionSiteStatus.NewOnServer:
+                    imgIcon.sprite = imgCheckBoxIconNewOnServer;
+                    break;
+            }
+            //imgIcon.color = isOn ? colorBlack : colorWhite;
+            //set colours
+            img.color = projectionSite.status == ProjectionSiteStatus.OutOfDate || projectionSite.status == ProjectionSiteStatus.NotOnServer ? colorAlert : colorWhite;
+            imgFill.color = new Color(img.color.r, img.color.g, img.color.b, 0.75f);
             title.text = this.projectionSite.name;
             date.text = this.projectionSite.version;
             CheckStart();
         }
+
 
         public void Click()
         {

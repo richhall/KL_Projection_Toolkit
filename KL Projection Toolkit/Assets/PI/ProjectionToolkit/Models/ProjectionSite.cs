@@ -8,6 +8,15 @@ using PI.Common.Models;
 
 namespace PI.ProjectionToolkit.Models
 {
+    public enum ProjectionSiteStatus
+    {
+        Unknown,
+        UpToDate,
+        OutOfDate,
+        NotOnServer,
+        NewOnServer
+    }
+
     /// <summary>
     /// Projection site is a unique site for a real world projection
     /// Contains all the details to build a virtual site within the tool
@@ -26,5 +35,7 @@ namespace PI.ProjectionToolkit.Models
         public string assetBundleName = "Site";
         public List<ProjectorStack> projectors = new List<ProjectorStack>();
         public List<Camera> cameras = new List<Camera>();
+
+        public ProjectionSiteStatus status { get; set; } = ProjectionSiteStatus.Unknown;
     }
 }

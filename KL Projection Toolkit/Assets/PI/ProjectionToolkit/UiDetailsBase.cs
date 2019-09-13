@@ -14,6 +14,7 @@ namespace PI.ProjectionToolkit
         public GameObject prefabUiSubHeader;
         public GameObject prefabUiTextLine;
         public GameObject prefabUiTextLineButton;
+        public GameObject prefabUiTextMultiLine;
         public GameObject prefabSeperator;
         public GameObject objList;
 
@@ -60,7 +61,7 @@ namespace PI.ProjectionToolkit
             AddTextLine("NAME", stack.name);
             AddTextLine("VERSION", stack.version);
             AddTransform(stack, "STACK ");
-            AddTextLine("NOTES", stack.notes);
+            AddTextLine("NOTES", stack.notes, true);
             AddCamera(stack.projectors, true, true, "PROJECTOR");
             AddSeperator();
         }
@@ -112,11 +113,13 @@ namespace PI.ProjectionToolkit
             u.SetData(header.ToUpper());
         }
 
-        public void AddTextLine(string title, string value)
+        public void AddTextLine(string title, string value, bool multi = false)
         {
-            var projectGameObject = Instantiate(prefabUiTextLine, objList.transform);
+            var obj = multi ? prefabUiTextMultiLine : prefabUiTextLine;
+            value = multi ? value : value.ToUpper();
+            var projectGameObject = Instantiate(obj, objList.transform);
             var u = projectGameObject.GetComponent<TextLine>();
-            if(u != null) u.SetData(title.ToUpper(), value.ToUpper());
+            if(u != null) u.SetData(title.ToUpper(), value);
         }
 
         public TextLineButton AddTextLineButton(string title, string value, Sprite icon)

@@ -400,10 +400,23 @@ namespace PI.ProjectionToolkit
             //add new ones in
             foreach (var projectionSite in projectionSites.sites.OrderBy(o => o.name).ThenByDescending(o => o.majorVersion))
             {
+                if(latestProjectionSites != null && latestProjectionSites.sites != null && latestProjectionSites.sites.Count > 0)
+                {
+                    //look for match in projectionSites on version
+                    ProjectionSite match = latestProjectionSites.sites.FirstOrDefault(c => c.versionId == projectionSite.versionId);
+                    if (match != null)
+                    {
+                        projectionSite.status = ProjectionSiteStatus.UpToDate;
+                    } else
+                    {
+                        match = latestProjectionSites.sites.OrderBy(o => o.minorVersion).FirstOrDefault(c => c.id == projectionSite.id);
+                        projectionSite.status = match == null ? ProjectionSiteStatus.NotOnServer : match.minorVersion > projectionSite.minorVersion ? ProjectionSiteStatus.OutOfDate : ProjectionSiteStatus.Unknown;
+                    }
+                }
                 var projectionSiteGameObject = Instantiate(prefabProjectListItem, objProjectionSiteList.transform);
                 var btn = projectionSiteGameObject.GetComponent<ProjectButton>();
                 btn.projectManager = this;
-                btn.SetProjectionSite(projectionSite, null);
+                btn.SetProjectionSite(projectionSite, true, false);
             }
         }
 
@@ -428,6 +441,7 @@ namespace PI.ProjectionToolkit
             RebuildProjectionSites();
             RebuildLatestProjectionSites();
             btnInstalledSites.onClick.Invoke();
+            RebuildProjectionSites();
         }
 
         public void CreateNewProjection(ProjectionSite projectionSite)
@@ -444,12 +458,14 @@ namespace PI.ProjectionToolkit
             {
                 //look for match in projectionSites on version
                 ProjectionSite match = projectionSites.sites.FirstOrDefault(c => c.versionId == projectionSite.versionId);
+                ProjectionSite siteMatch = projectionSites.sites.FirstOrDefault(c => c.id == projectionSite.id);
+                projectionSite.status = match != null ? ProjectionSiteStatus.UpToDate : siteMatch != null ? ProjectionSiteStatus.OutOfDate : ProjectionSiteStatus.NewOnServer;
                 //on id
-                if(match == null) match = projectionSites.sites.FirstOrDefault(c => c.id == projectionSite.id);
+                //if(match == null) match = projectionSites.sites.FirstOrDefault(c => c.id == projectionSite.id);
                 var projectionSiteGameObject = Instantiate(prefabProjectListItem, objLatestProjectionSiteList.transform);
                 var btn = projectionSiteGameObject.GetComponent<ProjectButton>();
                 btn.projectManager = this;
-                btn.SetProjectionSite(projectionSite, match, true);
+                btn.SetProjectionSite(projectionSite, true, true);
             }
         }
 
@@ -483,6 +499,7 @@ namespace PI.ProjectionToolkit
                 {
                     latestProjectionSites = JsonUtility.FromJson<ProjectionSites>(www.downloadHandler.text);
                     RebuildLatestProjectionSites();
+                    RebuildProjectionSites();
                     //close the loading modal
                     CloseLoading();
                 }
