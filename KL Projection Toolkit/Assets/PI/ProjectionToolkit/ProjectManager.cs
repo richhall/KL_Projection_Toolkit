@@ -469,7 +469,14 @@ namespace PI.ProjectionToolkit
             }
         }
 
-        public void DownloadSiteConfigurations()
+        public void LatestSitesClick()
+        {
+            if (latestProjectionSites.sites != null && latestProjectionSites.sites.Count > 0) return;
+            DownloadLatestSites();
+        } 
+
+
+        public void DownloadLatestSites()
         {
             ShowLoading("Downloading latest site configurations");
             try
