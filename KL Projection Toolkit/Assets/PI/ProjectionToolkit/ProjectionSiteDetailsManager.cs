@@ -11,15 +11,32 @@ namespace PI.ProjectionToolkit
         private ProjectionSite _projectionSite;
         public GameObject objTitle;
         public Sprite imgLocationIcon;
+        public Sprite imgRefreshIcon;
         public UnityEngine.UI.Scrollbar scrollbar;
+        public GameObject footerUpdateLocal;
+        public GameObject footerInfoAndCreate;
+        private ProjectManager _projectManager;
 
         void Start()
         {
         }
 
-        public void SetData(ProjectionSite projectionSite)
+        public void ShowFooterUpdateLocal()
+        {
+            footerUpdateLocal.SetActive(true);
+            footerInfoAndCreate.SetActive(false);
+        }
+
+        public void ShowFooterInfoAndCreate()
+        {
+            footerUpdateLocal.SetActive(false);
+            footerInfoAndCreate.SetActive(true);
+        }
+
+        public void SetData(ProjectionSite projectionSite, ProjectManager projectManager)
         {
             _projectionSite = projectionSite;
+            _projectManager = projectManager;
             Header header = objTitle.GetComponent<Header>();
             header.SetData(_projectionSite.name);
             scrollbar.value = 1; //set scrollbar to top
@@ -30,6 +47,25 @@ namespace PI.ProjectionToolkit
             AddHeader("OVERVIEW");
             AddTextLine("NAME", _projectionSite.name);
             AddTextLine("VERSION", _projectionSite.version);
+            switch (_projectionSite.status)
+            {
+                case ProjectionSiteStatus.Unknown:
+                    TextLineButton btnUnknown = AddTextLineButton("VERSION STATUS", "UNKNOWN", imgRefreshIcon);
+                    btnUnknown.OnButtonClick += BtnUnknown_OnButtonClick;
+                    break;
+                case ProjectionSiteStatus.OutOfDate:
+                    AddTextLine("VERSION STATUS", "OUT OF DATE", false, true);
+                    break;
+                case ProjectionSiteStatus.NotOnServer:
+                    AddTextLine("VERSION STATUS", "NOT ON SERVER", false, true);
+                    break;
+                case ProjectionSiteStatus.UpToDate:
+                    AddTextLine("VERSION STATUS", "UP TO DATE");
+                    break;
+                case ProjectionSiteStatus.NewOnServer:
+                    AddTextLine("VERSION STATUS", "NEW");
+                    break;
+            }
             AddTextLine("LOCATION", _projectionSite.location.name);
             AddTextLine("CITY/TOWN", _projectionSite.location.town);
             TextLineButton btnLoc = AddTextLineButton("GEO LOCATION", _projectionSite.location.geoLocation.latLng, imgLocationIcon);
@@ -63,5 +99,9 @@ namespace PI.ProjectionToolkit
             Application.OpenURL(url);
         }
 
+        private void BtnUnknown_OnButtonClick()
+        {
+            _projectManager.ProjectInfoModalRefreshClick();
+        }
     }
 }

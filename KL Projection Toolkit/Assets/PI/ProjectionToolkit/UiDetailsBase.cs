@@ -17,6 +17,7 @@ namespace PI.ProjectionToolkit
         public GameObject prefabUiTextMultiLine;
         public GameObject prefabSeperator;
         public GameObject objList;
+        public Color colorAlert;
 
         void Start()
         {
@@ -113,14 +114,21 @@ namespace PI.ProjectionToolkit
             u.SetData(header.ToUpper());
         }
 
-        public void AddTextLine(string title, string value, bool multi = false)
+        public void AddTextLine(string title, string value, bool multi = false, bool alert = false)
         {
             var obj = multi ? prefabUiTextMultiLine : prefabUiTextLine;
             value = multi ? value : value.ToUpper();
             var projectGameObject = Instantiate(obj, objList.transform);
             var u = projectGameObject.GetComponent<TextLine>();
-            if(u != null) u.SetData(title.ToUpper(), value);
+            if (alert)
+            {
+                u.SetData(title.ToUpper(), value, colorAlert);
+            } else
+            {
+                u.SetData(title.ToUpper(), value);
+            }
         }
+
 
         public TextLineButton AddTextLineButton(string title, string value, Sprite icon)
         {

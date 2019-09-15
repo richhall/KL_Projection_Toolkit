@@ -19,5 +19,12 @@ namespace PI.ProjectionToolkit.UI
             this.title.text = title;
             this.value.text = value;
         }
+
+        public void SetData(string title, string value, Color colorAltert)
+        {
+            this.title.text = title;
+            this.value.text = value;
+            this.value.color = colorAltert;
+        }
     }
 }

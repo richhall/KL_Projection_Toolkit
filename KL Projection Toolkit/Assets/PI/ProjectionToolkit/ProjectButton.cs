@@ -156,20 +156,20 @@ namespace PI.ProjectionToolkit
             }
             else
             {
-                if (isLatestProjection)
-                {
-                    projectManager.UpdateLocalProjectionSiteLaunch(projectionSite);
-                    //if (this.isOn)
-                    //{
-                    //    projectManager.ShowErrorMessage("Your locally installed site is up to date");
-                    //}
-                    //else
-                    //{
-                    //}
-                } else
-                {
-                    projectManager.CreateNewProjection(projectionSite);
-                }
+                projectManager.ShowProjectionSiteModal(projectionSite, isLatestProjection);
+                //if (isLatestProjection)
+                //{
+                //    //if (this.isOn)
+                //    //{
+                //    //    projectManager.ShowErrorMessage("Your locally installed site is up to date");
+                //    //}
+                //    //else
+                //    //{
+                //    //}
+                //} else
+                //{
+                //    projectManager.CreateNewProjection(projectionSite);
+                //}
             }
         }
     }

@@ -24,12 +24,14 @@ namespace PI.ProjectionToolkit
         public UnityEngine.UI.Button btnLoadingClose;
         public UnityEngine.UI.Button btnUpdateProjectionSiteMinor;
         public UnityEngine.UI.Button btnInstalledSites;
+        public UnityEngine.UI.Button btnCreateProjectModal;
         public TextMeshProUGUI loadingText;
         public GameObject prefabProjectListItem;
         public GameObject objProjectList;
         public GameObject objProjectionSiteList;
         public GameObject objLatestProjectionSiteList;
         public GameObject objUpdateProjectionSiteMinorModal;
+        public GameObject objCreateProjectModal;
 
         public void Awake()
         {
@@ -65,7 +67,7 @@ namespace PI.ProjectionToolkit
         /// <summary>
         /// The default data folder name
         /// </summary>
-        private string dataFolder = "/data";
+        private string dataFolder = @"\data";
 
         /// <summary>
         /// stores the users in the application
@@ -79,7 +81,7 @@ namespace PI.ProjectionToolkit
         {
             get
             {
-                return dataFolder + "/users.json";
+                return dataFolder + @"\users.json";
             }
         }
 
@@ -95,9 +97,14 @@ namespace PI.ProjectionToolkit
         {
             get
             {
-                return dataFolder + "/projects.json";
+                return dataFolder + @"\projects.json";
             }
         }
+
+        /// <summary>
+        /// The default data folder name
+        /// </summary>
+        private string projectsFolder = @"\projects";
 
         /// <summary>
         /// stores the projectionSites in the application
@@ -111,7 +118,7 @@ namespace PI.ProjectionToolkit
         {
             get
             {
-                return dataFolder + "/sites.json";
+                return dataFolder + @"\sites.json";
             }
         }
         
@@ -163,6 +170,11 @@ namespace PI.ProjectionToolkit
                         if (!Directory.Exists(_rootPath + dataFolder))
                         {
                             Directory.CreateDirectory(_rootPath + dataFolder);
+                        }
+                        //create a new data directory at the root path
+                        if (!Directory.Exists(_rootPath + projectsFolder))
+                        {
+                            Directory.CreateDirectory(_rootPath + projectsFolder);
                         }
                         //create the users and project files in the default root path
                         if (!File.Exists(_rootPath + usersFile)) SaveUsers(new Users());
@@ -421,12 +433,24 @@ namespace PI.ProjectionToolkit
         }
 
         private ProjectionSite holdingProjectionSiteMinor;
-        public void UpdateLocalProjectionSiteLaunch(ProjectionSite projectionSite)
+        public void ShowProjectionSiteModal(ProjectionSite projectionSite, bool isLatestProjection)
         {
             holdingProjectionSiteMinor = projectionSite;
             ProjectionSiteDetailsManager man = objUpdateProjectionSiteMinorModal.GetComponent<ProjectionSiteDetailsManager>();
-            man.SetData(holdingProjectionSiteMinor);
+            if(isLatestProjection)
+            {
+                man.ShowFooterUpdateLocal();
+            } else
+            {
+                man.ShowFooterInfoAndCreate();
+            }
+            man.SetData(holdingProjectionSiteMinor, this);
             btnUpdateProjectionSiteMinor.onClick.Invoke();
+        }
+
+        public void ProjectInfoModalRefreshClick()
+        {
+            DownloadLatestSites(true);
         }
 
         public void UpdateLocalProjectionSiteCancel()
@@ -442,6 +466,13 @@ namespace PI.ProjectionToolkit
             RebuildLatestProjectionSites();
             btnInstalledSites.onClick.Invoke();
             RebuildProjectionSites();
+        }
+
+        public void CreateNewProjectionClick()
+        {
+            CreateProjectManager man = objCreateProjectModal.GetComponent<CreateProjectManager>();
+            man.SetData(holdingProjectionSiteMinor, this);
+            btnCreateProjectModal.onClick.Invoke();
         }
 
         public void CreateNewProjection(ProjectionSite projectionSite)
@@ -476,12 +507,12 @@ namespace PI.ProjectionToolkit
         } 
 
 
-        public void DownloadLatestSites()
+        public void DownloadLatestSites(bool rebuildInfoModal = false)
         {
             ShowLoading("Downloading latest site configurations");
             try
             {
-                StartCoroutine(GetSiteConfigurations());
+                StartCoroutine(GetSiteConfigurations(rebuildInfoModal));
             }
             catch (Exception ex)
             {
@@ -489,7 +520,7 @@ namespace PI.ProjectionToolkit
             }
         }
 
-        IEnumerator GetSiteConfigurations()
+        IEnumerator GetSiteConfigurations(bool rebuildInfoModal = false)
         {
             UnityWebRequest www = UnityWebRequest.Get("https://www.piandmash.com/resources/projection-toolkit/sites.json");
             yield return www.SendWebRequest();
@@ -507,6 +538,7 @@ namespace PI.ProjectionToolkit
                     latestProjectionSites = JsonUtility.FromJson<ProjectionSites>(www.downloadHandler.text);
                     RebuildLatestProjectionSites();
                     RebuildProjectionSites();
+                    if (rebuildInfoModal) ShowProjectionSiteModal(holdingProjectionSiteMinor, false);
                     //close the loading modal
                     CloseLoading();
                 }
