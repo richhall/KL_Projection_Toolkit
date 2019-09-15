@@ -49,9 +49,9 @@ namespace PI.ProjectionToolkit
             AddTextLine("ASSET BUNDLE", _projectionSite.assetBundleName);
 
             AddHeader("AUDIT");
-            AddTextLine("LAST UPDATED", _projectionSite.updated.ToString("yyyy-MM-dd HH:mm"));
+            AddTextLine("LAST UPDATED", _projectionSite.updatedAsString);
             AddTextLine("UPDATED BY", _projectionSite.updatedBy);
-            AddTextLine("CREATED", _projectionSite.created.ToString("yyyy-MM-dd HH:mm"));
+            AddTextLine("CREATED", _projectionSite.createdAsString);
             AddTextLine("CREATED BY", _projectionSite.createdBy);
         }
 

@@ -18,10 +18,20 @@ namespace PI.ProjectionToolkit.Models
         public void AddProject(Project project)
         {
             //look for a project first
-            var p = projects.FirstOrDefault(f => f.path.ToLower() == project.path.ToLower());
+            var p = projects.FirstOrDefault(f => f.id == project.id);
             if(p == null)
             {
                 projects.Add(project.GetProjectAsProjectReference());
+            }
+        }
+
+        public void RemoveProject(string id)
+        {
+            //look for a project first
+            var p = projects.FirstOrDefault(f => f.id == id);
+            if (p != null)
+            {
+                projects.Remove(p);
             }
         }
     }

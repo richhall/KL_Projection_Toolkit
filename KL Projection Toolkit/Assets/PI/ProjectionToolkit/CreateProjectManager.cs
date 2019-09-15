@@ -6,6 +6,7 @@ using PI.ProjectionToolkit.Models;
 using TMPro;
 using PI.ProjectionToolkit.UI;
 using SimpleFileBrowser;
+using System.IO;
 
 namespace PI.ProjectionToolkit
 {
@@ -17,7 +18,9 @@ namespace PI.ProjectionToolkit
         private ProjectManager _projectManager;
         public Sprite imgFolderIcon;
 
+        private TextLine _inputName;
         private TextLineButton _folderLine;
+        private SwitchLine _newFolderLine;
 
         void Start()
         {
@@ -41,24 +44,42 @@ namespace PI.ProjectionToolkit
             // Name: Users
             // Path: C:\Users
             // Icon: default (folder icon)
-            FileBrowser.AddQuickLink("Users", "C:\\Users", null);
         }
+
+        private bool firstTime = true;
 
         public void SetData(ProjectionSite projectionSite, ProjectManager projectManager)
         {
+            if (firstTime)
+            {
+                FileBrowser.AddQuickLink("Projects", projectManager.rootPath + projectManager.projectsFolder, null);
+                FileBrowser.AddQuickLink("Users", "C:\\Users", null);
+                firstTime = false;
+            }
+
             _projectionSite = projectionSite;
             _projectManager = projectManager;
+            this.colorAlert = projectManager.colorAlert;
             _project = new Project()
             {
                 createdBy = projectManager.users.current.email,
                 updatedBy = projectManager.users.current.email,
                 projectionSite = _projectionSite,
+                path = projectManager.rootPath + projectManager.projectsFolder,
                 siteId = _projectionSite.id,
                 siteVersionId = _projectionSite.versionId
             };
             scrollbar.value = 1; //set scrollbar to top
             //clear the transform
             foreach (Transform child in objList.transform) Destroy(child.gameObject);
+            //build listing
+            AddHeader("PROJECT SETTINGS");
+            _inputName = AddEditTextLine("NAME", _project.name);
+            _inputName.colorAltert = this.colorAlert;
+            _inputName.input.Select();
+            _folderLine = AddTextLineButton("FOLDER", _project.path, imgFolderIcon, false);
+            _folderLine.OnButtonClick += _folderLine_OnButtonClick;
+            _newFolderLine = AddSwitch("CREATE NEW FOLDER", true);
             //build listing
             AddHeader("PROJECTION SITE");
             AddTextLine("NAME", _projectionSite.name);
@@ -81,10 +102,6 @@ namespace PI.ProjectionToolkit
                     AddTextLine("VERSION STATUS", "NEW");
                     break;
             }
-            AddHeader("PROJECT SETTINGS");
-            AddTextLine("NAME", _project.name);
-            _folderLine = AddTextLineButton("FOLDER", _project.path, imgFolderIcon);
-            _folderLine.OnButtonClick += _folderLine_OnButtonClick;
         }
 
         private void _folderLine_OnButtonClick()
@@ -96,12 +113,30 @@ namespace PI.ProjectionToolkit
         {
             // Show a load file dialog and wait for a response from user
             // Load file/folder: file, Initial path: default (Documents), Title: "Load File", submit button text: "Load"
-            yield return FileBrowser.WaitForLoadDialog(true, _projectManager.rootPath, "Select Folder");
+            yield return FileBrowser.WaitForLoadDialog(true, _project.path, "Select Folder");
 
             if (FileBrowser.Success)
             {
-                _project.path = FileBrowser.Result;
-                _folderLine.value.text = FileBrowser.Result;
+                _project.path = FileBrowser.Result.Replace("/",@"\");
+                _folderLine.value.text = FileBrowser.Result.Replace("/", @"\");
+            }
+        }
+
+        public void CreateProjectClick()
+        {
+            //do validation
+            bool valid = _inputName.InputValidationRequired("");
+
+            if(valid)
+            {
+                _project.name = _inputName.input.text;
+                if(_newFolderLine.isOn)
+                {
+                    _project.path += @"\" + _project.name;
+                }
+                _projectManager.CreateNewProjec(_project);
+                var animator = this.GetComponent<Animator>();
+                animator.Play("Modal Window Out");
             }
         }
     }

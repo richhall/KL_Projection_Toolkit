@@ -15,6 +15,8 @@ namespace PI.ProjectionToolkit
         public GameObject prefabUiTextLine;
         public GameObject prefabUiTextLineButton;
         public GameObject prefabUiTextMultiLine;
+        public GameObject prefabUiSwitch;
+        public GameObject prefabUiEditTextLine;
         public GameObject prefabSeperator;
         public GameObject objList;
         public Color colorAlert;
@@ -129,18 +131,37 @@ namespace PI.ProjectionToolkit
             }
         }
 
-
-        public TextLineButton AddTextLineButton(string title, string value, Sprite icon)
+        public TextLine AddEditTextLine(string title, string value, bool required = true, bool multi = false)
         {
+            var obj = multi ? prefabUiTextMultiLine : prefabUiEditTextLine;
+            value = multi ? value : value.ToUpper();
+            var projectGameObject = Instantiate(obj, objList.transform);
+            var u = projectGameObject.GetComponent<TextLine>();
+            u.SetData(title.ToUpper(), value);
+            return u;
+        }
+
+
+        public TextLineButton AddTextLineButton(string title, string value, Sprite icon, bool valueUpper = true)
+        {
+            if (valueUpper) value = value.ToUpper();
             var projectGameObject = Instantiate(prefabUiTextLineButton, objList.transform);
             var u = projectGameObject.GetComponent<TextLineButton>();
-            if (u != null) u.SetData(title.ToUpper(), value.ToUpper(), icon);
+            if (u != null) u.SetData(title.ToUpper(), value, icon);
             return u;
         }
 
         public void AddSeperator()
         {
             Instantiate(prefabSeperator, objList.transform);
+        }
+
+        public SwitchLine AddSwitch(string title, bool isOn)
+        {
+            var gameObject = Instantiate(prefabUiSwitch, objList.transform);
+            SwitchLine switchLine = gameObject.GetComponentInChildren<SwitchLine>();
+            switchLine.SetData(title, isOn);
+            return switchLine;
         }
     }
 }

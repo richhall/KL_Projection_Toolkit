@@ -24,9 +24,29 @@ namespace PI.Common.Models
     [Serializable]
     public class AuditBase
     {
-        public DateTime created = DateTime.Now;
+        public long created = DateTime.Now.ToFileTimeUtc();
+        public DateTime createdAsDate
+        {
+            get { return DateTime.FromFileTimeUtc(created); }
+            set { created = value.ToFileTimeUtc(); }
+        }
+        public string createdAsString
+        {
+            get { return createdAsDate.ToString("yyyy-MM-dd HH:mm"); }
+        }
+
         public string createdBy = "";
-        public DateTime updated = DateTime.Now;
         public string updatedBy = "";
+        public long updated = DateTime.Now.ToFileTimeUtc();
+
+        public DateTime updatedAsDate
+        {
+            get { return DateTime.FromFileTimeUtc(updated); }
+            set { updated = value.ToFileTimeUtc(); }
+        }
+        public string updatedAsString
+        {
+            get { return updatedAsDate.ToString("yyyy-MM-dd HH:mm"); }
+        }
     }
 }

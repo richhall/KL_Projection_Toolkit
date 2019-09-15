@@ -32,6 +32,8 @@ namespace PI.ProjectionToolkit
         public GameObject objLatestProjectionSiteList;
         public GameObject objUpdateProjectionSiteMinorModal;
         public GameObject objCreateProjectModal;
+        public GameObject objMessageModalRemoveButton;
+        public Color colorAlert;
 
         public void Awake()
         {
@@ -89,6 +91,8 @@ namespace PI.ProjectionToolkit
         /// stores the projects in the application
         /// </summary>
         public Projects projects = new Projects();
+        private ProjectReference currentProject;
+        public Project currentFullProject;
 
         /// <summary>
         /// get the projects file path
@@ -101,10 +105,11 @@ namespace PI.ProjectionToolkit
             }
         }
 
+
         /// <summary>
         /// The default data folder name
         /// </summary>
-        private string projectsFolder = @"\projects";
+        public string projectsFolder = @"\projects";
 
         /// <summary>
         /// stores the projectionSites in the application
@@ -134,7 +139,7 @@ namespace PI.ProjectionToolkit
             {
                 if (PlayerPrefs.HasKey("rootPath"))
                 {
-                    _rootPath = PlayerPrefs.GetString("rootPath");
+                    _rootPath = PlayerPrefs.GetString("rootPath").Replace("/", @"\");
                     _noRootPathSet = false;
                 }
             }
@@ -158,7 +163,7 @@ namespace PI.ProjectionToolkit
                 if (newPath != _rootPath)
                 {
                     string oldPath = _rootPath;
-                    _rootPath = newPath;
+                    _rootPath = newPath.Replace("/", @"\");
                     if (!String.IsNullOrEmpty(oldPath) && Directory.Exists(oldPath + dataFolder))
                     {
                         //move over the data folder
@@ -178,90 +183,92 @@ namespace PI.ProjectionToolkit
                         }
                         //create the users and project files in the default root path
                         if (!File.Exists(_rootPath + usersFile)) SaveUsers(new Users());
-                        if (!File.Exists(_rootPath + projectsFile))
-                        {
-                            var p = new Projects();
-                            p.AddProject(new Project()
-                            {
-                                name = "Project 1",
-                                createdBy = "pete",
-                                path = @"D:\Art\KL_Projection_Toolkit\Projects\Project 1"
-                            });
-                            p.AddProject(new Project()
-                            {
-                                name = "Project 2",
-                                createdBy = "pete",
-                                path = @"D:\Art\KL_Projection_Toolkit\Projects\Project 2"
-                            });
-                            SaveProjects(p);
-                        }
-                        if (!File.Exists(_rootPath + projectionSitesFile))
-                        {
-                            projectionSites = new ProjectionSites();
-                            projectionSites.AddSite(new ProjectionSite()
-                            {
-                                name = "Custom House",
-                                createdBy = "pete",
-                                location = new Common.Models.Location()
-                                {
-                                    name = "Custom House",
-                                    town = "Kings Lynn",
-                                    geoLocation = new Common.Models.GeoLocation()
-                                    {
-                                        lat = 52.753848,
-                                        lng = 0.3913075
-                                    }
-                                }
-                            });
-                            var site = new ProjectionSite()
-                            {
-                                name = "St Nicks",
-                                createdBy = "pete",
-                                location = new Common.Models.Location()
-                                {
-                                    name = "St. Nicholas' Chapel",
-                                    town = "Kings Lynn",
-                                    geoLocation = new Common.Models.GeoLocation()
-                                    {
-                                        lat = 52.7575175,
-                                        lng = 0.394143
-                                    }
-                                }
-                            };
-                            var stack = new ProjectorStack()
-                            {
-                                name = "Main Stack",
-                                majorVersion = 1,
-                                minorVersion = 0,
-                                siteId = site.id
-                            };
-                            stack.projectors.Add(new Models.Camera()
-                            {
-                                name = "Base Projector",
-                                physical = true
-                            });
-                            stack.projectors.Add(new Models.Camera()
-                            {
-                                name = "Top Projector",
-                                position = new Common.Vector3()
-                                {
-                                    y = 20
-                                },
-                                physical = true
-                            });
-                            site.projectors.Add(stack);
-                            site.cameras.Add(new Models.Camera()
-                            {
-                                name = "View 1",
-                                position = new Common.Vector3()
-                                {
-                                    x = 100,
-                                    z = 20
-                                }
-                            });
-                            projectionSites.AddSite(site);
-                            SaveProjectionSites(projectionSites);
-                        }
+                        if (!File.Exists(_rootPath + projectsFile)) SaveProjects(new Projects());
+                        if (!File.Exists(_rootPath + projectionSitesFile)) SaveProjectionSites(new ProjectionSites());
+                        //if (!File.Exists(_rootPath + projectsFile))
+                        //{
+                        //    var p = new Projects();
+                        //    p.AddProject(new Project()
+                        //    {
+                        //        name = "Project 1",
+                        //        createdBy = "pete",
+                        //        path = @"D:\Art\KL_Projection_Toolkit\Projects\Project 1"
+                        //    });
+                        //    p.AddProject(new Project()
+                        //    {
+                        //        name = "Project 2",
+                        //        createdBy = "pete",
+                        //        path = @"D:\Art\KL_Projection_Toolkit\Projects\Project 2"
+                        //    });
+                        //    SaveProjects(p);
+                        //}
+                        //if (!File.Exists(_rootPath + projectionSitesFile))
+                        //{
+                        //    projectionSites = new ProjectionSites();
+                        //    projectionSites.AddSite(new ProjectionSite()
+                        //    {
+                        //        name = "Custom House",
+                        //        createdBy = "pete",
+                        //        location = new Common.Models.Location()
+                        //        {
+                        //            name = "Custom House",
+                        //            town = "Kings Lynn",
+                        //            geoLocation = new Common.Models.GeoLocation()
+                        //            {
+                        //                lat = 52.753848,
+                        //                lng = 0.3913075
+                        //            }
+                        //        }
+                        //    });
+                        //    var site = new ProjectionSite()
+                        //    {
+                        //        name = "St Nicks",
+                        //        createdBy = "pete",
+                        //        location = new Common.Models.Location()
+                        //        {
+                        //            name = "St. Nicholas' Chapel",
+                        //            town = "Kings Lynn",
+                        //            geoLocation = new Common.Models.GeoLocation()
+                        //            {
+                        //                lat = 52.7575175,
+                        //                lng = 0.394143
+                        //            }
+                        //        }
+                        //    };
+                        //    var stack = new ProjectorStack()
+                        //    {
+                        //        name = "Main Stack",
+                        //        majorVersion = 1,
+                        //        minorVersion = 0,
+                        //        siteId = site.id
+                        //    };
+                        //    stack.projectors.Add(new Models.Camera()
+                        //    {
+                        //        name = "Base Projector",
+                        //        physical = true
+                        //    });
+                        //    stack.projectors.Add(new Models.Camera()
+                        //    {
+                        //        name = "Top Projector",
+                        //        position = new Common.Vector3()
+                        //        {
+                        //            y = 20
+                        //        },
+                        //        physical = true
+                        //    });
+                        //    site.projectors.Add(stack);
+                        //    site.cameras.Add(new Models.Camera()
+                        //    {
+                        //        name = "View 1",
+                        //        position = new Common.Vector3()
+                        //        {
+                        //            x = 100,
+                        //            z = 20
+                        //        }
+                        //    });
+                        //    projectionSites.AddSite(site);
+                        //    SaveProjectionSites(projectionSites);
+                        //}
                     }
                 }
             }
@@ -333,9 +340,17 @@ namespace PI.ProjectionToolkit
             {
                 ShowErrorMessage(ex.Message);
             }
+            this.RebuildProjects();
+            return projects;
+        }
+
+        public void RebuildProjects()
+        {
             if (objProjectList != null)
             {
-                foreach (var project in projects.projects.OrderByDescending(o => o.updated))
+                //clear the transform
+                foreach (Transform child in objProjectList.transform) Destroy(child.gameObject);
+                foreach (var project in projects.projects.OrderByDescending(o => o.updatedAsDate))
                 {
                     var projectGameObject = Instantiate(prefabProjectListItem, objProjectList.transform);
                     var btn = projectGameObject.GetComponent<ProjectButton>();
@@ -344,7 +359,6 @@ namespace PI.ProjectionToolkit
                 }
             }
             if (OnProjectsLoaded != null) OnProjectsLoaded(projects);
-            return projects;
         }
 
         public void SaveProjects(Projects projects)
@@ -360,9 +374,76 @@ namespace PI.ProjectionToolkit
             }
         }
 
+        public void CreateNewProjec(Project project)
+        {
+            try
+            {
+                if (File.Exists(project.projectFile)) throw new Exception("A project file already exists at the selected location.\n" + project.projectFile);
+                //create directory if needed
+                if (!Directory.Exists(project.path)) Directory.CreateDirectory(project.path);
+                //add full project file to project folder
+                var json = JsonUtility.ToJson(project);
+                File.WriteAllText(project.projectFile, json);
+                //add project reference
+                this.projects.AddProject(project);
+                SaveProjects(this.projects);
+                this.RebuildProjects();
+                ShowErrorMessage("Create Project: " + project.name);
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(ex.Message);
+            }
+        }
+
+        public void RemoveProjectClick()
+        {
+            RemoveProject(currentProject, false);
+        }
+
+        public void RemoveProject(ProjectReference project, bool delete = false)
+        {
+            try
+            {
+                if (delete)
+                {
+                    //create directory if needed
+                    if (!Directory.Exists(project.path)) Directory.Delete(project.path);
+                }
+                //add project reference
+                this.projects.RemoveProject(project.id);
+                SaveProjects(this.projects);
+                this.RebuildProjects();
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(ex.Message);
+            }
+            ShowErrorMessage("Create Project: " + project.name);
+        }
+
         public void LoadProject(ProjectReference project)
         {
-            ShowErrorMessage("Loading Project: " + project.name);
+            currentProject = project;
+            //check if main project exists
+            if (File.Exists(project.projectFile))
+            {
+                try
+                {
+                    string json = File.ReadAllText(currentProject.projectFile);
+                    currentFullProject = JsonUtility.FromJson<Project>(json);
+                    ShowErrorMessage("Loading Project: " + currentFullProject.name);
+                }
+                catch (Exception ex)
+                {
+                    ShowErrorMessage("Error Loading Project: " + project.name + "\nPlease check the project.json file is correct", ex);
+                }
+            }
+            else
+            {
+                ShowErrorMessage("Project File Doesn't Exist\n" + project.projectFile);
+                objMessageModalRemoveButton.SetActive(true);
+            }
         }
 
 
@@ -439,7 +520,7 @@ namespace PI.ProjectionToolkit
             ProjectionSiteDetailsManager man = objUpdateProjectionSiteMinorModal.GetComponent<ProjectionSiteDetailsManager>();
             if(isLatestProjection)
             {
-                man.ShowFooterUpdateLocal();
+                man.ShowFooterUpdateLocal(projectionSite.status == ProjectionSiteStatus.NewOnServer ? "Would you like to install the new projection site?" : "Would you like to update your local version settings with the latest configuration?");
             } else
             {
                 man.ShowFooterInfoAndCreate();
@@ -460,7 +541,17 @@ namespace PI.ProjectionToolkit
 
         public void UpdateLocalProjectionSiteComplete()
         {
-            projectionSites.MinorVersionUpdate(holdingProjectionSiteMinor);
+            if (holdingProjectionSiteMinor.status == ProjectionSiteStatus.NewOnServer)
+            {
+                //do download for asset bundles
+
+                //for now just add the new site
+                projectionSites.AddSite(holdingProjectionSiteMinor);
+            }
+            else
+            {
+                projectionSites.MinorVersionUpdate(holdingProjectionSiteMinor);
+            }
             SaveProjectionSites(projectionSites);
             RebuildProjectionSites();
             RebuildLatestProjectionSites();
@@ -557,6 +648,7 @@ namespace PI.ProjectionToolkit
 
         public void ShowErrorMessage(string message, Exception ex = null)
         {
+            objMessageModalRemoveButton.SetActive(false);
             Debug.Log(message);
             if (ex != null) Debug.Log(ex);
             messageText.text = message;

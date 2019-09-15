@@ -106,7 +106,7 @@ namespace PI.ProjectionToolkit
             isProject = true;
             projectReference = project;
             title.text = project.name;
-            date.text = project.updated.ToString("yyyy-MM-dd HH:mm");
+            date.text = project.updatedAsString;
             CheckStart();
         }
 

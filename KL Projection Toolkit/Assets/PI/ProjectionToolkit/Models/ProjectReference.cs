@@ -21,6 +21,14 @@ namespace PI.ProjectionToolkit.Models
         public string siteId;
         public string siteVersionId;
 
+        public string projectFile
+        {
+            get
+            {
+                return path + @"\pt_project.json";
+            }
+        }
+
         public ProjectReference GetProjectAsProjectReference()
         {
             return new ProjectReference()

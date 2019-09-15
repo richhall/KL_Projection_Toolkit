@@ -16,13 +16,15 @@ namespace PI.ProjectionToolkit
         public GameObject footerUpdateLocal;
         public GameObject footerInfoAndCreate;
         private ProjectManager _projectManager;
+        public TextMeshProUGUI description;
 
         void Start()
         {
         }
 
-        public void ShowFooterUpdateLocal()
+        public void ShowFooterUpdateLocal(string descriptionText)
         {
+            description.text = descriptionText;
             footerUpdateLocal.SetActive(true);
             footerInfoAndCreate.SetActive(false);
         }
@@ -37,6 +39,7 @@ namespace PI.ProjectionToolkit
         {
             _projectionSite = projectionSite;
             _projectManager = projectManager;
+            this.colorAlert = projectManager.colorAlert;
             Header header = objTitle.GetComponent<Header>();
             header.SetData(_projectionSite.name);
             scrollbar.value = 1; //set scrollbar to top
@@ -86,9 +89,9 @@ namespace PI.ProjectionToolkit
             AddSeperator();
 
             AddHeader("AUDIT");
-            AddTextLine("LAST UPDATED", _projectionSite.updated.ToString("yyyy-MM-dd HH:mm"));
+            AddTextLine("LAST UPDATED", _projectionSite.updatedAsString);
             AddTextLine("UPDATED BY", _projectionSite.updatedBy);
-            AddTextLine("CREATED", _projectionSite.created.ToString("yyyy-MM-dd HH:mm"));
+            AddTextLine("CREATED", _projectionSite.createdAsString);
             AddTextLine("CREATED BY", _projectionSite.createdBy);
             AddSeperator();
         }
