@@ -101,16 +101,25 @@ namespace PI.ProjectionToolkit
             }
         }
 
-        public void SetProjectReference(ProjectReference project)
+        public void SetProjectReference(ProjectReference project, bool selected = false)
         {
             isProject = true;
+            isOn = selected;
             projectReference = project;
             title.text = project.name;
             date.text = project.updatedAsString;
-            showCheckBox = true;
+            showCheckBox = selected;
+            //var imgIcon = objCheckBoxIcon.GetComponent<UnityEngine.UI.Image>();
+            //var img = objCheckBox.GetComponent<UnityEngine.UI.Image>();
+            //var imgFill = objCheckBoxFill.GetComponent<UnityEngine.UI.Image>();
+            //imgIcon.sprite = imgCheckBoxIconUpToDate;
+            //objCheckBox.SetActive(selected);
+            ////set colours
+            //img.color = projectionSite.status == ProjectionSiteStatus.OutOfDate || projectionSite.status == ProjectionSiteStatus.NotOnServer ? colorAlert : colorWhite;
+            //imgFill.color = new Color(img.color.r, img.color.g, img.color.b, 0.75f);
             CheckStart();
         }
-
+        
         public void SetProjectionSite(ProjectionSite projectionSite, bool showCheckBox = false, bool isLatestProjection = false)
         {
             this.isLatestProjection = isLatestProjection;

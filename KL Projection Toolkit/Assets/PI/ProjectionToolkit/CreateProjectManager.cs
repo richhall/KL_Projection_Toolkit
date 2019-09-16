@@ -134,7 +134,7 @@ namespace PI.ProjectionToolkit
                 {
                     _project.path += @"\" + _project.name;
                 }
-                _projectManager.CreateNewProjec(_project);
+                _projectManager.CreateNewProject(_project);
                 var animator = this.GetComponent<Animator>();
                 animator.Play("Modal Window Out");
             }

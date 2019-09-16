@@ -376,7 +376,7 @@ namespace PI.ProjectionToolkit
             return projects;
         }
 
-        public void RebuildProjects(Project selectedProject = null)
+        public void RebuildProjects()
         {
             if (objProjectList != null)
             {
@@ -387,15 +387,7 @@ namespace PI.ProjectionToolkit
                     var projectGameObject = Instantiate(prefabProjectListItem, objProjectList.transform);
                     var btn = projectGameObject.GetComponent<ProjectButton>();
                     btn.projectManager = this;
-                    btn.SetProjectReference(project);
-                    btn.isOn = false;
-                    btn.showCheckBox = true;
-                    if (selectedProject != null)
-                    {
-                        btn.isOn = project.id == selectedProject.id;
-                        btn.showCheckBox = btn.isOn;
-                        btnMyProjects.onClick.Invoke();
-                    }
+                    btn.SetProjectReference(project, currentProject != null && project.id == currentProject.id);
                 }
             }
             if (OnProjectsLoaded != null) OnProjectsLoaded(projects);
@@ -414,7 +406,7 @@ namespace PI.ProjectionToolkit
             }
         }
 
-        public void CreateNewProjec(Project project)
+        public void CreateNewProject(Project project)
         {
             try
             {
@@ -438,7 +430,9 @@ namespace PI.ProjectionToolkit
                 //add project reference
                 this.projects.AddProject(project);
                 SaveProjects(this.projects);
-                this.RebuildProjects(project);
+                currentProject = project;
+                this.RebuildProjects();
+                btnMyProjects.onClick.Invoke();
 
                 ShowErrorMessage("Create Project: " + project.name);
             }
@@ -484,6 +478,8 @@ namespace PI.ProjectionToolkit
                 {
                     string json = File.ReadAllText(currentProject.projectFile);
                     currentFullProject = JsonUtility.FromJson<Project>(json);
+                    RebuildProjects();
+                    btnMyProjects.onClick.Invoke();
                     ShowErrorMessage("Loading Project: " + currentFullProject.name);
                 }
                 catch (Exception ex)

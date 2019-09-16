@@ -11322,7 +11322,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 951686017}
   m_Direction: 2
   m_Value: 1.000001
-  m_Size: 0.54180086
+  m_Size: 0.5391113
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -15012,7 +15012,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1039701299}
   m_Direction: 2
   m_Value: 1.000001
-  m_Size: 0.54180086
+  m_Size: 0.5391113
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -40843,7 +40843,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 50953004}
   m_Direction: 2
   m_Value: 1.000001
-  m_Size: 0.54180086
+  m_Size: 0.5391113
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -82998,8 +82998,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1563870132}
   m_HandleRect: {fileID: 1563870131}
   m_Direction: 2
-  m_Value: 1.0000021
-  m_Size: 0.80102456
+  m_Value: 1.000002
+  m_Size: 0.7970481
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -88235,7 +88235,7 @@ PrefabInstance:
     - target: {fileID: 6276776264867790968, guid: 2a73b89de44ea2d4a8ed2dcbbe8955d8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 6276776264867790968, guid: 2a73b89de44ea2d4a8ed2dcbbe8955d8,
         type: 3}
