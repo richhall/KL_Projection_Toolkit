@@ -58,7 +58,7 @@ namespace Klak.Spout
         MaterialPropertyBlock _propertyBlock;
 
         // Search the texture list and create a receiver when found one.
-        void SearchAndCreateTexture()
+        public void SearchAndCreateTexture()
         {
             var name = PluginEntry.SearchSharedObjectNameString(_nameFilter);
             if (name != null) _receiver = PluginEntry.CreateReceiver(name);

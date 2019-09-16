@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,6 +36,17 @@ namespace PI.ProjectionToolkit
         public GameObject objCreateProjectModal;
         public GameObject objMessageModalRemoveButton;
         public Color colorAlert;
+
+        public Michsky.UI.Frost.TopPanelManager homePanelManager;
+
+
+        public Sprite[] backgroundImages;
+        public GameObject objBackground;
+        public Image objBackgroundImage;
+        public GameObject objRightPanel;
+        public GameObject objRightPanelHolding;
+
+        public GameObject objProject;
 
         public void Awake()
         {
@@ -480,6 +492,8 @@ namespace PI.ProjectionToolkit
                     currentFullProject = JsonUtility.FromJson<Project>(json);
                     RebuildProjects();
                     btnMyProjects.onClick.Invoke();
+                    SetLoadedProjectHud();
+                    homePanelManager.PanelAnim(1);
                     ShowErrorMessage("Loading Project: " + currentFullProject.name);
                 }
                 catch (Exception ex)
@@ -808,6 +822,12 @@ namespace PI.ProjectionToolkit
             btnLoadingClose.onClick.Invoke();
         }
 
+        private void Start()
+        {
+            SetLoadedProjectHud();
+            SetBackgroundImage();
+        }
+
         // Update is called once per frame
         void Update()
         {
@@ -819,6 +839,30 @@ namespace PI.ProjectionToolkit
             {
                 AudioListener.volume = (AudioListener.volume == 0) ? 0.5f : 0;
             }
+        }
+
+        public void SetLoadedProjectHud()
+        {
+            objRightPanel.SetActive(currentProject != null);
+            objRightPanelHolding.SetActive(currentProject == null);
+            objRightPanel.SetActive(currentProject != null);
+            objProject.SetActive(currentProject != null);
+            if (currentProject != null)
+            {
+                HideBackground();
+            }
+        }
+
+        public void HideBackground()
+        {
+            objBackground.SetActive(false);
+        }
+
+        public void SetBackgroundImage()
+        {
+            objBackground.SetActive(true);
+            int index = UnityEngine.Random.Range(0, backgroundImages.Length);
+            objBackgroundImage.sprite = backgroundImages[index];
         }
     }
 
