@@ -33,25 +33,6 @@ namespace PI.ProjectionToolkit
             AddTextLine(prefix + "SCALE", transform.scale);
         }
 
-        public void AddTextLine(string title, object obj)
-        {
-            AddTextLine(title, obj.ToString());
-        }
-
-        public void AddTextLine(string title, PI.Common.Vector2 vector2)
-        {
-            AddTextLine(title, vector2.x.ToString() + "," + vector2.y.ToString() );
-        }
-
-        public void AddTextLine(string title, PI.Common.Vector3 vector3)
-        {
-            AddTextLine(title, vector3.x.ToString() + "," + vector3.y.ToString() + "," + vector3.z.ToString());
-        }
-
-        public void AddTextLine(string title, PI.Common.Quaternion quaternion)
-        {
-            AddTextLine(title, quaternion.x.ToString() + "," + quaternion.y.ToString() + "," + quaternion.z.ToString() + "," + quaternion.w.ToString());
-        }
 
         public void AddProjectorStack(List<ProjectorStack> stacks, bool addHeader = true, string header = "PROJECTOR STACK")
         {
@@ -116,7 +97,27 @@ namespace PI.ProjectionToolkit
             u.SetData(header.ToUpper());
         }
 
-        public void AddTextLine(string title, string value, bool multi = false, bool alert = false)
+        public TextLine AddTextLine(string title, object obj)
+        {
+            return AddTextLine(title, obj.ToString());
+        }
+
+        public TextLine AddTextLine(string title, PI.Common.Vector2 vector2)
+        {
+            return AddTextLine(title, vector2.x.ToString() + "," + vector2.y.ToString());
+        }
+
+        public TextLine AddTextLine(string title, PI.Common.Vector3 vector3)
+        {
+            return AddTextLine(title, vector3.x.ToString() + "," + vector3.y.ToString() + "," + vector3.z.ToString());
+        }
+
+        public TextLine AddTextLine(string title, PI.Common.Quaternion quaternion)
+        {
+            return AddTextLine(title, quaternion.x.ToString() + "," + quaternion.y.ToString() + "," + quaternion.z.ToString() + "," + quaternion.w.ToString());
+        }
+
+        public TextLine AddTextLine(string title, string value, bool multi = false, bool alert = false)
         {
             var obj = multi ? prefabUiTextMultiLine : prefabUiTextLine;
             value = multi ? value : value.ToUpper();
@@ -129,6 +130,7 @@ namespace PI.ProjectionToolkit
             {
                 u.SetData(title.ToUpper(), value);
             }
+            return u;
         }
 
         public TextLine AddEditTextLine(string title, string value, bool required = true, bool multi = false)

@@ -107,6 +107,7 @@ namespace PI.ProjectionToolkit
             projectReference = project;
             title.text = project.name;
             date.text = project.updatedAsString;
+            showCheckBox = true;
             CheckStart();
         }
 

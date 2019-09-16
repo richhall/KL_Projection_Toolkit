@@ -18,6 +18,14 @@ namespace PI.ProjectionToolkit.UI
         {
         }
 
+        public void AlignValue(TextAlignmentOptions textAlignmentOptions = TextAlignmentOptions.TopRight)
+        {
+            if (value != null)
+            {
+                this.value.alignment = textAlignmentOptions;
+            }
+        }
+
         public void SetData(string title, string value)
         {
             this.title.text = title;

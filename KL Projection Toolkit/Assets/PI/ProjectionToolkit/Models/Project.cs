@@ -17,5 +17,19 @@ namespace PI.ProjectionToolkit.Models
         public string notes = "";
         public ProjectionSite projectionSite;
         public List<Camera> projectCameras = new List<Camera>();
+        public string siteResourcesFolder
+        {
+            get
+            {
+                return path + @"\site_resources";
+            }
+        }
+        public string resourcesFolder
+        {
+            get
+            {
+                return path + @"\resources";
+            }
+        }
     }
 }

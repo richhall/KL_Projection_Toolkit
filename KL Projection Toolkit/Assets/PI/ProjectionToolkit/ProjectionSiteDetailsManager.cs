@@ -86,7 +86,12 @@ namespace PI.ProjectionToolkit
             AddTextLine("ID", _projectionSite.id);
             AddTextLine("VERSION ID", _projectionSite.versionId);
             AddTextLine("ASSET BUNDLE", _projectionSite.assetBundleName);
+            var textLineProjectResources = AddTextLine("PROJECT RECOURSES", string.Join("\n", _projectionSite.projectResources.ToArray()), true);
+            textLineProjectResources.AlignValue();
+            var textLineSiteResources = AddTextLine("SITE RECOURSES", string.Join("\n", _projectionSite.siteResources.ToArray()), true);
+            textLineSiteResources.AlignValue();
             AddSeperator();
+
 
             AddHeader("AUDIT");
             AddTextLine("LAST UPDATED", _projectionSite.updatedAsString);

@@ -499,6 +499,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: {fileID: 3174305470902254237}
   value: {fileID: 6602322249730241977}
+  input: {fileID: 0}
+  inputBackground: {fileID: 0}
+  initBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  colorAltert: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &6900293154784942311
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,7 +640,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1478830783088520, guid: 286ddefbe745b90428a3b7316a972e20, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224946223968985182, guid: 286ddefbe745b90428a3b7316a972e20,
         type: 3}
@@ -751,12 +755,12 @@ PrefabInstance:
     - target: {fileID: 224621432618578814, guid: 286ddefbe745b90428a3b7316a972e20,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224621432618578814, guid: 286ddefbe745b90428a3b7316a972e20,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114375744893503552, guid: 286ddefbe745b90428a3b7316a972e20,
         type: 3}

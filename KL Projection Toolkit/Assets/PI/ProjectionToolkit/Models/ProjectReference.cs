@@ -28,7 +28,7 @@ namespace PI.ProjectionToolkit.Models
                 return path + @"\pt_project.json";
             }
         }
-
+        
         public ProjectReference GetProjectAsProjectReference()
         {
             return new ProjectReference()
