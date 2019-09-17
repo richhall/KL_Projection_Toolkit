@@ -492,9 +492,8 @@ namespace PI.ProjectionToolkit
                     currentFullProject = JsonUtility.FromJson<Project>(json);
                     RebuildProjects();
                     btnMyProjects.onClick.Invoke();
-                    SetLoadedProjectHud();
                     homePanelManager.PanelAnim(1);
-                    ShowErrorMessage("Loading Project: " + currentFullProject.name);
+                    SetLoadedProjectHud();
                 }
                 catch (Exception ex)
                 {
@@ -507,7 +506,7 @@ namespace PI.ProjectionToolkit
                 objMessageModalRemoveButton.SetActive(true);
             }
         }
-
+        
 
         public delegate void projectionSiteLoadedDelegate(ProjectionSites projectionSites);
         public event projectionSiteLoadedDelegate OnProjectionSitesLoaded;
@@ -831,14 +830,19 @@ namespace PI.ProjectionToolkit
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape) && btnExit!= null)
+            if (Input.GetKeyUp(KeyCode.Escape) && btnExit!= null)
             {
                 btnExit.onClick.Invoke();
             }
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyUp(KeyCode.Space))
             {
                 AudioListener.volume = (AudioListener.volume == 0) ? 0.5f : 0;
             }
+            //if (Input.GetKeyUp(KeyCode.F1))
+            //{
+            //    showCanvas = !showCanvas;
+            //    objCanvas.SetActive(showCanvas);
+            //}
         }
 
         public void SetLoadedProjectHud()

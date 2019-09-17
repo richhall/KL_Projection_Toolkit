@@ -16,6 +16,8 @@ namespace Michsky.UI.Frost
         public bool disableSplashScreen;
         public bool enableLoginScreen = true;
 
+        private bool show = true;
+
         void Start()
         {
             mainPanelsAnimator = mainPanels.GetComponent<Animator>();
@@ -39,6 +41,23 @@ namespace Michsky.UI.Frost
             if (enableLoginScreen == false && disableSplashScreen == false)
             {
                 splashScreenAnimator.Play("Loading");
+            }
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (Input.GetKeyUp(KeyCode.F1))
+            {
+                show = !show;
+                if (show)
+                {
+                    mainPanelsAnimator.Play("Panel Start");
+                }
+                else
+                {
+                    mainPanelsAnimator.Play("Panel Out");
+                }
             }
         }
     }

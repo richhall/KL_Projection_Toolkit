@@ -36,6 +36,7 @@ namespace PI.ProjectionToolkit.Models
         public string assetBundleName = "Site";
         public List<ProjectorStack> projectors = new List<ProjectorStack>();
         public List<Camera> cameras = new List<Camera>();
+        public Vector3 characterSpawnPoint = new Vector3();
         public List<string> siteResources = new List<string>(); //stay in the site
         public List<string> projectResources = new List<string>(); //get copied over to the project on create
         public List<string> resources
@@ -48,6 +49,7 @@ namespace PI.ProjectionToolkit.Models
                 return allResources;
             }
         }
+        public List<SiteModel> models = new List<SiteModel>(); 
 
         public ProjectionSiteStatus status { get; set; } = ProjectionSiteStatus.Unknown;
 
