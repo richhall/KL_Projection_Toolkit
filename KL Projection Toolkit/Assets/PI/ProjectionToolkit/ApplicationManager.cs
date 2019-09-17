@@ -48,6 +48,8 @@ namespace PI.ProjectionToolkit
 
         public GameObject objProject;
 
+        public ProjectManager projectManager;
+
         public void Awake()
         {
             Load();
@@ -489,11 +491,10 @@ namespace PI.ProjectionToolkit
                 try
                 {
                     string json = File.ReadAllText(currentProject.projectFile);
-                    currentFullProject = JsonUtility.FromJson<Project>(json);
                     RebuildProjects();
                     btnMyProjects.onClick.Invoke();
                     homePanelManager.PanelAnim(1);
-                    SetLoadedProjectHud();
+                    projectManager.LoadProject(JsonUtility.FromJson<Project>(json));
                 }
                 catch (Exception ex)
                 {
@@ -823,7 +824,7 @@ namespace PI.ProjectionToolkit
 
         private void Start()
         {
-            SetLoadedProjectHud();
+            projectManager.SetProjectHud();
             SetBackgroundImage();
         }
 
@@ -845,22 +846,22 @@ namespace PI.ProjectionToolkit
             //}
         }
 
-        public void SetLoadedProjectHud()
-        {
-            objRightPanel.SetActive(currentProject != null);
-            objRightPanelHolding.SetActive(currentProject == null);
-            objRightPanel.SetActive(currentProject != null);
-            objProject.SetActive(currentProject != null);
-            if (currentProject != null)
-            {
-                HideBackground();
-            }
-        }
+        //public void SetLoadedProjectHud()
+        //{
+        //    objRightPanel.SetActive(currentProject != null);
+        //    objRightPanelHolding.SetActive(currentProject == null);
+        //    objRightPanel.SetActive(currentProject != null);
+        //    objProject.SetActive(currentProject != null);
+        //    if (currentProject != null)
+        //    {
+        //        HideBackground();
+        //    }
+        //}
 
-        public void HideBackground()
-        {
-            objBackground.SetActive(false);
-        }
+        //public void HideBackground()
+        //{
+        //    objBackground.SetActive(false);
+        //}
 
         public void SetBackgroundImage()
         {

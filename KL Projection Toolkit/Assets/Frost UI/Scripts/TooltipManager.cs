@@ -39,7 +39,7 @@ namespace Michsky.UI.Frost
         {
             cursorPos = Input.mousePosition;
             cursorPos.z = tooltipHelper.position.z;
-            tooltipRect.position = UICamera.ScreenToWorldPoint(cursorPos);
+            tooltipRect.position = cursorPos; // UICamera.ScreenToWorldPoint(cursorPos);
             uiPos = tooltipRect.anchoredPosition;
             tooltipContent.transform.localPosition = Vector3.SmoothDamp(tooltipContent.transform.localPosition, contentPos, ref tooltipVelocity, tooltipSmoothness);
             CheckForBounds();
