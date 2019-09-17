@@ -15,7 +15,7 @@ namespace PI.ProjectionToolkit
         public UnityEngine.UI.Scrollbar scrollbar;
         public GameObject footerUpdateLocal;
         public GameObject footerInfoAndCreate;
-        private ProjectManager _projectManager;
+        private ApplicationManager _applicationManager;
         public TextMeshProUGUI description;
 
         void Start()
@@ -35,11 +35,11 @@ namespace PI.ProjectionToolkit
             footerInfoAndCreate.SetActive(true);
         }
 
-        public void SetData(ProjectionSite projectionSite, ProjectManager projectManager)
+        public void SetData(ProjectionSite projectionSite, ApplicationManager applicationManager)
         {
             _projectionSite = projectionSite;
-            _projectManager = projectManager;
-            this.colorAlert = projectManager.colorAlert;
+            _applicationManager = applicationManager;
+            this.colorAlert = applicationManager.colorAlert;
             Header header = objTitle.GetComponent<Header>();
             header.SetData(_projectionSite.name);
             scrollbar.value = 1; //set scrollbar to top
@@ -109,7 +109,7 @@ namespace PI.ProjectionToolkit
 
         private void BtnUnknown_OnButtonClick()
         {
-            _projectManager.ProjectInfoModalRefreshClick();
+            _applicationManager.ProjectInfoModalRefreshClick();
         }
     }
 }

@@ -398,7 +398,7 @@ namespace PI.ProjectionToolkit
                 {
                     var projectGameObject = Instantiate(prefabProjectListItem, objProjectList.transform);
                     var btn = projectGameObject.GetComponent<ProjectButton>();
-                    btn.projectManager = this;
+                    //btn.applicationManager = this;
                     btn.SetProjectReference(project, currentProject != null && project.id == currentProject.id);
                 }
             }
@@ -569,7 +569,7 @@ namespace PI.ProjectionToolkit
                 }
                 var projectionSiteGameObject = Instantiate(prefabProjectListItem, objProjectionSiteList.transform);
                 var btn = projectionSiteGameObject.GetComponent<ProjectButton>();
-                btn.projectManager = this;
+                //btn.applicationManager = this;
                 btn.SetProjectionSite(projectionSite, true, false);
             }
         }
@@ -586,7 +586,7 @@ namespace PI.ProjectionToolkit
             {
                 man.ShowFooterInfoAndCreate();
             }
-            man.SetData(holdingProjectionSiteMinor, this);
+            //man.SetData(holdingProjectionSiteMinor, this);
             btnUpdateProjectionSiteMinor.onClick.Invoke();
         }
 
@@ -712,7 +712,7 @@ namespace PI.ProjectionToolkit
         public void CreateNewProjectionClick()
         {
             CreateProjectManager man = objCreateProjectModal.GetComponent<CreateProjectManager>();
-            man.SetData(holdingProjectionSiteMinor, this);
+            //man.SetData(holdingProjectionSiteMinor, this);
             btnCreateProjectModal.onClick.Invoke();
         }
 
@@ -736,7 +736,7 @@ namespace PI.ProjectionToolkit
                 //if(match == null) match = projectionSites.sites.FirstOrDefault(c => c.id == projectionSite.id);
                 var projectionSiteGameObject = Instantiate(prefabProjectListItem, objLatestProjectionSiteList.transform);
                 var btn = projectionSiteGameObject.GetComponent<ProjectButton>();
-                btn.projectManager = this;
+                //btn.applicationManager = this;
                 btn.SetProjectionSite(projectionSite, true, true);
             }
         }

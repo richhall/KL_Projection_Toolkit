@@ -15,7 +15,7 @@ namespace PI.ProjectionToolkit
         private Project _project;
         private ProjectionSite _projectionSite;
         public UnityEngine.UI.Scrollbar scrollbar;
-        private ProjectManager _projectManager;
+        private ApplicationManager _applicationManager;
         public Sprite imgFolderIcon;
 
         private TextLine _inputName;
@@ -48,24 +48,24 @@ namespace PI.ProjectionToolkit
 
         private bool firstTime = true;
 
-        public void SetData(ProjectionSite projectionSite, ProjectManager projectManager)
+        public void SetData(ProjectionSite projectionSite, ApplicationManager applicationManager)
         {
             if (firstTime)
             {
-                FileBrowser.AddQuickLink("Projects", projectManager.rootPath + projectManager.projectsFolder, null);
+                FileBrowser.AddQuickLink("Projects", applicationManager.rootPath + applicationManager.projectsFolder, null);
                 FileBrowser.AddQuickLink("Users", "C:\\Users", null);
                 firstTime = false;
             }
 
             _projectionSite = projectionSite;
-            _projectManager = projectManager;
-            this.colorAlert = projectManager.colorAlert;
+            _applicationManager = applicationManager;
+            this.colorAlert = applicationManager.colorAlert;
             _project = new Project()
             {
-                createdBy = projectManager.users.current.email,
-                updatedBy = projectManager.users.current.email,
+                createdBy = applicationManager.users.current.email,
+                updatedBy = applicationManager.users.current.email,
                 projectionSite = _projectionSite,
-                path = projectManager.rootPath + projectManager.projectsFolder,
+                path = applicationManager.rootPath + applicationManager.projectsFolder,
                 siteId = _projectionSite.id,
                 siteVersionId = _projectionSite.versionId
             };
@@ -134,7 +134,7 @@ namespace PI.ProjectionToolkit
                 {
                     _project.path += @"\" + _project.name;
                 }
-                _projectManager.CreateNewProject(_project);
+                _applicationManager.CreateNewProject(_project);
                 var animator = this.GetComponent<Animator>();
                 animator.Play("Modal Window Out");
             }

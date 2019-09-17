@@ -10,32 +10,32 @@ namespace PI.ProjectionToolkit
     /// </summary>
     public class CurrentUserManager : MonoBehaviour
     {
-        public ProjectManager projectManager;
+        public ApplicationManager applicationManager;
         public TMP_InputField currentUserName;
         public TMP_InputField currentUserEmail;
         public TMP_InputField currentUserOrganisation;
 
         public void UpdateCurrentUser()
         {
-            if(projectManager != null)
+            if(applicationManager != null)
             {
-                projectManager.users.AddOrUpdateUser(new Common.Models.User()
+                applicationManager.users.AddOrUpdateUser(new Common.Models.User()
                 {
                     name = currentUserName.text,
                     email = currentUserEmail.text,
                     organisation = currentUserOrganisation.text
-                }, projectManager.users.current.email, true);
-                projectManager.SaveUsers();
+                }, applicationManager.users.current.email, true);
+                applicationManager.SaveUsers();
             }
         }
 
         // Start is called before the first frame update
         void Start()
         {
-            if (projectManager != null)
+            if (applicationManager != null)
             {
-                projectManager.OnUsersLoaded += ProjectManager_OnUsersLoaded;
-                if (projectManager.users != null) ProjectManager_OnUsersLoaded(projectManager.users);
+                applicationManager.OnUsersLoaded += ProjectManager_OnUsersLoaded;
+                if (applicationManager.users != null) ProjectManager_OnUsersLoaded(applicationManager.users);
             }
         }
 

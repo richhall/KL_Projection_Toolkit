@@ -27,7 +27,7 @@ namespace PI.ProjectionToolkit
         public ProjectReference projectReference;
         public TextMeshProUGUI title;
         public TextMeshProUGUI date;
-        public ProjectManager projectManager;
+        public ApplicationManager applicationManager;
         private bool isProject = true;
         private bool isLatestProjection = false;
 
@@ -162,11 +162,11 @@ namespace PI.ProjectionToolkit
         {
             if (isProject)
             {
-                projectManager.LoadProject(projectReference);
+                applicationManager.LoadProject(projectReference);
             }
             else
             {
-                projectManager.ShowProjectionSiteModal(projectionSite, isLatestProjection);
+                applicationManager.ShowProjectionSiteModal(projectionSite, isLatestProjection);
                 //if (isLatestProjection)
                 //{
                 //    //if (this.isOn)
