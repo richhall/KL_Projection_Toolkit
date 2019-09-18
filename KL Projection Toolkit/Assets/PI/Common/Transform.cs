@@ -36,8 +36,8 @@ namespace PI.Common
 
         public void SetTransform(UnityEngine.Transform transform)
         {
-            transform.position = position.GetVector3();
-            transform.rotation = rotation.GetQuaternion();
+            transform.localPosition = position.GetVector3();
+            transform.localEulerAngles = rotation.GetVector3();
             transform.localScale = scale.GetVector3();
         }
         

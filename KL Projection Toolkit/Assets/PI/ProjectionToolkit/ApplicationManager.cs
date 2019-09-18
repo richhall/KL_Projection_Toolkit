@@ -494,7 +494,11 @@ namespace PI.ProjectionToolkit
                     RebuildProjects();
                     btnMyProjects.onClick.Invoke();
                     homePanelManager.PanelAnim(1);
-                    projectManager.LoadProject(JsonUtility.FromJson<Project>(json));
+                    var p = JsonUtility.FromJson<Project>(json);
+                    //load projection site
+                    var site = this.projectionSites.sites.FirstOrDefault(f => f.id == p.projectionSite.id);
+                    if (site != null) p.projectionSite = site;
+                    projectManager.LoadProject(p);
                 }
                 catch (Exception ex)
                 {
@@ -769,6 +773,7 @@ namespace PI.ProjectionToolkit
 
             if (www.isNetworkError || www.isHttpError)
             {
+                CloseLoading();
                 ShowErrorMessage("Unable to download site configurations, please check your internet connection.", new Exception(www.error));
             }
             else
@@ -831,7 +836,9 @@ namespace PI.ProjectionToolkit
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyUp(KeyCode.Escape) && btnExit!= null)
+            if ( ((Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Q)) 
+                || (Input.GetKey(KeyCode.RightShift) && Input.GetKey(KeyCode.Q)))
+                && btnExit!= null)
             {
                 btnExit.onClick.Invoke();
             }

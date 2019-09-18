@@ -147,8 +147,10 @@ namespace PI.ProjectionToolkit
             var gameObject = Instantiate(prefab, objCamerasContainer.transform);
             gameObject.name = camera.name;
             gameObject.SetActive(false);
+            camera.SetTransform(gameObject);
             PrjectCameraHolder holder = new PrjectCameraHolder()
             {
+                camera = camera,
                 cameraContainer = gameObject,
                 cameraItem = ci
             };
@@ -162,6 +164,8 @@ namespace PI.ProjectionToolkit
             {
                 cameras[x].cameraContainer.SetActive(false);
             }
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             mainCamera.SetActive(true);
         }
 
@@ -172,9 +176,25 @@ namespace PI.ProjectionToolkit
                 for (var x = 0; x < cameras.Count; x++)
                 {
                     cameras[x].cameraContainer.SetActive(x == index);
+                    if (x == index)
+                    {
+                        if (cameras[x].camera.cameraType != Models.CameraType.WalkAbout)
+                        {
+                            Cursor.visible = true;
+                            Cursor.lockState = CursorLockMode.None;
+                        }
+                        cameras[x].cameraItem.CameraSelected();
+                    }
+                    else
+                    {
+                        cameras[x].cameraItem.CameraNormal();
+                    }
                 }
                 mainCamera.SetActive(false);
             }
+            Debug.Log(Cursor.visible);
+            Debug.Log(Cursor.lockState);
+            Debug.Log("-----");
         }
 
         public void SetCamera_Main()

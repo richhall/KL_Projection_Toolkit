@@ -25,7 +25,7 @@ namespace PI.ProjectionToolkit.Models
         {
             get
             {
-                return path + @"\pt_project.json";
+                return path + @"\project.json";
             }
         }
         

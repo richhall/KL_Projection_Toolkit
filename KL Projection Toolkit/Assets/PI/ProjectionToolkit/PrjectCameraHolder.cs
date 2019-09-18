@@ -8,6 +8,7 @@ namespace PI.ProjectionToolkit
 {
     public class PrjectCameraHolder
     {
+        public Models.Camera camera;
         public GameObject cameraContainer;
         public ProjectCameraListItem cameraItem;
     }
