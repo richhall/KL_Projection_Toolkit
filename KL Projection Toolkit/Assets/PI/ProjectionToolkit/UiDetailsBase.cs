@@ -61,7 +61,7 @@ namespace PI.ProjectionToolkit
             AddTextLine("NAME", camera.name);
             AddTransform(camera, "");
             AddTextLine("FIELD OF VIEW", camera.fieldOfView);
-            if (camera.physical)
+            if (camera.cameraType == Models.CameraType.Projector)
             {
                 AddTextLine("FOCAL LENGTH", camera.focalLength);
                 AddTextLine("SENSOR SIZE", camera.sensorSize);

@@ -27,25 +27,54 @@ namespace PI.ProjectionToolkit
         {
         }
 
-        public void SetWalkAbout(int index, ProjectManager projectManager)
-        {
-            _projectManager = projectManager;
-            txtName.text = "Character Camera";
-            txtType.text = "Walk Around Site";
-            imgIcon.sprite = imgWalkAround;
-            this.index = index;
-            imgBackground.sprite = imgBackgroundNormal;
-        }
+        //public void SetWalkAbout(int index, ProjectManager projectManager)
+        //{
+        //    _projectManager = projectManager;
+        //    txtName.text = "Character Camera";
+        //    txtType.text = "Walk Around Site";
+        //    imgIcon.sprite = imgWalkAround;
+        //    this.index = index;
+        //    imgBackground.sprite = imgBackgroundNormal;
+        //}
 
-        public void SetData(Models.Camera camera, int index, ProjectManager projectManager)
+        public void SetData(Models.Camera camera, int index, ProjectManager projectManager, string type = null)
         {
             _camera = camera;
             _projectManager = projectManager;
             txtName.text = camera.name;
-            txtType.text = camera.physical ? "Physical Projector" : "Virtual Camera";
-            imgIcon.sprite = camera.physical ? imgProjector : imgCamera;
+            switch (camera.cameraType)
+            {
+                case Models.CameraType.Projector:
+                    txtType.text = "Physical Projector";
+                    imgIcon.sprite = imgProjector;
+                    break;
+                case Models.CameraType.Virtual:
+                    txtType.text = "Virtual Camera";
+                    imgIcon.sprite = imgCamera;
+                    break;
+                case Models.CameraType.WalkAbout:
+                    txtType.text = "Walk About Camera";
+                    imgIcon.sprite = imgWalkAround;
+                    break;
+            }
+            if (!string.IsNullOrEmpty(type)) txtType.text = type;
             this.index = index;
             imgBackground.sprite = imgBackgroundNormal;
+        }
+
+        public void CameraNormal()
+        {
+            imgBackground.sprite = imgBackgroundNormal;
+        }
+
+        public void CameraSelected()
+        {
+            imgBackground.sprite = imgBackgroundSelected;
+        }
+
+        public void CameraRecording()
+        {
+            imgBackground.sprite = imgBackgroundRecording;
         }
 
         public void OnButtonClick()

@@ -8,6 +8,13 @@ using PI.Common.Models;
 
 namespace PI.ProjectionToolkit.Models
 {
+    public enum CameraType
+    {
+        Projector,
+        Virtual,
+        WalkAbout
+    }
+
     /// <summary>
     /// Serializable Camera model that inherits a transform
     /// Used to set the position and physical properties of a camera in the scene, this should match a real world projector
@@ -16,7 +23,9 @@ namespace PI.ProjectionToolkit.Models
     public class Camera : Transform
     {
         public string name = "Main Projector";
-        public bool physical  = true;
+        public bool defaultCamera = false;
+        public CameraType cameraType = CameraType.Projector;
+        public string prefab = "Projector";
         public float fieldOfView = 0f;
         public float focalLength = 0f;
         public Vector2 sensorSize = new Vector2();

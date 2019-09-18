@@ -6,6 +6,7 @@ using PI.ProjectionToolkit.UI;
 
 namespace PI.ProjectionToolkit
 {
+
     public class ProjectCameraItem : MonoBehaviour
     {
         private ProjectManager _projectManager;
@@ -26,24 +27,12 @@ namespace PI.ProjectionToolkit
         void Start()
         {
         }
-
-        public void SetWalkAbout(int index, ProjectManager projectManager)
-        {
-            _projectManager = projectManager;
-            txtName.text = "Character Camera";
-            txtType.text = "Walk Around Site";
-            imgIcon = imgWalkAround;
-            this.index = index;
-            imgBackground.sprite = imgBackgroundNormal;
-        }
-
+        
         public void SetData(Models.Camera camera, int index, ProjectManager projectManager)
         {
             _camera = camera;
             _projectManager = projectManager;
             txtName.text = camera.name;
-            txtType.text = camera.physical ? "Physical Projector" : "Virtual Camera";
-            imgIcon = camera.physical ? imgProjector : imgCamera;
             this.index = index;
             imgBackground.sprite = imgBackgroundNormal;
         }

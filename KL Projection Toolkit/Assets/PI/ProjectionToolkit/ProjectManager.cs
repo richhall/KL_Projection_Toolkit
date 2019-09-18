@@ -26,12 +26,13 @@ namespace PI.ProjectionToolkit
         public GameObject prefabCameraListItem;
         public GameObject objCamerasContainer;
         public GameObject prefabCameraItem;
+        public GameObject prefabCameraWalkAround;
         private Project _project = null;
 
         public GameObject mainCamera;
         public GameObject fpsController;
 
-        private List<GameObject> cameras = new List<GameObject>();
+        private List<PrjectCameraHolder> cameras = new List<PrjectCameraHolder>();
 
         private void Start()
         {
@@ -100,33 +101,68 @@ namespace PI.ProjectionToolkit
         private void BuildCameras()
         {
             //clear the transform
+            foreach (Transform child in objCamerasContainer.transform) Destroy(child.gameObject);
             foreach (Transform child in objCameraList.transform) Destroy(child.gameObject);
-            cameras = new List<GameObject>();
-            cameras.Add(fpsController);
+            cameras = new List<PrjectCameraHolder>();
+            //cameras.Add(fpsController);
+            ////add list item
+            //var listItem = Instantiate(prefabCameraListItem, objCameraList.transform);
+            //var ci = listItem.GetComponent<ProjectCameraListItem>();
+            //ci.SetWalkAbout(index, this);
             int index = 0;
-            //add list item
-            var listItem = Instantiate(prefabCameraListItem, objCameraList.transform);
-            var ci = listItem.GetComponent<ProjectCameraListItem>();
-            ci.SetWalkAbout(index, this);
+            int defaultIndex = 0;
+            foreach (var projectorStack in _project.projectionSite.projectors)
+            {
+                foreach (var camera in projectorStack.projectors)
+                {
+                    if (camera.defaultCamera) defaultIndex = index;
+                    cameras.Add(AddCamera(camera, index, projectorStack.name));
+                    index += 1;
+                }
+                //add stack
+            }
             foreach (var camera in _project.projectionSite.cameras)
             {
+                if (camera.defaultCamera) defaultIndex = index;
+                cameras.Add(AddCamera(camera, index, null));
                 index += 1;
-                cameras.Add(AddCamera(camera, index));
             }
-            SetCamera(0);
+            SetCamera(defaultIndex);
         }
 
-        private GameObject AddCamera(Models.Camera camera, int index)
+        private PrjectCameraHolder AddCamera(Models.Camera camera, int index, string type)
         {
             //add list item
             var listItem = Instantiate(prefabCameraListItem, objCameraList.transform);
             var ci = listItem.GetComponent<ProjectCameraListItem>();
-            ci.SetData(camera, index, this);
+            ci.SetData(camera, index, this, type);
             //add camera to cameras
-            var gameObject = Instantiate(prefabCameraItem, objCameraList.transform);
+            GameObject prefab = prefabCameraItem;
+            switch (camera.cameraType)
+            {
+                case Models.CameraType.WalkAbout:
+                    prefab = prefabCameraWalkAround;
+                    break;
+            }
+            var gameObject = Instantiate(prefab, objCamerasContainer.transform);
+            gameObject.name = camera.name;
             gameObject.SetActive(false);
+            PrjectCameraHolder holder = new PrjectCameraHolder()
+            {
+                cameraContainer = gameObject,
+                cameraItem = ci
+            };
             //do all the config for the camera
-            return gameObject;
+            return holder;
+        }
+
+        public void SetMainCamera()
+        {
+            for (var x = 0; x < cameras.Count; x++)
+            {
+                cameras[x].cameraContainer.SetActive(false);
+            }
+            mainCamera.SetActive(true);
         }
 
         public void SetCamera(int index)
@@ -135,7 +171,7 @@ namespace PI.ProjectionToolkit
             {
                 for (var x = 0; x < cameras.Count; x++)
                 {
-                    cameras[x].SetActive(x == index);
+                    cameras[x].cameraContainer.SetActive(x == index);
                 }
                 mainCamera.SetActive(false);
             }
