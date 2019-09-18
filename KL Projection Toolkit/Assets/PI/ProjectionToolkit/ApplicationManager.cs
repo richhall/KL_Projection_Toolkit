@@ -39,6 +39,8 @@ namespace PI.ProjectionToolkit
 
         public Michsky.UI.Frost.TopPanelManager homePanelManager;
 
+        public GameObject[] DisplayNumbers;
+        public GameObject[] ResNumbers;
 
         public Sprite[] backgroundImages;
         public GameObject objBackground;
@@ -748,7 +750,6 @@ namespace PI.ProjectionToolkit
 
         public void LatestSitesClick()
         {
-            if (latestProjectionSites.sites != null && latestProjectionSites.sites.Count > 0) return;
             DownloadLatestSites();
         } 
 
@@ -845,6 +846,30 @@ namespace PI.ProjectionToolkit
             if (Input.GetKeyUp(KeyCode.Space))
             {
                 AudioListener.volume = (AudioListener.volume == 0) ? 0.5f : 0;
+            }
+
+            if (Input.GetKeyDown(KeyCode.F12))
+            {
+                foreach(var d in DisplayNumbers)
+                {
+                    d.SetActive(!d.activeSelf);
+                }
+                var index = 0;
+                foreach (var r in ResNumbers)
+                {
+                    r.SetActive(!r.activeSelf);
+                    try
+                    {
+                        var t = r.GetComponent<TextMeshProUGUI>();
+                        t.text = Display.displays[index].renderingWidth.ToString() + "," + Display.displays[index].renderingHeight.ToString();
+                    }
+                    catch
+                    {
+
+                    }
+                    index += 1;
+                }
+                
             }
             //if (Input.GetKeyUp(KeyCode.F1))
             //{

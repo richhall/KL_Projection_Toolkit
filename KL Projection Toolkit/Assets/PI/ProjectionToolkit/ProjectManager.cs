@@ -87,6 +87,22 @@ namespace PI.ProjectionToolkit
             _project = project;
             SetProjectHud();
             BuildCameras();
+            Debug.Log("DISPLAY COUNT " + Display.displays.Count().ToString());
+            foreach (var d in Display.displays)
+            {
+                Debug.Log("************");
+                Debug.Log("DISPLAY");
+                Debug.Log(d.active);
+                Debug.Log(d.renderingWidth);
+                Debug.Log(d.renderingHeight);
+                Debug.Log("************");
+            }
+            Debug.Log("************");
+            Debug.Log("MAIN DISPLAY");
+            Debug.Log(Display.main.active);
+            Debug.Log(Display.main.renderingWidth);
+            Debug.Log(Display.main.renderingHeight);
+            Debug.Log("************");
         }
 
         public void SetProjectHud()
@@ -134,8 +150,8 @@ namespace PI.ProjectionToolkit
         {
             //add list item
             var listItem = Instantiate(prefabCameraListItem, objCameraList.transform);
-            var ci = listItem.GetComponent<ProjectCameraListItem>();
-            ci.SetData(camera, index, this, type);
+            var cameraListItem = listItem.GetComponent<ProjectCameraListItem>();
+            cameraListItem.SetData(camera, index, this, type);
             //add camera to cameras
             GameObject prefab = prefabCameraItem;
             switch (camera.cameraType)
@@ -147,12 +163,14 @@ namespace PI.ProjectionToolkit
             var gameObject = Instantiate(prefab, objCamerasContainer.transform);
             gameObject.name = camera.name;
             gameObject.SetActive(false);
+            var cameraItem = gameObject.GetComponent<ProjectCameraItem>();
             camera.SetTransform(gameObject);
             PrjectCameraHolder holder = new PrjectCameraHolder()
             {
                 camera = camera,
                 cameraContainer = gameObject,
-                cameraItem = ci
+                cameraItem = cameraItem,
+                cameraListItem = cameraListItem
             };
             //do all the config for the camera
             return holder;
@@ -173,28 +191,28 @@ namespace PI.ProjectionToolkit
         {
             if(index >= 0 && index < cameras.Count)
             {
+                Models.CameraType selectedCameraType = Models.CameraType.Virtual;
                 for (var x = 0; x < cameras.Count; x++)
                 {
+                    cameras[x].cameraItem.CameraSelected(x == index);
                     cameras[x].cameraContainer.SetActive(x == index);
                     if (x == index)
                     {
-                        if (cameras[x].camera.cameraType != Models.CameraType.WalkAbout)
-                        {
-                            Cursor.visible = true;
-                            Cursor.lockState = CursorLockMode.None;
-                        }
-                        cameras[x].cameraItem.CameraSelected();
+                        selectedCameraType = cameras[x].camera.cameraType;
+                        cameras[x].cameraListItem.CameraSelected();
                     }
                     else
                     {
-                        cameras[x].cameraItem.CameraNormal();
+                        cameras[x].cameraListItem.CameraNormal();
                     }
+                }
+                if (selectedCameraType != Models.CameraType.WalkAbout)
+                {
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
                 }
                 mainCamera.SetActive(false);
             }
-            Debug.Log(Cursor.visible);
-            Debug.Log(Cursor.lockState);
-            Debug.Log("-----");
         }
 
         public void SetCamera_Main()

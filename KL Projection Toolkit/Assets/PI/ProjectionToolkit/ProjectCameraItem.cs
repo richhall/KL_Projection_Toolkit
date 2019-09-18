@@ -9,38 +9,57 @@ namespace PI.ProjectionToolkit
 
     public class ProjectCameraItem : MonoBehaviour
     {
+        private UnityStandardAssets.Characters.FirstPerson.FirstPersonController fpsCtrl;
         private ProjectManager _projectManager;
-        private TextMeshProUGUI txtName;
-        private TextMeshProUGUI txtType;
-        public Sprite imgIcon;
-        public UnityEngine.UI.Image imgBackground;
-        public Sprite imgBackgroundRecording;
-        public Sprite imgBackgroundNormal;
-        public Sprite imgBackgroundSelected;
-        public Sprite imgProjector;
-        public Sprite imgCamera;
-        public Sprite imgWalkAround;
-        public bool selected;
         private int index = 0;
         private Models.Camera _camera;
+        private bool selected = false;
+        public bool fpsPaused = false;
 
-        void Start()
+        private void Start()
         {
+            fpsCtrl = this.GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>();
         }
-        
+                
         public void SetData(Models.Camera camera, int index, ProjectManager projectManager)
         {
             _camera = camera;
             _projectManager = projectManager;
-            txtName.text = camera.name;
             this.index = index;
-            imgBackground.sprite = imgBackgroundNormal;
         }
 
-        public void OnButtonClick()
+        private void Update()
         {
-            _projectManager.SetCamera(index);
+            if (fpsCtrl != null && this.gameObject.activeSelf && Input.GetKeyUp(KeyCode.F2))
+            {
+                fpsPaused = !fpsPaused;
+                SetFpsCameraSelected();
+            }
         }
 
+        public void CameraSelected(bool selected)
+        {
+            this.selected = selected;
+            if (selected) fpsPaused = false;
+            SetFpsCameraSelected();
+        }
+
+        private void SetFpsCameraSelected()
+        {
+            if (fpsCtrl != null)
+            {
+                fpsCtrl.enabled = !fpsPaused;
+                if (fpsPaused)
+                {
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
+                }
+                else
+                {
+                    Cursor.visible = false;
+                    //Cursor.lockState = CursorLockMode.None;
+                }
+            }
+        }
     }
 }
