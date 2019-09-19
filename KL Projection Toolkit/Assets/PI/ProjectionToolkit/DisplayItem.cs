@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using TMPro;
+using System.IO;
 
 namespace PI.ProjectionToolkit
 {
@@ -11,6 +12,7 @@ namespace PI.ProjectionToolkit
     {
         public int index = 1;
         public bool isOn = false;
+        public Canvas canvas;
         public Camera camera;
         public GameObject objNumber;
         public GameObject objResolution;
@@ -19,10 +21,12 @@ namespace PI.ProjectionToolkit
         private TextMeshProUGUI txtResolution;
         private TextMeshProUGUI txtResolutionScreen;
         public GameObject objBackground;
+        private RawImage imgBackground;
         public GameObject objVideo;
         private RawImage imgVideo;
         private VideoPlayer videoPlayer;
         public RenderTexture[] videoTextures;
+        private DisplayListItem _displayListItem;
 
         void Start()
         {
@@ -30,9 +34,11 @@ namespace PI.ProjectionToolkit
 
         public void SetData(int index, bool isOn)
         {
+            canvas.targetDisplay = index;
             txtNumber = objNumber.GetComponent<TextMeshProUGUI>();
             txtResolution = objResolution.GetComponent<TextMeshProUGUI>();
             txtResolutionScreen = objResolutionScreen.GetComponent<TextMeshProUGUI>();
+            imgBackground = objBackground.GetComponent<RawImage>();
             imgVideo = objVideo.GetComponent<RawImage>();
             videoPlayer = objVideo.GetComponent<VideoPlayer>();
             this.index = index;
@@ -41,11 +47,19 @@ namespace PI.ProjectionToolkit
             if (isOn)
             {
                 txtNumber.text = (index + 1).ToString();
-                txtResolution.text = Display.displays[index].renderingWidth.ToString() + " x " + Display.displays[index].renderingHeight.ToString();
-                txtResolutionScreen.text = Display.displays[index].systemWidth.ToString() + " x " + Display.displays[index].systemHeight.ToString();
+                if (UnityEditor.EditorApplication.isPlaying)
+                {
+                    txtResolution.text = Screen.currentResolution.width.ToString() + " x " + Screen.currentResolution.height.ToString();
+                    txtResolutionScreen.text = Screen.currentResolution.width.ToString() + " x " + Screen.currentResolution.height.ToString();
+                }
+                else
+                {
+                    txtResolution.text = Display.displays[index].renderingWidth.ToString() + " x " + Display.displays[index].renderingHeight.ToString();
+                    txtResolutionScreen.text = Display.displays[index].systemWidth.ToString() + " x " + Display.displays[index].systemHeight.ToString();
+                }
                 camera.targetDisplay = index;
-                imgVideo.texture = videoTextures[index];
-                videoPlayer.targetTexture = videoTextures[index];
+                imgVideo.texture = videoTextures[index - 1];
+                videoPlayer.targetTexture = videoTextures[index - 1];
             }
         }
 
@@ -80,6 +94,18 @@ namespace PI.ProjectionToolkit
         {
             if (!isOn) return;
             if (videoPlayer.isPlaying) videoPlayer.Stop();
+            // read image and store in a byte array
+            byte[] byteArray = File.ReadAllBytes(url);
+            //create a texture and load byte array to it
+            // Texture size does not matter 
+            Texture2D sampleTexture = new Texture2D(2, 2);
+            // the size of the texture will be replaced by image size
+            bool isLoaded = sampleTexture.LoadImage(byteArray);
+            if (isLoaded)
+            {
+                imgBackground.texture = sampleTexture;
+            }
+
             objBackground.SetActive(true);
             objVideo.SetActive(false);
         }

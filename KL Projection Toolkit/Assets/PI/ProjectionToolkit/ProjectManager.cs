@@ -28,6 +28,13 @@ namespace PI.ProjectionToolkit
         public GameObject prefabCameraItem;
         public GameObject prefabCameraWalkAround;
         private Project _project = null;
+        public Project CurrentProject
+        {
+            get
+            {
+                return _project;
+            }
+        }
 
         public GameObject mainCamera;
         public GameObject fpsController;

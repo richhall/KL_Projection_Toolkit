@@ -10,6 +10,7 @@ using PI.ProjectionToolkit.Models;
 using System.IO;
 using TMPro;
 using UnityEngine.Networking;
+using SimpleFileBrowser;
 
 namespace PI.ProjectionToolkit
 {
@@ -35,6 +36,8 @@ namespace PI.ProjectionToolkit
         public GameObject objUpdateProjectionSiteMinorModal;
         public GameObject objCreateProjectModal;
         public GameObject objMessageModalRemoveButton;
+        public GameObject objDisplayList;
+        public GameObject prefabDisplayListItem;
         public Color colorAlert;
 
         public Michsky.UI.Frost.TopPanelManager homePanelManager;
@@ -171,7 +174,6 @@ namespace PI.ProjectionToolkit
         public ProjectionSites latestProjectionSites = new ProjectionSites();
 
 
-        public TextMeshProUGUI dpath;
         public void Load()
         {
             ////get the root path
@@ -500,6 +502,18 @@ namespace PI.ProjectionToolkit
                     var site = this.projectionSites.sites.FirstOrDefault(f => f.id == p.projectionSite.id);
                     if (site != null) p.projectionSite = site;
                     projectManager.LoadProject(p);
+                    //build display list items
+                    foreach (Transform child in objDisplayList.transform) Destroy(child.gameObject);
+                    foreach(var display in displayItems)
+                    {
+                        var listItem = Instantiate(prefabDisplayListItem, objDisplayList.transform);
+                        var displayListItem = listItem.GetComponent<DisplayListItem>();
+                        displayListItem.SetData("Display " + (display.index + 1).ToString(), display.index);
+                        displayListItem.OnImageClick += DisplayListItem_OnImageClick;
+                        displayListItem.OnVideoClick += DisplayListItem_OnVideoClick;
+                        displayListItem.OnProjectorClick += DisplayListItem_OnProjectorClick;
+                    }
+                    
                 }
                 catch (Exception ex)
                 {
@@ -512,7 +526,51 @@ namespace PI.ProjectionToolkit
                 objMessageModalRemoveButton.SetActive(true);
             }
         }
-        
+
+        private void DisplayListItem_OnProjectorClick(DisplayListItem displayListItem)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DisplayListItem_OnVideoClick(DisplayListItem displayListItem)
+        {
+            FileBrowser.SetFilters(true, new FileBrowser.Filter("Videos", ".mp4", ".mov"));
+            FileBrowser.SetDefaultFilter(".mp4");
+            StartCoroutine(ShowVideoPathDialogCoroutine(displayListItem));
+        }
+
+        IEnumerator ShowVideoPathDialogCoroutine(DisplayListItem displayListItem)
+        {
+            string path = currentFullProject != null ? currentFullProject.resourcesFolder : "";
+
+            yield return FileBrowser.WaitForLoadDialog(false, path, "Select Video");
+
+            if (FileBrowser.Success)
+            {
+                displayListItem.txtType.text = "Video";
+                this.displayItems[displayListItem.displayIndex].DisplayVideo(FileBrowser.Result);
+            }
+        }
+
+        private void DisplayListItem_OnImageClick(DisplayListItem displayListItem)
+        {
+            FileBrowser.SetFilters(true, new FileBrowser.Filter("Images", ".jpg", ".png"));
+            FileBrowser.SetDefaultFilter(".png");
+            StartCoroutine(ShowImagePathDialogCoroutine(displayListItem));
+        }
+
+        IEnumerator ShowImagePathDialogCoroutine(DisplayListItem displayListItem)
+        {
+            string path = currentFullProject != null ? currentFullProject.resourcesFolder : "";
+
+            yield return FileBrowser.WaitForLoadDialog(false, path, "Select Image");
+
+            if (FileBrowser.Success)
+            {
+                displayListItem.txtType.text = "Image";
+                this.displayItems[displayListItem.displayIndex].DisplayBackground(FileBrowser.Result);
+            }
+        }
 
         public delegate void projectionSiteLoadedDelegate(ProjectionSites projectionSites);
         public event projectionSiteLoadedDelegate OnProjectionSitesLoaded;

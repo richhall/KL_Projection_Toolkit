@@ -318,12 +318,12 @@ VideoPlayer:
   m_VideoClip: {fileID: 32900000, guid: 1b2b559e784273546b429fcd4c25cecc, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
-  m_TargetCamera: {fileID: 0}
+  m_TargetCamera: {fileID: 8095574765792136919}
   m_TargetTexture: {fileID: 8400000, guid: 86be9a097d182f448be0cae333809d06, type: 2}
   m_TimeReference: 0
   m_TargetMaterialRenderer: {fileID: 0}
   m_TargetMaterialProperty: _MainTex
-  m_RenderMode: 2
+  m_RenderMode: 1
   m_AspectRatio: 2
   m_DataSource: 1
   m_PlaybackSpeed: 1
@@ -510,7 +510,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8095574764280422152}
   - component: {fileID: 8095574764280422150}
-  - component: {fileID: 8095574764280422153}
+  - component: {fileID: 5073855232164765920}
   m_Layer: 5
   m_Name: BG
   m_TagString: Untagged
@@ -545,7 +545,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8095574764280422155}
   m_CullTransparentMesh: 0
---- !u!114 &8095574764280422153
+--- !u!114 &5073855232164765920
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -554,7 +554,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8095574764280422155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -565,16 +565,13 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 8de25f947bd1eef428bca446a2b5432e, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 1
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 2800000, guid: 14f64bc8c837a3e479238c07f210c355, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &8095574764397550779
 GameObject:
   m_ObjectHideFlags: 0
@@ -712,7 +709,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 1
 --- !u!114 &8095574764710771962
 MonoBehaviour:
@@ -959,6 +956,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 1
   isOn: 0
+  canvas: {fileID: 8095574764710771963}
   camera: {fileID: 8095574765792136919}
   objNumber: {fileID: 8095574763804989411}
   objResolution: {fileID: 8095574764984703297}
