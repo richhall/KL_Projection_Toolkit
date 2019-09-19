@@ -10,6 +10,7 @@ using PI.ProjectionToolkit.Models;
 using System.IO;
 using TMPro;
 using UnityEngine.Networking;
+using RockVR.Video;
 
 namespace PI.ProjectionToolkit
 {
@@ -27,6 +28,12 @@ namespace PI.ProjectionToolkit
         public GameObject objCamerasContainer;
         public GameObject prefabCameraItem;
         public GameObject prefabCameraWalkAround;
+
+        public GameObject btnRecord;
+        public GameObject btnStopRecord;
+
+        public VideoCaptureCtrl videoCaptureCtrl;
+
         private Project _project = null;
         public Project CurrentProject
         {
@@ -89,27 +96,13 @@ namespace PI.ProjectionToolkit
             }
         }
 
-        public void LoadProject(Project project)
+        public Project LoadProject(Project project)
         {
+            btnRecord.SetActive(true);
             _project = project;
             SetProjectHud();
             BuildCameras();
-            Debug.Log("DISPLAY COUNT " + Display.displays.Count().ToString());
-            foreach (var d in Display.displays)
-            {
-                Debug.Log("************");
-                Debug.Log("DISPLAY");
-                Debug.Log(d.active);
-                Debug.Log(d.renderingWidth);
-                Debug.Log(d.renderingHeight);
-                Debug.Log("************");
-            }
-            Debug.Log("************");
-            Debug.Log("MAIN DISPLAY");
-            Debug.Log(Display.main.active);
-            Debug.Log(Display.main.renderingWidth);
-            Debug.Log(Display.main.renderingHeight);
-            Debug.Log("************");
+            return _project;
         }
 
         public void SetProjectHud()
@@ -171,17 +164,66 @@ namespace PI.ProjectionToolkit
             gameObject.name = camera.name;
             gameObject.SetActive(false);
             var cameraItem = gameObject.GetComponent<ProjectCameraItem>();
+            cameraItem.SetData(camera, index, this);
             camera.SetTransform(gameObject);
             PrjectCameraHolder holder = new PrjectCameraHolder()
             {
                 camera = camera,
                 cameraContainer = gameObject,
                 cameraItem = cameraItem,
-                cameraListItem = cameraListItem
+                cameraListItem = cameraListItem,
+                projectManager = this
             };
+            holder.Setup();
             //do all the config for the camera
             return holder;
         }
+
+        public bool SetRecordController()
+        {
+            if (videoCaptureCtrl.status == VideoCaptureCtrlBase.StatusType.NOT_START
+                || videoCaptureCtrl.status == VideoCaptureCtrlBase.StatusType.FINISH)
+            {
+                List<VideoCaptureBase> captures = new List<VideoCaptureBase>();
+                int targetDisplay = 4;
+                foreach (var camera in cameras)
+                {
+                    if (camera.cameraItem.setToRecord)
+                    {
+                        camera.cameraContainer.SetActive(true);
+                        camera.cameraItem.camera.targetDisplay = targetDisplay;
+                        captures.Add(camera.cameraItem.videoCapture);
+                        if (targetDisplay < 8) targetDisplay += 1;
+                    } else
+                    {
+                        camera.cameraItem.camera.targetDisplay = 0;
+                        camera.cameraContainer.SetActive(camera.cameraItem.selected);
+                    }
+                }
+                videoCaptureCtrl.videoCaptures = captures.ToArray();
+                return true;
+            }
+            return false;
+        }
+        
+        public void Record()
+        { 
+            switch (videoCaptureCtrl.status)
+            {
+                case VideoCaptureCtrlBase.StatusType.NOT_START:
+                case VideoCaptureCtrlBase.StatusType.FINISH:
+                    videoCaptureCtrl.StartCapture();
+                    btnRecord.SetActive(false);
+                    btnStopRecord.SetActive(true);
+                    break;
+                case VideoCaptureCtrlBase.StatusType.STARTED:
+                    videoCaptureCtrl.StopCapture();
+                    btnRecord.SetActive(true);
+                    btnStopRecord.SetActive(false);
+                    break;
+            }
+        }
+        
 
         public void SetMainCamera()
         {
@@ -202,15 +244,16 @@ namespace PI.ProjectionToolkit
                 for (var x = 0; x < cameras.Count; x++)
                 {
                     cameras[x].cameraItem.CameraSelected(x == index);
+                    cameras[x].cameraListItem.selected = x == index;
                     cameras[x].cameraContainer.SetActive(x == index);
                     if (x == index)
                     {
                         selectedCameraType = cameras[x].camera.cameraType;
-                        cameras[x].cameraListItem.CameraSelected();
+                        cameras[x].cameraListItem.CameraSelected(cameras[x].cameraItem.setToRecord);
                     }
                     else
                     {
-                        cameras[x].cameraListItem.CameraNormal();
+                        cameras[x].cameraListItem.CameraNormal(cameras[x].cameraItem.setToRecord);
                     }
                 }
                 if (selectedCameraType != Models.CameraType.WalkAbout)

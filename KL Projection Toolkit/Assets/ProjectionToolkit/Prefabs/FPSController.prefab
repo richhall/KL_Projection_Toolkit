@@ -302,6 +302,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec1796ac1809dc343b3064674c14284b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selected: 0
+  fps: 1
+  fpsPaused: 0
+  setToRecord: 0
+  videoCapture: {fileID: 4617730324151121322}
+  camera: {fileID: 8747769313482127116}
 --- !u!1 &8747769313482847534
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,6 +320,7 @@ GameObject:
   - component: {fileID: 8747769313482127116}
   - component: {fileID: 8747769313484548908}
   - component: {fileID: 8747769313488463210}
+  - component: {fileID: 4617730324151121322}
   m_Layer: 0
   m_Name: FirstPersonCharacter
   m_TagString: MainCamera
@@ -385,7 +392,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8747769313482847534}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!124 &8747769313488463210
 Behaviour:
   m_ObjectHideFlags: 0
@@ -394,3 +401,32 @@ Behaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8747769313482847534}
   m_Enabled: 1
+--- !u!114 &4617730324151121322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8747769313482847534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0d01430cb7446d4787e1549b55f0a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  format: 0
+  stereo: 0
+  stereoFormat: 1
+  frameSize: 9
+  _cubemapSize: 1
+  panoramaProjection: 0
+  encodeQuality: 1
+  _antiAliasing: 0
+  _targetFramerate: 2
+  isDedicated: 1
+  captureGUI: 1
+  mode: 0
+  customPath: 1
+  customPathFolder: 
+  streamingAddress: 
+  interPupillaryDistance: 0.0635
+  offlineRender: 0

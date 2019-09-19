@@ -31,5 +31,12 @@ namespace PI.ProjectionToolkit.Models
                 return path + @"\resources";
             }
         }
+        public string recordFolder
+        {
+            get
+            {
+                return path + @"\record";
+            }
+        }
     }
 }

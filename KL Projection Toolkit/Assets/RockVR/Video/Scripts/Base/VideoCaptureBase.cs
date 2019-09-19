@@ -146,6 +146,8 @@ namespace RockVR.Video
             /// </summary>
             _7680x4320,
             // Add your custom resolution here (modify frameWidth, frameHeight accordingly):
+            _1024x768,
+            // Add your custom resolution here (modify frameWidth, frameHeight accordingly):
         }
         /// <summary>
         /// Cubemap size type.
@@ -280,6 +282,7 @@ namespace RockVR.Video
                         if (frameSize == FrameSizeType._3840x2160) { width = 3840; }
                         if (frameSize == FrameSizeType._4096x2160) { width = 4096; }
                         if (frameSize == FrameSizeType._7680x4320) { width = 7680; }
+                        if (frameSize == FrameSizeType._1024x768) { width = 1024; }
                         if (stereo == StereoType.LEFT_RIGHT && stereoFormat == StereoFormatType.FULL) { width *= 2; }
                     }
                 }
@@ -325,6 +328,7 @@ namespace RockVR.Video
                         if (frameSize == FrameSizeType._3840x2160 ||
                             frameSize == FrameSizeType._4096x2160) { height = 2160; }
                         if (frameSize == FrameSizeType._7680x4320) { height = 4320; }
+                        if (frameSize == FrameSizeType._1024x768) { height = 768; }
                         if (stereo == StereoType.TOP_BOTTOM && stereoFormat == StereoFormatType.FULL) { height *= 2; }
                     }
                 }

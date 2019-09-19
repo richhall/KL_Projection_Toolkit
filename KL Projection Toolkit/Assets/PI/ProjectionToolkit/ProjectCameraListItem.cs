@@ -22,6 +22,7 @@ namespace PI.ProjectionToolkit
         public bool selected;
         private int index = 0;
         private Models.Camera _camera;
+        public bool setToRecord = false;
 
         void Start()
         {
@@ -62,14 +63,18 @@ namespace PI.ProjectionToolkit
             imgBackground.sprite = imgBackgroundNormal;
         }
 
-        public void CameraNormal()
+        public delegate void projectCameraListItemDelegate();
+        public event projectCameraListItemDelegate OnRecordClick;
+        public event projectCameraListItemDelegate OnStopRecordClick;
+
+        public void CameraNormal(bool setToRecord)
         {
-            imgBackground.sprite = imgBackgroundNormal;
+            imgBackground.sprite = setToRecord ? imgBackgroundRecording : imgBackgroundNormal;
         }
 
-        public void CameraSelected()
+        public void CameraSelected(bool setToRecord)
         {
-            imgBackground.sprite = imgBackgroundSelected;
+            imgBackground.sprite = setToRecord ? imgBackgroundRecording : imgBackgroundSelected;
         }
 
         public void CameraRecording()
@@ -82,5 +87,14 @@ namespace PI.ProjectionToolkit
             _projectManager.SetCamera(index);
         }
 
+        public void OnRecordButtonClick()
+        {
+            if (OnRecordClick != null) OnRecordClick();
+        }
+
+        public void OnStopRecordButtonClick()
+        {
+            if (OnStopRecordClick != null) OnStopRecordClick();
+        }
     }
 }

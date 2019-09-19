@@ -29,13 +29,15 @@ namespace PI.ProjectionToolkit
 
         private void InitDisplays()
         {
-
             objDisplayButton.SetActive(displayCount > 1);
             objNextButton.SetActive(displayCount > 1);
             objLaunchButton.SetActive(displayCount == 1);
             objDisplay2.SetActive(displayCount > 1);
             objDisplay3.SetActive(displayCount > 2);
             objDisplay4.SetActive(displayCount > 3);
+            objToggle2.isOn = UnityEditor.EditorApplication.isPlaying;
+            objToggle3.isOn = UnityEditor.EditorApplication.isPlaying;
+            objToggle4.isOn = UnityEditor.EditorApplication.isPlaying;
         }
 
         void Update()

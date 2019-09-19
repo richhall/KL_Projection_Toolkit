@@ -56,6 +56,7 @@ namespace PI.ProjectionToolkit
 
         public void Awake()
         {
+            
             Load();
             AudioListener.volume = 0.5f;
         }
@@ -432,8 +433,9 @@ namespace PI.ProjectionToolkit
                 if (!Directory.Exists(project.path)) Directory.CreateDirectory(project.path);
                 if (!Directory.Exists(project.resourcesFolder)) Directory.CreateDirectory(project.resourcesFolder);
                 if (!Directory.Exists(project.siteResourcesFolder)) Directory.CreateDirectory(project.siteResourcesFolder);
+                if (!Directory.Exists(project.recordFolder)) Directory.CreateDirectory(project.recordFolder);
                 //copy site resources over
-                foreach(string siteResource in project.projectionSite.projectResources)
+                foreach (string siteResource in project.projectionSite.projectResources)
                 {
                     string siteFile = _rootPath + projectionSitesFolder + @"\" + project.projectionSite.folder + @"\" + siteResource;
                     var projectFile = project.siteResourcesFolder + @"\" + siteResource;
@@ -501,7 +503,9 @@ namespace PI.ProjectionToolkit
                     //load projection site
                     var site = this.projectionSites.sites.FirstOrDefault(f => f.id == p.projectionSite.id);
                     if (site != null) p.projectionSite = site;
-                    projectManager.LoadProject(p);
+                    currentFullProject = projectManager.LoadProject(p);
+                    FileBrowser.AddQuickLink("Project", currentFullProject.path, null);
+                    FileBrowser.AddQuickLink("Site", _rootPath + projectionSitesFolder + @"\" + currentFullProject.projectionSite.folder, null);
                     //build display list items
                     foreach (Transform child in objDisplayList.transform) Destroy(child.gameObject);
                     foreach(var display in displayItems)
@@ -541,7 +545,7 @@ namespace PI.ProjectionToolkit
 
         IEnumerator ShowVideoPathDialogCoroutine(DisplayListItem displayListItem)
         {
-            string path = currentFullProject != null ? currentFullProject.resourcesFolder : "";
+            string path = currentFullProject != null ? currentFullProject.path : "";
 
             yield return FileBrowser.WaitForLoadDialog(false, path, "Select Video");
 
@@ -561,7 +565,7 @@ namespace PI.ProjectionToolkit
 
         IEnumerator ShowImagePathDialogCoroutine(DisplayListItem displayListItem)
         {
-            string path = currentFullProject != null ? currentFullProject.resourcesFolder : "";
+            string path = currentFullProject != null ? currentFullProject.path : "";
 
             yield return FileBrowser.WaitForLoadDialog(false, path, "Select Image");
 
