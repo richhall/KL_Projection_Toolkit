@@ -35,7 +35,7 @@ namespace PI.ProjectionToolkit.Models
         {
             get
             {
-                return path + @"\record";
+                return path + @"\recordings";
             }
         }
     }

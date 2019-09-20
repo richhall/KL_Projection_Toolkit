@@ -54,6 +54,11 @@ namespace PI.ProjectionToolkit
 
         private List<PrjectCameraHolder> cameras = new List<PrjectCameraHolder>();
 
+        private void Awake()
+        {
+            Application.runInBackground = true;
+        }
+
         private void Start()
         {
             animRecordingPanel = objRecordingPanel.GetComponent<Animator>();
@@ -62,9 +67,9 @@ namespace PI.ProjectionToolkit
         private VideoCaptureCtrlBase.StatusType lastRecordingStatus = VideoCaptureCtrlBase.StatusType.NOT_START;
         private void Update()
         {
-            if(lastRecordingStatus != videoCaptureCtrl.status)
+            if(lastRecordingStatus != VideoCaptureCtrl.instance.status)
             {
-                switch (videoCaptureCtrl.status)
+                switch (VideoCaptureCtrl.instance.status)
                 {
                     case VideoCaptureCtrlBase.StatusType.STARTED:
                         txtRecordingTitle.text = "RECORDING";
@@ -88,9 +93,9 @@ namespace PI.ProjectionToolkit
                         animRecordingPanel.Play("Recording Out");
                         break;
                 }
-                lastRecordingStatus = videoCaptureCtrl.status;
+                lastRecordingStatus = VideoCaptureCtrl.instance.status;
             }
-            if(videoCaptureCtrl.status == VideoCaptureCtrlBase.StatusType.STARTED &&  activeVideoCapture != null)
+            if(VideoCaptureCtrl.instance.status == VideoCaptureCtrlBase.StatusType.STARTED &&  activeVideoCapture != null)
             {
                 txtRecordingTimer.text = "FRAME COUNT: " + activeVideoCapture.getEncodedFrameCount.ToString();
             }
@@ -138,6 +143,7 @@ namespace PI.ProjectionToolkit
 
         public Project LoadProject(Project project)
         {
+            RockVR.Video.PathConfig.SaveFolder = project.recordFolder + "/";
             btnRecord.SetActive(true);
             _project = project;
             SetProjectHud();
@@ -221,8 +227,8 @@ namespace PI.ProjectionToolkit
 
         public bool SetRecordController()
         {
-            if (videoCaptureCtrl.status == VideoCaptureCtrlBase.StatusType.NOT_START
-                || videoCaptureCtrl.status == VideoCaptureCtrlBase.StatusType.FINISH)
+            if (VideoCaptureCtrl.instance.status == VideoCaptureCtrlBase.StatusType.NOT_START
+                || VideoCaptureCtrl.instance.status == VideoCaptureCtrlBase.StatusType.FINISH)
             {
                 activeVideoCapture = null;
                 List<VideoCaptureBase> captures = new List<VideoCaptureBase>();
@@ -243,7 +249,7 @@ namespace PI.ProjectionToolkit
                         camera.cameraItem.objRecordingCamera.SetActive(false);
                     }
                 }
-                videoCaptureCtrl.videoCaptures = captures.ToArray();
+                VideoCaptureCtrl.instance.videoCaptures = captures.ToArray();
                 return true;
             }
             return false;
@@ -251,16 +257,16 @@ namespace PI.ProjectionToolkit
         
         public void Record()
         { 
-            switch (videoCaptureCtrl.status)
+            switch (VideoCaptureCtrl.instance.status)
             {
                 case VideoCaptureCtrlBase.StatusType.NOT_START:
                 case VideoCaptureCtrlBase.StatusType.FINISH:
-                    videoCaptureCtrl.StartCapture();
+                    VideoCaptureCtrl.instance.StartCapture();
                     btnRecord.SetActive(false);
                     btnStopRecord.SetActive(true);
                     break;
                 case VideoCaptureCtrlBase.StatusType.STARTED:
-                    videoCaptureCtrl.StopCapture();
+                    VideoCaptureCtrl.instance.StopCapture();
                     btnRecord.SetActive(true);
                     btnStopRecord.SetActive(false);
                     break;

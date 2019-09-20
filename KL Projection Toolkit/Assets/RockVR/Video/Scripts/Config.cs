@@ -24,13 +24,13 @@ namespace RockVR.Video
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
                 if (saveFolder == "")
                 {
-                    saveFolder = persistentDataPath + "/RockVR/Video/";
+                    saveFolder = persistentDataPath + "/ProjectionToolkit/Recordings/";
                 }
                 return SaveFolder;
 #else
                 if (saveFolder == "")
                 {
-                    saveFolder = myDocumentsPath + "/RockVR/Video/";
+                    saveFolder = myDocumentsPath + "/ProjectionToolkit/Recordings/";
                 }
                 return saveFolder;
 #endif

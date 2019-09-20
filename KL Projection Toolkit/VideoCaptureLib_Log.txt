@@ -1,7 +1,5 @@
-[LOG]: [FFmpegLib]: DEST URL: C:\Users\petec\Documents/RockVR/Video/2019-09-20-09-48-58-7RBQ8.mp4
-[LOG]: [FFmpegLib]: Build command: "D:/Art/KL_Projection_Toolkit/KL Projection Toolkit/Builds/Standalone/Projection Toolkit_Data/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f rawvideo -pix_fmt rgb24 -r 30 -s 1024x768 -i - -y -preset ultrafast -pix_fmt yuv420p -vcodec libx264 -crf 18 -vf vflip -framerate 30 -tune zerolatency "C:\Users\petec\Documents/RockVR/Video/2019-09-20-09-48-58-7RBQ8.mp4"
-[LOG]: [FFmpegLib]: DEST URL: C:\Users\petec\Documents/RockVR/Video/2019-09-20-09-48-59-ZEK6S.mp4
-[LOG]: [FFmpegLib]: Build command: "D:/Art/KL_Projection_Toolkit/KL Projection Toolkit/Builds/Standalone/Projection Toolkit_Data/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f rawvideo -pix_fmt rgb24 -r 30 -s 1024x768 -i - -y -preset ultrafast -pix_fmt yuv420p -vcodec libx264 -crf 18 -vf vflip -framerate 30 -tune zerolatency "C:\Users\petec\Documents/RockVR/Video/2019-09-20-09-48-59-ZEK6S.mp4"
+[LOG]: [FFmpegLib]: DEST URL: C:\Users\petec\AppData\LocalLow\PI And Mash\Projection Toolkit\projects\box test\recordings/2019-09-20-19-01-50-QFEWI.mp4
+[LOG]: [FFmpegLib]: Build command: "D:/Art/KL_Projection_Toolkit/KL Projection Toolkit/Builds/Standalone/Projection Toolkit_Data/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f rawvideo -pix_fmt rgb24 -r 30 -s 1024x768 -i - -y -preset ultrafast -pix_fmt yuv420p -vcodec libx264 -crf 18 -vf vflip -framerate 30 -tune zerolatency "C:\Users\petec\AppData\LocalLow\PI And Mash\Projection Toolkit\projects\box test\recordings/2019-09-20-19-01-50-QFEWI.mp4"
 [LOG]: [FFmpegLib]: Write data bytes: 2359296
 [LOG]: [FFmpegLib]: Write data bytes: 2359296
 [LOG]: [FFmpegLib]: Write data bytes: 2359296
@@ -418,6 +416,10 @@
 [LOG]: [FFmpegLib]: Write data bytes: 2359296
 [LOG]: [FFmpegLib]: Write data bytes: 2359296
 [LOG]: [FFmpegLib]: Write data bytes: 2359296
+[LOG]: [FFmpegLib]: DEST URL: D:\Art\KL_Projection_Toolkit\KL Projection Toolkit\Builds\Standalone\\projects\test\recordings/2019-09-20-19-04-04-FG8OX.mp4
+[LOG]: [FFmpegLib]: Build command: "D:/Art/KL_Projection_Toolkit/KL Projection Toolkit/Builds/Standalone/Projection Toolkit_Data/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f rawvideo -pix_fmt rgb24 -r 30 -s 1024x768 -i - -y -preset ultrafast -pix_fmt yuv420p -vcodec libx264 -crf 18 -vf vflip -framerate 30 -tune zerolatency "D:\Art\KL_Projection_Toolkit\KL Projection Toolkit\Builds\Standalone\\projects\test\recordings/2019-09-20-19-04-04-FG8OX.mp4"
+[LOG]: [FFmpegLib]: DEST URL: D:\Art\KL_Projection_Toolkit\KL Projection Toolkit\Builds\Standalone\\projects\test\recordings/2019-09-20-19-04-39-WUQF1.mp4
+[LOG]: [FFmpegLib]: Build command: "D:/Art/KL_Projection_Toolkit/KL Projection Toolkit/Builds/Standalone/Projection Toolkit_Data/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f rawvideo -pix_fmt rgb24 -r 30 -s 1024x768 -i - -y -preset ultrafast -pix_fmt yuv420p -vcodec libx264 -crf 18 -vf vflip -framerate 30 -tune zerolatency "D:\Art\KL_Projection_Toolkit\KL Projection Toolkit\Builds\Standalone\\projects\test\recordings/2019-09-20-19-04-39-WUQF1.mp4"
 [LOG]: [FFmpegLib]: Write data bytes: 2359296
 [LOG]: [FFmpegLib]: Write data bytes: 2359296
 [LOG]: [FFmpegLib]: Write data bytes: 2359296
@@ -582,6 +584,14 @@
 [LOG]: [FFmpegLib]: Write data bytes: 2359296
 [LOG]: [FFmpegLib]: Write data bytes: 2359296
 [LOG]: [FFmpegLib]: Write data bytes: 2359296
+[LOG]: [FFmpegLib]: Write data bytes: 2359296
+[LOG]: [FFmpegLib]: Write data bytes: 2359296
+[LOG]: [FFmpegLib]: Write data bytes: 2359296
+[LOG]: [FFmpegLib]: Write data bytes: 2359296
+[LOG]: [FFmpegLib]: Write data bytes: 2359296
+[LOG]: [FFmpegLib]: Write data bytes: 2359296
+[LOG]: [FFmpegLib]: DEST URL: D:\Art\KL_Projection_Toolkit\KL Projection Toolkit\Builds\Standalone\\projects\test\recordings/2019-09-20-19-04-58-TOXG6.mp4
+[LOG]: [FFmpegLib]: Build command: "D:/Art/KL_Projection_Toolkit/KL Projection Toolkit/Builds/Standalone/Projection Toolkit_Data/StreamingAssets/RockVR/FFmpeg/Windows/ffmpeg.exe" -f rawvideo -pix_fmt rgb24 -r 30 -s 1024x768 -i - -y -preset ultrafast -pix_fmt yuv420p -vcodec libx264 -crf 18 -vf vflip -framerate 30 -tune zerolatency "D:\Art\KL_Projection_Toolkit\KL Projection Toolkit\Builds\Standalone\\projects\test\recordings/2019-09-20-19-04-58-TOXG6.mp4"
 [LOG]: [FFmpegLib]: Write data bytes: 2359296
 [LOG]: [FFmpegLib]: Write data bytes: 2359296
 [LOG]: [FFmpegLib]: Write data bytes: 2359296
