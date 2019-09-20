@@ -25,14 +25,14 @@ namespace PI.ProjectionToolkit
         {
             cameraItem.setToRecord = false;
             cameraItem.setToRecord = !projectManager.SetRecordController();
-            if (!cameraItem.setToRecord) cameraListItem.CameraNormal(cameraListItem.selected);
+            //if (!cameraItem.setToRecord) cameraListItem.CameraNormal();
         }
 
         private void CameraListItem_OnRecordClick()
         {
             cameraItem.setToRecord = true;
             cameraItem.setToRecord = projectManager.SetRecordController();
-            if(cameraItem.setToRecord) cameraListItem.CameraRecording();
+            //if(cameraItem.setToRecord) cameraListItem.CameraRecording();
         }
     }
     

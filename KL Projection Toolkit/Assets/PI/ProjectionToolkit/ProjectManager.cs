@@ -34,6 +34,12 @@ namespace PI.ProjectionToolkit
 
         public VideoCaptureCtrl videoCaptureCtrl;
 
+        public GameObject objRecordingPanel;
+        public TextMeshProUGUI txtRecordingTitle;
+        public TextMeshProUGUI txtRecordingTimer;
+        private Animator animRecordingPanel;
+        private VideoCapture activeVideoCapture;
+
         private Project _project = null;
         public Project CurrentProject
         {
@@ -50,10 +56,44 @@ namespace PI.ProjectionToolkit
 
         private void Start()
         {
+            animRecordingPanel = objRecordingPanel.GetComponent<Animator>();
         }
 
+        private VideoCaptureCtrlBase.StatusType lastRecordingStatus = VideoCaptureCtrlBase.StatusType.NOT_START;
         private void Update()
         {
+            if(lastRecordingStatus != videoCaptureCtrl.status)
+            {
+                switch (videoCaptureCtrl.status)
+                {
+                    case VideoCaptureCtrlBase.StatusType.STARTED:
+                        txtRecordingTitle.text = "RECORDING";
+                        animRecordingPanel.Play("Recording In");
+                        break;
+                    case VideoCaptureCtrl.StatusType.STOPPED:
+                        txtRecordingTitle.text = "PROCESSING";
+                        //processing
+                        animRecordingPanel.Play("Recording In");
+                        break;
+                    case VideoCaptureCtrl.StatusType.PAUSED:
+                        txtRecordingTitle.text = "PAUSED";
+                        //processing
+                        animRecordingPanel.Play("Recording In");
+                        break;
+                    case VideoCaptureCtrl.StatusType.NOT_START:
+                        break;
+                    case VideoCaptureCtrl.StatusType.FINISH:
+                        txtRecordingTitle.text = "COMPLETE";
+                        //processing
+                        animRecordingPanel.Play("Recording Out");
+                        break;
+                }
+                lastRecordingStatus = videoCaptureCtrl.status;
+            }
+            if(videoCaptureCtrl.status == VideoCaptureCtrlBase.StatusType.STARTED &&  activeVideoCapture != null)
+            {
+                txtRecordingTimer.text = "FRAME COUNT: " + activeVideoCapture.getEncodedFrameCount.ToString();
+            }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 SetCamera(0);
@@ -162,7 +202,7 @@ namespace PI.ProjectionToolkit
             }
             var gameObject = Instantiate(prefab, objCamerasContainer.transform);
             gameObject.name = camera.name;
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
             var cameraItem = gameObject.GetComponent<ProjectCameraItem>();
             cameraItem.SetData(camera, index, this);
             camera.SetTransform(gameObject);
@@ -184,20 +224,23 @@ namespace PI.ProjectionToolkit
             if (videoCaptureCtrl.status == VideoCaptureCtrlBase.StatusType.NOT_START
                 || videoCaptureCtrl.status == VideoCaptureCtrlBase.StatusType.FINISH)
             {
+                activeVideoCapture = null;
                 List<VideoCaptureBase> captures = new List<VideoCaptureBase>();
                 int targetDisplay = 4;
                 foreach (var camera in cameras)
                 {
+                    camera.cameraListItem.setToRecord = camera.cameraItem.setToRecord;
                     if (camera.cameraItem.setToRecord)
                     {
-                        camera.cameraContainer.SetActive(true);
-                        camera.cameraItem.camera.targetDisplay = targetDisplay;
+                        camera.cameraItem.objRecordingCamera.SetActive(true);
+                        camera.cameraItem.recordingCamera.targetDisplay = targetDisplay;
                         captures.Add(camera.cameraItem.videoCapture);
+                        if (activeVideoCapture == null) activeVideoCapture = camera.cameraItem.videoCapture;
                         if (targetDisplay < 8) targetDisplay += 1;
                     } else
                     {
-                        camera.cameraItem.camera.targetDisplay = 0;
-                        camera.cameraContainer.SetActive(camera.cameraItem.selected);
+                        //camera.cameraItem.camera.targetDisplay = 0;
+                        camera.cameraItem.objRecordingCamera.SetActive(false);
                     }
                 }
                 videoCaptureCtrl.videoCaptures = captures.ToArray();
@@ -229,7 +272,7 @@ namespace PI.ProjectionToolkit
         {
             for (var x = 0; x < cameras.Count; x++)
             {
-                cameras[x].cameraContainer.SetActive(false);
+                cameras[x].cameraItem.objCamera.SetActive(false);
             }
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -245,15 +288,15 @@ namespace PI.ProjectionToolkit
                 {
                     cameras[x].cameraItem.CameraSelected(x == index);
                     cameras[x].cameraListItem.selected = x == index;
-                    cameras[x].cameraContainer.SetActive(x == index);
+                    cameras[x].cameraItem.objCamera.SetActive(x == index);
                     if (x == index)
                     {
                         selectedCameraType = cameras[x].camera.cameraType;
-                        cameras[x].cameraListItem.CameraSelected(cameras[x].cameraItem.setToRecord);
+                        //cameras[x].cameraListItem.CameraSelected();
                     }
                     else
                     {
-                        cameras[x].cameraListItem.CameraNormal(cameras[x].cameraItem.setToRecord);
+                        //cameras[x].cameraListItem.CameraNormal();
                     }
                 }
                 if (selectedCameraType != Models.CameraType.WalkAbout)

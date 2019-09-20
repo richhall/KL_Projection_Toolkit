@@ -19,8 +19,11 @@ namespace PI.ProjectionToolkit
         public bool fps = false;
         public bool fpsPaused = false;
         public bool setToRecord = false;
-        public VideoCapture videoCapture;
+        public GameObject objCamera;
+        public GameObject objRecordingCamera;
         public UnityEngine.Camera camera;
+        public UnityEngine.Camera recordingCamera;
+        public VideoCapture videoCapture;
 
         private void Start()
         {
@@ -43,24 +46,24 @@ namespace PI.ProjectionToolkit
         private void SetupVideoCapture()
         {            
             if (!System.IO.Directory.Exists(_projectManager.CurrentProject.recordFolder)) System.IO.Directory.CreateDirectory(_projectManager.CurrentProject.recordFolder);
-            videoCapture.customPath = true;
-            videoCapture.customPathFolder = _projectManager.CurrentProject.recordFolder;
+            //videoCapture.customPath = true;
+            //videoCapture.customPathFolder = _projectManager.CurrentProject.recordFolder;
         }
 
-        public void StartVideoCapture()
-        {
-            if (setToRecord)
-            {
-                //camera.targetDisplay = 5;
-                videoCapture.StartCapture();
-            }
-        }
+        //public void StartVideoCapture()
+        //{
+        //    if (setToRecord)
+        //    {
+        //        //camera.targetDisplay = 5;
+        //        videoCapture.StartCapture();
+        //    }
+        //}
 
-        public void StopVideoCapture()
-        {
-            //camera.targetDisplay = 1;
-            if (videoCapture.status == VideoCaptureCtrlBase.StatusType.STARTED) videoCapture.StopCapture();
-        }
+        //public void StopVideoCapture()
+        //{
+        //    //camera.targetDisplay = 1;
+        //    if (videoCapture.status == VideoCaptureCtrlBase.StatusType.STARTED) videoCapture.StopCapture();
+        //}
 
         private void Update()
         {
@@ -74,7 +77,8 @@ namespace PI.ProjectionToolkit
         public void CameraSelected(bool selected)
         {
             this.selected = selected;
-            this.camera.targetDisplay = 0;
+            objCamera.SetActive(selected);
+            //this.camera.targetDisplay = 0;
             if (selected) fpsPaused = false;
             SetFpsCameraSelected();
         }

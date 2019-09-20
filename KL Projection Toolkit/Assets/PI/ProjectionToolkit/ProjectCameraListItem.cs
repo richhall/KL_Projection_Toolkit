@@ -16,6 +16,7 @@ namespace PI.ProjectionToolkit
         public Sprite imgBackgroundRecording;
         public Sprite imgBackgroundNormal;
         public Sprite imgBackgroundSelected;
+        public Sprite imgBackgroundSelectedRecording;
         public Sprite imgProjector;
         public Sprite imgCamera;
         public Sprite imgWalkAround;
@@ -23,9 +24,33 @@ namespace PI.ProjectionToolkit
         private int index = 0;
         private Models.Camera _camera;
         public bool setToRecord = false;
+        public GameObject objSetToRecord;
+        public GameObject objStopRecord;
 
         void Start()
         {
+            Setup();
+        }
+
+        private bool lastSelected = false;
+        private bool lastSetToRecord = false;
+        private void Update()
+        {
+            if(lastSelected != selected || lastSetToRecord != setToRecord)
+            {
+                Setup();
+            }
+        }
+
+        public void Setup()
+        {
+            //reset active buttons
+            //objSetToRecord.SetActive(!setToRecord);
+            //objStopRecord.SetActive(setToRecord);
+            //set the image
+            imgBackground.sprite = setToRecord ? selected ? imgBackgroundSelectedRecording : imgBackgroundRecording : selected ? imgBackgroundSelected : imgBackgroundNormal;
+            lastSelected = selected;
+            lastSetToRecord = setToRecord;
         }
 
         //public void SetWalkAbout(int index, ProjectManager projectManager)
@@ -67,20 +92,20 @@ namespace PI.ProjectionToolkit
         public event projectCameraListItemDelegate OnRecordClick;
         public event projectCameraListItemDelegate OnStopRecordClick;
 
-        public void CameraNormal(bool setToRecord)
-        {
-            imgBackground.sprite = setToRecord ? imgBackgroundRecording : imgBackgroundNormal;
-        }
+        //public void CameraNormal()
+        //{
+        //    imgBackground.sprite = setToRecord ? imgBackgroundRecording : imgBackgroundNormal;
+        //}
 
-        public void CameraSelected(bool setToRecord)
-        {
-            imgBackground.sprite = setToRecord ? imgBackgroundRecording : imgBackgroundSelected;
-        }
+        //public void CameraSelected()
+        //{
+        //    imgBackground.sprite = selected ? imgBackgroundRecording : imgBackgroundSelected;
+        //}
 
-        public void CameraRecording()
-        {
-            imgBackground.sprite = imgBackgroundRecording;
-        }
+        //public void CameraRecording()
+        //{
+        //    imgBackground.sprite = imgBackgroundRecording;
+        //}
 
         public void OnButtonClick()
         {

@@ -116,6 +116,10 @@ namespace RockVR.Video
         /// </summary>
         private int capturedFrameCount;
         private int encodedFrameCount;
+        public int getEncodedFrameCount
+        {
+            get { return encodedFrameCount; }
+        }
         /// <summary>
         /// Reference to native lib API.
         /// </summary>

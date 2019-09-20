@@ -20,12 +20,25 @@ namespace PI.ProjectionToolkit
         public GameObject prefabDisplay;
         private int displayCount = 1;
         public Canvas mainCanvas;
+        private bool callActivate = true;
 
+#if UNITY_EDITOR
         void Start()
         {
-            displayCount = UnityEditor.EditorApplication.isPlaying ? 4 : Display.displays.Length;
+            displayCount = 4;
+            InitDisplays();
+            objToggle2.isOn = true;
+            objToggle3.isOn = true;
+            objToggle4.isOn = true;
+            callActivate = false;
+        }
+#else
+        void Start()
+        {
+            displayCount = Display.displays.Length;
             InitDisplays();
         }
+#endif
 
         private void InitDisplays()
         {
@@ -35,15 +48,18 @@ namespace PI.ProjectionToolkit
             objDisplay2.SetActive(displayCount > 1);
             objDisplay3.SetActive(displayCount > 2);
             objDisplay4.SetActive(displayCount > 3);
-            objToggle2.isOn = UnityEditor.EditorApplication.isPlaying;
-            objToggle3.isOn = UnityEditor.EditorApplication.isPlaying;
-            objToggle4.isOn = UnityEditor.EditorApplication.isPlaying;
         }
 
         void Update()
         {
         }
 
+#if UNITY_EDITOR
+        public void SetDisplays()
+        {
+            
+        }
+#else
         public void SetDisplays()
         {
             //clear the gameobject
@@ -62,7 +78,7 @@ namespace PI.ProjectionToolkit
 
                 multiDisplay = true;
                 //Display.displays[1].SetParams(Display.displays[1].systemWidth, Display.displays[1].systemHeight, 0, 0); //windows only
-                if(!UnityEditor.EditorApplication.isPlaying) Display.displays[1].Activate();
+                if(callActivate) Display.displays[1].Activate();
             }
             if (displayCount > 2 && objToggle3.isOn)
             {
@@ -74,7 +90,7 @@ namespace PI.ProjectionToolkit
 
                 multiDisplay = true;
                 //Display.displays[2].SetParams(Display.displays[2].systemWidth, Display.displays[2].systemHeight, 0, 0); //windows only
-                if (!UnityEditor.EditorApplication.isPlaying) Display.displays[2].Activate();
+                if (callActivate) Display.displays[2].Activate();
             }
             if (displayCount > 3 && objToggle4.isOn)
             {
@@ -86,7 +102,7 @@ namespace PI.ProjectionToolkit
 
                 multiDisplay = true;
                 //Display.displays[3].SetParams(Display.displays[3].systemWidth, Display.displays[3].systemHeight, 0, 0); //windows only
-                if (!UnityEditor.EditorApplication.isPlaying) Display.displays[3].Activate();
+                if (!callActivate) Display.displays[3].Activate();
             }
             if (multiDisplay)
             {
@@ -98,6 +114,7 @@ namespace PI.ProjectionToolkit
             }
         }
 
+#endif
 
     }
 }

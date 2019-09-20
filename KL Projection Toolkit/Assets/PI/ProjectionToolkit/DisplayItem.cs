@@ -47,15 +47,14 @@ namespace PI.ProjectionToolkit
             if (isOn)
             {
                 txtNumber.text = (index + 1).ToString();
-                if (UnityEditor.EditorApplication.isPlaying)
-                {
-                    txtResolution.text = Screen.currentResolution.width.ToString() + " x " + Screen.currentResolution.height.ToString();
-                    txtResolutionScreen.text = Screen.currentResolution.width.ToString() + " x " + Screen.currentResolution.height.ToString();
-                }
-                else
+                try
                 {
                     txtResolution.text = Display.displays[index].renderingWidth.ToString() + " x " + Display.displays[index].renderingHeight.ToString();
                     txtResolutionScreen.text = Display.displays[index].systemWidth.ToString() + " x " + Display.displays[index].systemHeight.ToString();
+                }
+                catch
+                {
+                    //ignore as in editor and isOn set to true when display doesn't exist
                 }
                 camera.targetDisplay = index;
                 imgVideo.texture = videoTextures[index - 1];
