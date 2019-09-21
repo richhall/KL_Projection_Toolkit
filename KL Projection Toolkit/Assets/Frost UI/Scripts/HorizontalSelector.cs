@@ -23,11 +23,20 @@ namespace Michsky.UI.ModernUIPack
         [Header("EVENT")]
         public UnityEvent onValueChanged;
 
+        public string selectedElement;
+
         void Start()
         {
             selectorAnimator = gameObject.GetComponent<Animator>();
             label = transform.Find("Text").GetComponent<TextMeshProUGUI>();
             labeHelper = transform.Find("Text Helper").GetComponent<TextMeshProUGUI>();
+            label.text = elements[defaultIndex];
+            labeHelper.text = label.text;
+        }
+
+        public void SetElements(List<string> newElements)
+        {
+            elements = newElements;
             label.text = elements[defaultIndex];
             labeHelper.text = label.text;
         }
@@ -48,6 +57,7 @@ namespace Michsky.UI.ModernUIPack
 
             onValueChanged.Invoke();
             label.text = elements[index];
+            selectedElement = elements[index];
 
             selectorAnimator.Play(null);
             selectorAnimator.StopPlayback();
@@ -70,6 +80,7 @@ namespace Michsky.UI.ModernUIPack
 
             onValueChanged.Invoke();
             label.text = elements[index];
+            selectedElement = elements[index];
 
             selectorAnimator.Play(null);
             selectorAnimator.StopPlayback();

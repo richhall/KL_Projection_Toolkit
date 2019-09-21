@@ -17,6 +17,7 @@ namespace PI.ProjectionToolkit
         public UnityEngine.UI.Image imgIcon;
         public UnityEngine.UI.Image imgBackground;
         public GameObject objModel;
+        public ModelItem modelItem;
         public string targetMaterialProperty;
 
         public Sprite[] sprites;
@@ -31,13 +32,15 @@ namespace PI.ProjectionToolkit
             SetBackground();
         }
 
-        public void SetData(string name, string type, GameObject model, string targetMaterial)
+        public void SetData(string name, string type, GameObject model, string targetMaterial, GameObject prefabSpoutReceiver)
         {
             txtName.text = name;
             txtType.text = name;
             objModel = model;
             targetMaterialProperty = targetMaterial;
             SetBackground();
+            if (objModel != null) modelItem = objModel.GetComponent<ModelItem>();
+            if (modelItem != null) modelItem.prefabSpoutReceiver = prefabSpoutReceiver;
         }
 
         public void MaterialClick()

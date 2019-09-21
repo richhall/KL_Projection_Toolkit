@@ -11,6 +11,9 @@ using System.IO;
 using TMPro;
 using UnityEngine.Networking;
 using RockVR.Video;
+using SimpleFileBrowser;
+using Klak.Spout;
+using Michsky.UI.ModernUIPack;
 
 namespace PI.ProjectionToolkit
 {
@@ -43,6 +46,9 @@ namespace PI.ProjectionToolkit
         public TextMeshProUGUI txtRecordingTimer;
         private Animator animRecordingPanel;
         private VideoCapture activeVideoCapture;
+        public UnityEngine.UI.Button btnSpoutModal;
+        public HorizontalSelector spoutSelector;
+        public GameObject prefabSpoutReceiver;
 
         private Project _project = null;
         public Project CurrentProject
@@ -347,10 +353,67 @@ namespace PI.ProjectionToolkit
                 //add list item
                 var listItem = Instantiate(prefab, objModelList.transform);
                 var modelListItem = listItem.GetComponent<ModelListItem>();
-                modelListItem.SetData(model.name, model.name, objModel, model.targetMaterialProperty);
-                
+                modelListItem.SetData(model.name, model.name, objModel, model.targetMaterialProperty, prefabSpoutReceiver);
+                modelListItem.OnSpoutClick += ModelListItem_OnSpoutClick;
+                modelListItem.OnMaterialClick += ModelListItem_OnMaterialClick;
+                modelListItem.OnVideoClick += ModelListItem_OnVideoClick;
             }
             SetCamera(defaultIndex);
+        }
+
+        private void ModelListItem_OnVideoClick(ModelListItem listItem)
+        {
+            if (listItem.modelItem != null)
+            {
+                FileBrowser.SetFilters(true, new FileBrowser.Filter("Videos", ".mp4", ".mov"));
+                FileBrowser.SetDefaultFilter(".mp4");
+                StartCoroutine(ShowVideoPathDialogCoroutine(listItem));
+            }
+        }
+
+        IEnumerator ShowVideoPathDialogCoroutine(ModelListItem listItem)
+        {
+            yield return FileBrowser.WaitForLoadDialog(false, CurrentProject.path, "Select Video");
+
+            if (FileBrowser.Success)
+            {
+                listItem.modelItem.SetVideo(FileBrowser.Result);
+            }
+        }
+
+        private void ModelListItem_OnMaterialClick(ModelListItem listItem)
+        {
+            var modelItem = listItem.objModel.GetComponent<ModelItem>();
+            if (modelItem != null)
+            {
+                modelItem.SetMaterial();
+            }
+        }
+
+        private ModelListItem tmpModelListItem;
+        private void ModelListItem_OnSpoutClick(ModelListItem listItem)
+        {
+            var modelItem = listItem.objModel.GetComponent<ModelItem>();
+            if (modelItem != null)
+            {
+                tmpModelListItem = listItem;
+                spoutSelector.SetElements(GetSpoutList());
+                btnSpoutModal.onClick.Invoke();
+            }
+        }
+
+        public void SpoutSelected()
+        {
+            tmpModelListItem.modelItem.SetSpout(spoutSelector.selectedElement);
+        }
+
+        private List<string> GetSpoutList()
+        {
+            var count = PluginEntry.CountSharedObjects();
+            var names = new List<string>();
+            for (var i = 0; i < count; i++)
+                names.Add(PluginEntry.GetSharedObjectNameString(i));
+            return names;
         }
     }
 

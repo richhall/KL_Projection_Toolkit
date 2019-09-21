@@ -57,7 +57,35 @@ namespace PI.ProjectionToolkit
 #if UNITY_EDITOR
         public void SetDisplays()
         {
-            
+            //clear the gameobject
+            foreach (Transform child in transform) Destroy(child.gameObject);
+
+            // Display.displays[0] is the primary, default display and is always ON.
+            // Check if additional displays are available and activate each.
+            if (displayCount > 1 && objToggle2.isOn)
+            {
+                //add in display prefab
+                var display1 = Instantiate(prefabDisplay, transform);
+                var displayItem1 = display1.GetComponent<DisplayItem>();
+                displayItem1.SetData(1, true);
+                applicationManager.displayItems.Add(displayItem1);
+            }
+            if (displayCount > 2 && objToggle3.isOn)
+            {
+                //add in display prefab
+                var display2 = Instantiate(prefabDisplay, transform);
+                var displayItem2 = display2.GetComponent<DisplayItem>();
+                displayItem2.SetData(2, true);
+                applicationManager.displayItems.Add(displayItem2);
+            }
+            if (displayCount > 3 && objToggle4.isOn)
+            {
+                //add in display prefab
+                var display3 = Instantiate(prefabDisplay, transform);
+                var displayItem3 = display3.GetComponent<DisplayItem>();
+                displayItem3.SetData(3, true);
+                applicationManager.displayItems.Add(displayItem3);
+            }
         }
 #else
         public void SetDisplays()
