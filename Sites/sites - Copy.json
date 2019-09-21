@@ -1,0 +1,536 @@
+{
+  "sites": [
+
+    {
+      "createdBy": "pete",
+      "created": 132131847861716033,
+      "updatedBy": "pete",
+      "updated": 132131847861716033,
+      "id": "e8c33372-d32f-4bb3-aa2c-1164c49872a8",
+      "versionId": "c3034dab-b473-498c-818a-ced629f50071",
+      "name": "Box Test",
+      "folder": "Box_Test_v1",
+      "majorVersion": 1,
+      "minorVersion": 1,
+      "notes": "This is a test site that uses a standard box of 1m x 1m that you can use to test at home with your own projector and a box that is square.",
+      "location": {
+        "name": "Your House",
+        "town": "",
+        "mapUrl": ""
+      },
+      "siteResources": [
+        "Grids/1024x768_Box.png",
+        "Grids/1024x768_Box_UV.png"
+      ],
+      "projectResources": [
+        "ReadMe.txt"
+      ],
+      "assetBundleName": "",
+      "projectors": [
+        {
+          "position": {
+            "x": 0.1,
+            "y": 3.2,
+            "z": -47.54
+          },
+          "rotation": {
+            "x": -6.690001,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+          },
+          "scale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "siteId": "e8c33372-d32f-4bb3-aa2c-1164c49872a8",
+          "name": "Main Stack",
+          "majorVersion": 1,
+          "minorVersion": 0,
+          "projectors": [
+            {
+              "position": {
+                "x": 0.1,
+                "y": 3.2,
+                "z": -47.54
+              },
+              "rotation": {
+                "x": -6.690001,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 0.0
+              },
+              "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "name": "Projector",
+              "defaultCamera": true,
+              "cameraType": 0,
+              "fieldOfView": 0.0,
+              "focalLength": 0.0,
+              "sensorSize": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "lensShift": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "gateFit": 2,
+              "nearClipPlane": 0.30000001192092898,
+              "farClipPlane": 1000.0
+            }
+          ],
+          "notes": ""
+        }
+      ],
+      "cameras": [
+        {
+          "position": {
+            "x": 58.4,
+            "y": 8.5,
+            "z": -24
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": -70.29,
+            "z": 0.0,
+            "w": 0.0
+          },
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          },
+          "name": "View 1",
+          "defaultCamera": false,
+          "cameraType": 1,
+          "fieldOfView": 0.0,
+          "focalLength": 0.0,
+          "sensorSize": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "lensShift": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "gateFit": 2,
+          "nearClipPlane": 0.30000001192092898,
+          "farClipPlane": 1000.0
+        },
+        {
+          "position": {
+            "x": -5.21658,
+            "y": 2.5,
+            "z": -16.9
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+          },
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          },
+          "name": "Walk About Camera",
+          "defaultCamera": false,
+          "cameraType": 2,
+          "fieldOfView": 0.0,
+          "focalLength": 0.0,
+          "sensorSize": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "lensShift": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "gateFit": 2,
+          "nearClipPlane": 0.30000001192092898,
+          "farClipPlane": 1000.0
+        }
+      ],
+      "models": [
+        {
+          "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+          },
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          },
+          "name": "Area",
+          "prefabName": "Box_Test_v1_Model_Area",
+          "projectionSurface": false,
+          "targetMaterialProperty": "_MainText"
+        },
+        {
+          "position": {
+            "x": -5.046,
+            "y": 0.7244416,
+            "z": -43.536
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": -135,
+            "z": 0.0,
+            "w": 0.0
+          },
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          },
+          "name": "Box 1",
+          "prefabName": "Box_Test_v1_Model_Box",
+          "projectionSurface": false,
+          "targetMaterialProperty": "_MainText"
+        }
+      ]
+    },
+    {
+      "createdBy": "pete",
+      "updatedBy": "pete",
+      "id": "9a827515-0e88-4b2c-a14b-4cb46d690036",
+      "versionId": "5336b093-3945-4e4a-a7cc-4cf9c16dc591",
+      "name": "Custom House 2019",
+      "folder": "CustomHouse_v1_1",
+      "majorVersion": 1,
+      "minorVersion": 1,
+      "notes": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet tellus nisl. Vivamus sodales augue non iaculis blandit. Duis gravida viverra nunc, at ultricies urna dignissim eu.\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet tellus nisl. Vivamus sodales augue non iaculis blandit. Duis gravida viverra nunc, at ultricies urna dignissim eu.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet tellus nisl. Vivamus sodales augue non iaculis blandit. Duis gravida viverra nunc, at ultricies urna dignissim eu.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet tellus nisl. Vivamus sodales augue non iaculis blandit. Duis gravida viverra nunc, at ultricies urna dignissim eu.",
+      "location": {
+        "name": "Custom House",
+        "town": "Kings Lynn",
+        "mapUrl": "",
+        "geoLocation": {
+          "lat": 52.753848,
+          "lng": 0.3913075
+        }
+      },
+      "siteResources": [
+        "Grids/1024x768_Custom_House.png",
+        "Grids/1024x768_Custom_House_UV.png"
+      ],
+      "projectResources": [
+        "ReadMe.txt"
+      ],
+      "assetBundleName": "Site",
+      "projectors": [],
+      "cameras": []
+    },
+    {
+      "createdBy": "pete",
+      "updatedBy": "pete",
+      "id": "312c3808-0e55-4250-a3b5-0398c98f59c8",
+      "versionId": "75e4df86-a2b9-471c-b1a2-beb5cd2b3291",
+      "name": "St Nicks 2019",
+      "folder": "StNicks_v1_0",
+      "majorVersion": 1,
+      "minorVersion": 0,
+      "notes": "",
+      "location": {
+        "name": "St. Nicholas' Chapel",
+        "town": "Kings Lynn",
+        "mapUrl": "",
+        "geoLocation": {
+          "lat": 52.7575175,
+          "lng": 0.394143
+        }
+      },
+      "assetBundleName": "Site",
+      "projectors": [
+        {
+          "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+          },
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          },
+          "siteId": "312c3808-0e55-4250-a3b5-0398c98f59c8",
+          "name": "Main Stack",
+          "majorVersion": 1,
+          "minorVersion": 0,
+          "projectors": [
+            {
+              "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 0.0
+              },
+              "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "name": "Base Projector",
+              "physical": true,
+              "fieldOfView": 0.0,
+              "focalLength": 0.0,
+              "sensorSize": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "lensShift": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "gateFit": 2,
+              "nearClipPlane": 0.30000001192092898,
+              "farClipPlane": 1000.0
+            },
+            {
+              "position": {
+                "x": 0.0,
+                "y": 20.0,
+                "z": 0.0
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 0.0
+              },
+              "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "name": "Top Projector",
+              "physical": true,
+              "fieldOfView": 0.0,
+              "focalLength": 0.0,
+              "sensorSize": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "lensShift": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "gateFit": 2,
+              "nearClipPlane": 0.30000001192092898,
+              "farClipPlane": 1000.0
+            }
+          ],
+          "notes": ""
+        }
+      ],
+      "cameras": [
+        {
+          "position": {
+            "x": 100.0,
+            "y": 0.0,
+            "z": 20.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+          },
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          },
+          "name": "View 1",
+          "physical": false,
+          "fieldOfView": 0.0,
+          "focalLength": 0.0,
+          "sensorSize": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "lensShift": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "gateFit": 2,
+          "nearClipPlane": 0.30000001192092898,
+          "farClipPlane": 1000.0
+        }
+      ]
+    },
+    {
+      "createdBy": "pete",
+      "updatedBy": "pete",
+      "id": "312c3808-0e55-4250-a3b5-0398c98f59aa",
+      "versionId": "75e4df86-a2b9-471c-b1a2-beb5cd2b32aa",
+      "name": "St Nicks 2019 v2",
+      "folder": "StNicks_v2_0",
+      "majorVersion": 2,
+      "minorVersion": 0,
+      "notes": "",
+      "location": {
+        "name": "St. Nicholas' Chapel",
+        "town": "Kings Lynn",
+        "mapUrl": "",
+        "geoLocation": {
+          "lat": 52.7575175,
+          "lng": 0.394143
+        }
+      },
+      "assetBundleName": "Site",
+      "projectors": [
+        {
+          "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+          },
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          },
+          "siteId": "312c3808-0e55-4250-a3b5-0398c98f59c8",
+          "name": "Main Stack",
+          "majorVersion": 1,
+          "minorVersion": 0,
+          "projectors": [
+            {
+              "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 0.0
+              },
+              "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "name": "Base Projector",
+              "physical": true,
+              "fieldOfView": 0.0,
+              "focalLength": 0.0,
+              "sensorSize": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "lensShift": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "gateFit": 2,
+              "nearClipPlane": 0.30000001192092898,
+              "farClipPlane": 1000.0
+            },
+            {
+              "position": {
+                "x": 0.0,
+                "y": 20.0,
+                "z": 0.0
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 0.0
+              },
+              "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+              },
+              "name": "Top Projector",
+              "physical": true,
+              "fieldOfView": 0.0,
+              "focalLength": 0.0,
+              "sensorSize": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "lensShift": {
+                "x": 0.0,
+                "y": 0.0
+              },
+              "gateFit": 2,
+              "nearClipPlane": 0.30000001192092898,
+              "farClipPlane": 1000.0
+            }
+          ],
+          "notes": ""
+        }
+      ],
+      "cameras": [
+        {
+          "position": {
+            "x": 100.0,
+            "y": 0.0,
+            "z": 20.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+          },
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          },
+          "name": "View 1",
+          "physical": false,
+          "fieldOfView": 0.0,
+          "focalLength": 0.0,
+          "sensorSize": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "lensShift": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "gateFit": 2,
+          "nearClipPlane": 0.30000001192092898,
+          "farClipPlane": 1000.0
+        }
+      ]
+    }
+  ]
+}

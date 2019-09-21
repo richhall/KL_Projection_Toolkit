@@ -28,6 +28,10 @@ namespace PI.ProjectionToolkit
         public GameObject objCamerasContainer;
         public GameObject prefabCameraItem;
         public GameObject prefabCameraWalkAround;
+        public GameObject objModelContainer;
+        public GameObject objModelList;
+        public GameObject prefabModelListItem;
+        public GameObject prefabModelListItemIteractive;
 
         public GameObject btnRecord;
         public GameObject btnStopRecord;
@@ -148,6 +152,7 @@ namespace PI.ProjectionToolkit
             _project = project;
             SetProjectHud();
             BuildCameras();
+            BuildModels();
             return _project;
         }
 
@@ -314,14 +319,38 @@ namespace PI.ProjectionToolkit
             }
         }
 
-        public void SetCamera_Main()
-        {
-            SetCamera(0);
-        }
+        //public void SetCamera_Main()
+        //{
+        //    SetCamera(0);
+        //}
 
-        public void SetCamera_WalkAround()
+        //public void SetCamera_WalkAround()
+        //{
+        //    SetCamera(1);
+        //}
+
+
+        private void BuildModels()
         {
-            SetCamera(1);
+            //clear the transform
+            foreach (Transform child in objModelContainer.transform) Destroy(child.gameObject);
+            foreach (Transform child in objModelList.transform) Destroy(child.gameObject);
+            int index = 0;
+            int defaultIndex = 0;
+            foreach (var model in _project.projectionSite.models)
+            {
+                //add in the model
+                GameObject objModel = Instantiate(Resources.Load<GameObject>(_project.projectionSite.folder + "/" + model.prefabName), objModelContainer.transform);
+                model.SetTransform(objModel);
+
+                var prefab = model.projectionSurface ? prefabModelListItemIteractive : prefabModelListItem;
+                //add list item
+                var listItem = Instantiate(prefab, objModelList.transform);
+                var modelListItem = listItem.GetComponent<ModelListItem>();
+                modelListItem.SetData(model.name, model.name, objModel, model.targetMaterialProperty);
+                
+            }
+            SetCamera(defaultIndex);
         }
     }
 
