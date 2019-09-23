@@ -36,8 +36,9 @@ namespace PI.ProjectionToolkit.Models
 
         public void SetCamera(UnityEngine.Camera camera)
         {
-            if (camera.orthographic) throw new Exception("Unable to set an Orthographic camera");
-            if (!camera.usePhysicalProperties) throw new Exception("Unable to set an Orthographic camera");
+            if (camera == null) return;
+            if (camera.orthographic) return;// throw new Exception("Unable to set an Orthographic camera");
+            if (!camera.usePhysicalProperties) return;// throw new Exception("Unable to set an Orthographic camera");
             camera.fieldOfView = fieldOfView;
             camera.focalLength = focalLength;
             camera.sensorSize = sensorSize.GetVector2();

@@ -72,18 +72,18 @@
               "name": "Projector",
               "defaultCamera": true,
               "cameraType": 0,
-              "fieldOfView": 0.0,
-              "focalLength": 0.0,
+              "fieldOfView": 26.0,
+              "focalLength": 50.0,
               "sensorSize": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 36.0,
+                "y": 24.0
               },
               "lensShift": {
                 "x": 0.0,
                 "y": 0.0
               },
               "gateFit": 2,
-              "nearClipPlane": 0.30000001192092898,
+              "nearClipPlane": 0.3,
               "farClipPlane": 1000.0
             }
           ],

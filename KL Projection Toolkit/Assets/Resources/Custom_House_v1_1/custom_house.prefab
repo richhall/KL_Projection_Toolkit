@@ -9,8 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3403534811767024868}
+  - component: {fileID: 7505741985209160767}
+  - component: {fileID: 2276270382483954062}
+  - component: {fileID: 2100010343251348893}
   m_Layer: 0
-  m_Name: custom-house-test08
+  m_Name: custom_house
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,6 +34,75 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -40, z: -90}
+--- !u!328 &7505741985209160767
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828621118477065975}
+  m_Enabled: 0
+  m_VideoClip: {fileID: 32900000, guid: 1b2b559e784273546b429fcd4c25cecc, type: 3}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 82cbf7f8512f2ff47be265080ece1046, type: 2}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: _MainTex
+  m_RenderMode: 3
+  m_AspectRatio: 2
+  m_DataSource: 1
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 2
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 0
+  m_Url: 
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 01
+  m_ControlledAudioTrackCount: 1
+  m_PlayOnAwake: 0
+  m_SkipOnDrop: 1
+  m_Looping: 1
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
+--- !u!114 &2276270382483954062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828621118477065975}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62f7dec0b00674947bc631624c21970a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nameFilter: 
+  _targetTexture: {fileID: 8400000, guid: da21f6f393076d549ba3c217d7b1b09d, type: 2}
+  _targetRenderer: {fileID: 6780931629424564613}
+  _targetMaterialProperty: _MainTex
+--- !u!114 &2100010343251348893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828621118477065975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d91285c026062104aa18058ca11c8383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 7505741985209160767}
+  spoutReceiver: {fileID: 2276270382483954062}
+  prefabSpoutReceiver: {fileID: 0}
+  spoutContainer: {fileID: 283334096760564682, guid: 147469d871983ae419154a4405a614e0,
+    type: 3}
+  obj: {fileID: 6831134112146685633}
+  material: {fileID: 2100000, guid: 963cffa533b957841bdc329ab97a37f6, type: 2}
 --- !u!1 &6831134112146685633
 GameObject:
   m_ObjectHideFlags: 0

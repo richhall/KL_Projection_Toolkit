@@ -109,9 +109,16 @@ namespace PI.ProjectionToolkit
             objVideo.SetActive(false);
         }
 
-        public void DisplayCamera(ProjectCameraItem cameraItem)
+        public void DisplayCamera(ProjectCameraHolder cameraHolder, int targetDisplay)
         {
             if (!isOn) return;
+            //set the transform position to match
+            camera.transform.localPosition = cameraHolder.camera.position.GetVector3();
+            camera.transform.localEulerAngles = cameraHolder.camera.rotation.GetVector3();
+            camera.transform.localScale = cameraHolder.camera.scale.GetVector3();
+            //set up the camera
+            cameraHolder.camera.SetCamera(camera);
+            camera.targetDisplay = targetDisplay;
             //setup camera position based on the camera sent
             objBackground.SetActive(false);
             objVideo.SetActive(false);

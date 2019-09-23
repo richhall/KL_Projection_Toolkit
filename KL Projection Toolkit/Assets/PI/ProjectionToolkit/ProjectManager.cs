@@ -50,6 +50,8 @@ namespace PI.ProjectionToolkit
         public HorizontalSelector spoutSelector;
         public GameObject prefabSpoutReceiver;
 
+        public ProjectCameraHolder currentCameraHolder;
+
         private Project _project = null;
         public Project CurrentProject
         {
@@ -62,7 +64,7 @@ namespace PI.ProjectionToolkit
         public GameObject mainCamera;
         public GameObject fpsController;
 
-        private List<PrjectCameraHolder> cameras = new List<PrjectCameraHolder>();
+        private List<ProjectCameraHolder> cameras = new List<ProjectCameraHolder>();
 
         private void Awake()
         {
@@ -176,12 +178,7 @@ namespace PI.ProjectionToolkit
             //clear the transform
             foreach (Transform child in objCamerasContainer.transform) Destroy(child.gameObject);
             foreach (Transform child in objCameraList.transform) Destroy(child.gameObject);
-            cameras = new List<PrjectCameraHolder>();
-            //cameras.Add(fpsController);
-            ////add list item
-            //var listItem = Instantiate(prefabCameraListItem, objCameraList.transform);
-            //var ci = listItem.GetComponent<ProjectCameraListItem>();
-            //ci.SetWalkAbout(index, this);
+            cameras = new List<ProjectCameraHolder>();
             int index = 0;
             int defaultIndex = 0;
             foreach (var projectorStack in _project.projectionSite.projectors)
@@ -203,7 +200,7 @@ namespace PI.ProjectionToolkit
             SetCamera(defaultIndex);
         }
 
-        private PrjectCameraHolder AddCamera(Models.Camera camera, int index, string type)
+        private ProjectCameraHolder AddCamera(Models.Camera camera, int index, string type)
         {
             //add list item
             var listItem = Instantiate(prefabCameraListItem, objCameraList.transform);
@@ -223,7 +220,7 @@ namespace PI.ProjectionToolkit
             var cameraItem = gameObject.GetComponent<ProjectCameraItem>();
             cameraItem.SetData(camera, index, this);
             camera.SetTransform(gameObject);
-            PrjectCameraHolder holder = new PrjectCameraHolder()
+            ProjectCameraHolder holder = new ProjectCameraHolder()
             {
                 camera = camera,
                 cameraContainer = gameObject,
@@ -298,7 +295,8 @@ namespace PI.ProjectionToolkit
 
         public void SetCamera(int index)
         {
-            if(index >= 0 && index < cameras.Count)
+            currentCameraHolder = null;
+            if (index >= 0 && index < cameras.Count)
             {
                 Models.CameraType selectedCameraType = Models.CameraType.Virtual;
                 for (var x = 0; x < cameras.Count; x++)
@@ -309,11 +307,7 @@ namespace PI.ProjectionToolkit
                     if (x == index)
                     {
                         selectedCameraType = cameras[x].camera.cameraType;
-                        //cameras[x].cameraListItem.CameraSelected();
-                    }
-                    else
-                    {
-                        //cameras[x].cameraListItem.CameraNormal();
+                        currentCameraHolder = cameras[x];
                     }
                 }
                 if (selectedCameraType != Models.CameraType.WalkAbout)
@@ -413,6 +407,7 @@ namespace PI.ProjectionToolkit
             var names = new List<string>();
             for (var i = 0; i < count; i++)
                 names.Add(PluginEntry.GetSharedObjectNameString(i));
+            if (count == 0) names.Add("NONE");
             return names;
         }
     }

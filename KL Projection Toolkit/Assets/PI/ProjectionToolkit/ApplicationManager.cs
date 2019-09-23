@@ -533,7 +533,12 @@ namespace PI.ProjectionToolkit
 
         private void DisplayListItem_OnProjectorClick(DisplayListItem displayListItem)
         {
-            throw new NotImplementedException();
+            //set camera to be the current camera
+            if (projectManager.currentCameraHolder != null)
+            {
+                //set the camera
+                this.displayItems[displayListItem.displayIndex].DisplayCamera(projectManager.currentCameraHolder, displayListItem.displayIndex + 1);
+            }
         }
 
         private void DisplayListItem_OnVideoClick(DisplayListItem displayListItem)
