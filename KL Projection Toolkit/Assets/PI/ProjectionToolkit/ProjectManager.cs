@@ -64,7 +64,7 @@ namespace PI.ProjectionToolkit
         public GameObject mainCamera;
         public GameObject fpsController;
 
-        private List<ProjectCameraHolder> cameras = new List<ProjectCameraHolder>();
+        public List<ProjectCameraHolder> cameras = new List<ProjectCameraHolder>();
 
         private void Awake()
         {

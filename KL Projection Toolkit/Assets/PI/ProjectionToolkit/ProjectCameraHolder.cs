@@ -14,6 +14,7 @@ namespace PI.ProjectionToolkit
         public ProjectCameraItem cameraItem;
         public ProjectCameraListItem cameraListItem;
         public ProjectManager projectManager;
+        public UnityEngine.Camera displayCamera;
 
         public void Setup()
         {
@@ -34,6 +35,21 @@ namespace PI.ProjectionToolkit
             cameraItem.setToRecord = true;
             cameraItem.setToRecord = projectManager.SetRecordController();
             //if(cameraItem.setToRecord) cameraListItem.CameraRecording();
+        }
+
+        public void SetDisplayCamera()
+        {
+            if(displayCamera != null) SetCamera(displayCamera);
+        }
+
+        public void SetCamera(UnityEngine.Camera camera)
+        {
+            //set the transform position to match
+            camera.transform.localPosition = this.camera.position.GetVector3();
+            camera.transform.localEulerAngles = this.camera.rotation.GetVector3();
+            camera.transform.localScale = this.camera.scale.GetVector3();
+            //set camera values
+            this.camera.SetCamera(camera);
         }
     }
     
