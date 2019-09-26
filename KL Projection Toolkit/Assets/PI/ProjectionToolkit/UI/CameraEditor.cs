@@ -7,6 +7,7 @@ namespace PI.ProjectionToolkit.UI
 {
     public class CameraEditor : MonoBehaviour
     {
+        //
         private PI.ProjectionToolkit.Models.Camera camera;
         public DecimalInput posX;
         public DecimalInput posY;
