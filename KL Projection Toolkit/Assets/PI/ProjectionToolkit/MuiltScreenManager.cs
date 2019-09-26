@@ -86,6 +86,7 @@ namespace PI.ProjectionToolkit
                 displayItem3.SetData(3, true);
                 applicationManager.displayItems.Add(displayItem3);
             }
+            applicationManager.SetProjectCameraEditorDisplays();
         }
 #else
         public void SetDisplays()
@@ -140,6 +141,7 @@ namespace PI.ProjectionToolkit
                 //Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
                 mainCanvas.targetDisplay = 0;
             }
+            applicationManager.SetProjectCameraEditorDisplays();
         }
 
 #endif

@@ -117,7 +117,7 @@ namespace PI.ProjectionToolkit
             return AddTextLine(title, quaternion.x.ToString() + "," + quaternion.y.ToString() + "," + quaternion.z.ToString() + "," + quaternion.w.ToString());
         }
 
-        public TextLine AddTextLine(string title, string value, bool multi = false, bool alert = false)
+        public TextLine AddTextLine(string title, string value, bool multi = false, bool alert = false, int height = 0)
         {
             var obj = multi ? prefabUiTextMultiLine : prefabUiTextLine;
             value = multi ? value : value.ToUpper();
@@ -125,10 +125,10 @@ namespace PI.ProjectionToolkit
             var u = projectGameObject.GetComponent<TextLine>();
             if (alert)
             {
-                u.SetData(title.ToUpper(), value, colorAlert);
+                u.SetData(title.ToUpper(), value, colorAlert, height);
             } else
             {
-                u.SetData(title.ToUpper(), value);
+                u.SetData(title.ToUpper(), value, height);
             }
             return u;
         }

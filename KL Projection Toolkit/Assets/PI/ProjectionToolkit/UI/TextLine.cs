@@ -26,14 +26,19 @@ namespace PI.ProjectionToolkit.UI
             }
         }
 
-        public void SetData(string title, string value)
+        public void SetData(string title, string value, int height = 0)
         {
             this.title.text = title;
             if (value != null) this.value.text = value;
             if (input != null) this.input.text = value;
+            if(height > 0)
+            {
+                var rect = this.GetComponent<RectTransform>();
+                if (rect != null) rect.sizeDelta = new Vector2(rect.sizeDelta.x, height);
+            }
         }
 
-        public void SetData(string title, string value, Color colorAltert)
+        public void SetData(string title, string value, Color colorAltert, int height = 0)
         {
             this.title.text = title;
             if (value != null) this.value.text = value;
@@ -43,6 +48,11 @@ namespace PI.ProjectionToolkit.UI
             if (inputBackground != null)
             {
                 inputBackground.color = colorAltert;
+            }
+            if (height > 0)
+            {
+                var rect = this.GetComponent<RectTransform>();
+                if (rect != null) rect.sizeDelta.Set(rect.sizeDelta.x, height);
             }
         }
 

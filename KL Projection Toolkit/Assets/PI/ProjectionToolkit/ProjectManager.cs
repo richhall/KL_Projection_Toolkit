@@ -14,6 +14,7 @@ using RockVR.Video;
 using SimpleFileBrowser;
 using Klak.Spout;
 using Michsky.UI.ModernUIPack;
+using PI.ProjectionToolkit.UI;
 
 namespace PI.ProjectionToolkit
 {
@@ -22,7 +23,7 @@ namespace PI.ProjectionToolkit
     /// </summary>
     public class ProjectManager : MonoBehaviour
     {
-
+        public ApplicationManager applicationManager;
         public GameObject objRightPanel;
         public GameObject objRightPanelHolding;
         public GameObject objBackground;
@@ -36,6 +37,8 @@ namespace PI.ProjectionToolkit
         public GameObject prefabModelListItem;
         public GameObject prefabModelListItemIteractive;
 
+        public GameObject btnSave;
+        public GameObject btnRefresh;
         public GameObject btnRecord;
         public GameObject btnStopRecord;
 
@@ -51,6 +54,7 @@ namespace PI.ProjectionToolkit
         public GameObject prefabSpoutReceiver;
 
         public ProjectCameraHolder currentCameraHolder;
+        public CameraEditor cameraEditor;
 
         private Project _project = null;
         public Project CurrentProject
@@ -74,6 +78,12 @@ namespace PI.ProjectionToolkit
         private void Start()
         {
             animRecordingPanel = objRecordingPanel.GetComponent<Animator>();
+            cameraEditor.OnCameraChanged += CameraEditor_OnCameraChanged;
+        }
+
+        private void CameraEditor_OnCameraChanged(Models.Camera camera, bool updateDisplay2, bool updateDisplay3, bool updateDisplay4)
+        {
+            currentCameraHolder.UpdateCamera(camera, updateDisplay2, updateDisplay3, updateDisplay4);
         }
 
         private VideoCaptureCtrlBase.StatusType lastRecordingStatus = VideoCaptureCtrlBase.StatusType.NOT_START;
@@ -111,56 +121,69 @@ namespace PI.ProjectionToolkit
             {
                 txtRecordingTimer.text = "FRAME COUNT: " + activeVideoCapture.getEncodedFrameCount.ToString();
             }
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
             {
-                SetCamera(0);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                SetCamera(1);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                SetCamera(2);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                SetCamera(3);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha5))
-            {
-                SetCamera(4);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha6))
-            {
-                SetCamera(5);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha7))
-            {
-                SetCamera(6);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha8))
-            {
-                SetCamera(7);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha9))
-            {
-                SetCamera(8);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                SetCamera(9);
+                if (Input.GetKeyUp(KeyCode.Alpha1))
+                {
+                    SetCamera(0);
+                }
+                if (Input.GetKeyUp(KeyCode.Alpha2))
+                {
+                    SetCamera(1);
+                }
+                if (Input.GetKeyUp(KeyCode.Alpha3))
+                {
+                    SetCamera(2);
+                }
+                if (Input.GetKeyUp(KeyCode.Alpha4))
+                {
+                    SetCamera(3);
+                }
+                if (Input.GetKeyUp(KeyCode.Alpha5))
+                {
+                    SetCamera(4);
+                }
+                if (Input.GetKeyUp(KeyCode.Alpha6))
+                {
+                    SetCamera(5);
+                }
+                if (Input.GetKeyUp(KeyCode.Alpha7))
+                {
+                    SetCamera(6);
+                }
+                if (Input.GetKeyUp(KeyCode.Alpha8))
+                {
+                    SetCamera(7);
+                }
+                if (Input.GetKeyUp(KeyCode.Alpha9))
+                {
+                    SetCamera(8);
+                }
+                if (Input.GetKeyUp(KeyCode.Alpha0))
+                {
+                    SetCamera(9);
+                }
             }
         }
+
 
         public Project LoadProject(Project project)
         {
             RockVR.Video.PathConfig.SaveFolder = project.recordFolder + "/";
             btnRecord.SetActive(true);
-            _project = project;
+            btnSave.SetActive(true);
+            btnRefresh.SetActive(true);
+            if (_project != null && _project.id == project.id)
+            {
+                SetCamera(0);
+            }
+            else
+            {
+                _project = project;
+                BuildCameras();
+                BuildModels();
+            }
             SetProjectHud();
-            BuildCameras();
-            BuildModels();
             return _project;
         }
 
@@ -269,9 +292,19 @@ namespace PI.ProjectionToolkit
             {
                 case VideoCaptureCtrlBase.StatusType.NOT_START:
                 case VideoCaptureCtrlBase.StatusType.FINISH:
-                    VideoCaptureCtrl.instance.StartCapture();
-                    btnRecord.SetActive(false);
-                    btnStopRecord.SetActive(true);
+                    if (VideoCaptureCtrl.instance.videoCaptures.Length > 0)
+                    {
+                        VideoCaptureCtrl.instance.StartCapture();
+                        btnRecord.SetActive(false);
+                        btnStopRecord.SetActive(true);
+                    }
+                    else
+                    {
+                        //show error
+                        applicationManager.ShowErrorMessage("To start recording please select a camera to record.");
+                        btnRecord.SetActive(true);
+                        btnStopRecord.SetActive(false);
+                    }
                     break;
                 case VideoCaptureCtrlBase.StatusType.STARTED:
                     VideoCaptureCtrl.instance.StopCapture();
@@ -308,6 +341,7 @@ namespace PI.ProjectionToolkit
                     {
                         selectedCameraType = cameras[x].camera.cameraType;
                         currentCameraHolder = cameras[x];
+                        cameraEditor.SetData(cameras[x].camera, cameras[x].AttachedToDisplay2, cameras[x].AttachedToDisplay3, cameras[x].AttachedToDisplay4);
                     }
                 }
                 if (selectedCameraType != Models.CameraType.WalkAbout)
@@ -409,6 +443,17 @@ namespace PI.ProjectionToolkit
                 names.Add(PluginEntry.GetSharedObjectNameString(i));
             if (count == 0) names.Add("NONE");
             return names;
+        }
+
+        public void SaveProject()
+        {
+            this.applicationManager.SaveProject(this.CurrentProject);
+        }
+
+        public void RefreshProjectFromSite()
+        {
+            this.applicationManager.LoadProject(this.CurrentProject.GetProjectAsProjectReference(), true);
+            this.applicationManager.ShowErrorMessage("Your site details, such as cameras and models, have been reloaded", null);
         }
     }
 

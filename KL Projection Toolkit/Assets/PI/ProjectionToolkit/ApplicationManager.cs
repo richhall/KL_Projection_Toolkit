@@ -53,6 +53,7 @@ namespace PI.ProjectionToolkit
         public GameObject objProject;
 
         public ProjectManager projectManager;
+        public Slider sliderVolume;
 
         public void Awake()
         {
@@ -461,6 +462,27 @@ namespace PI.ProjectionToolkit
             }
         }
 
+        public void SaveProject(Project project)
+        {
+            try
+            {
+                //add full project file to project folder
+                var json = JsonUtility.ToJson(project);
+                File.WriteAllText(project.projectFile, json);
+                //add project reference
+                this.projects.RemoveProject(project.id);
+                this.projects.AddProject(project);
+                SaveProjects(this.projects);
+                currentProject = project;
+                this.RebuildProjects();
+                ShowErrorMessage("Your project has been saved", null);
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(ex.Message);
+            }
+        }
+
         public void RemoveProjectClick()
         {
             RemoveProject(currentProject, false);
@@ -487,8 +509,38 @@ namespace PI.ProjectionToolkit
             ShowErrorMessage("Create Project: " + project.name);
         }
 
-        public void LoadProject(ProjectReference project)
+        public void SetProjectCameraEditorDisplays()
         {
+            bool showDisplay2 = false;
+            bool showDisplay3 = false;
+            bool showDisplay4 = false;
+            for (var x = 0; x < displayItems.Count; x++)
+            {
+                switch (x)
+                {
+                    case 0:
+                        showDisplay2 = true;
+                        break;
+                    case 1:
+                        showDisplay3 = true;
+                        break;
+                    case 2:
+                        showDisplay4 = true;
+                        break;
+                }
+            }
+            projectManager.cameraEditor.SetDisplays(showDisplay2, showDisplay3, showDisplay4);
+        }
+
+        public void LoadProject(ProjectReference project, bool applySite = false)
+        {
+            if (currentFullProject != null && currentFullProject.id == project.id)
+            {
+                btnMyProjects.onClick.Invoke();
+                homePanelManager.PanelAnim(1);
+                currentFullProject = projectManager.LoadProject(currentFullProject);
+                return;
+            }
             currentProject = project;
             //check if main project exists
             if (File.Exists(project.projectFile))
@@ -500,15 +552,18 @@ namespace PI.ProjectionToolkit
                     btnMyProjects.onClick.Invoke();
                     homePanelManager.PanelAnim(1);
                     var p = JsonUtility.FromJson<Project>(json);
-                    //load projection site
-                    var site = this.projectionSites.sites.FirstOrDefault(f => f.id == p.projectionSite.id);
-                    if (site != null) p.projectionSite = site;
+                    if (applySite)
+                    {
+                        //load projection site
+                        var site = this.projectionSites.sites.OrderByDescending(o => o.majorVersion).ThenByDescending(o => o.minorVersion).FirstOrDefault(f => f.id == p.projectionSite.id);
+                        if (site != null) p.projectionSite = site;
+                    }
                     currentFullProject = projectManager.LoadProject(p);
                     FileBrowser.AddQuickLink("Project", currentFullProject.path, null);
                     FileBrowser.AddQuickLink("Site", _rootPath + projectionSitesFolder + @"\" + currentFullProject.projectionSite.folder, null);
                     //build display list items
                     foreach (Transform child in objDisplayList.transform) Destroy(child.gameObject);
-                    foreach(var display in displayItems)
+                    foreach (var display in displayItems)
                     {
                         var listItem = Instantiate(prefabDisplayListItem, objDisplayList.transform);
                         var displayListItem = listItem.GetComponent<DisplayListItem>();
@@ -517,7 +572,6 @@ namespace PI.ProjectionToolkit
                         displayListItem.OnVideoClick += DisplayListItem_OnVideoClick;
                         displayListItem.OnProjectorClick += DisplayListItem_OnProjectorClick;
                     }
-                    
                 }
                 catch (Exception ex)
                 {
@@ -896,6 +950,11 @@ namespace PI.ProjectionToolkit
 
         private void Start()
         {
+            float volume = 0.5f;
+            if (PlayerPrefs.HasKey("volume")) volume = PlayerPrefs.GetFloat("volume");
+            AudioListener.volume = volume;
+            sliderVolume.value = volume;
+            projectManager.applicationManager = this;
             projectManager.SetProjectHud();
             SetBackgroundImage();
         }
@@ -909,10 +968,10 @@ namespace PI.ProjectionToolkit
             {
                 btnExit.onClick.Invoke();
             }
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                AudioListener.volume = (AudioListener.volume == 0) ? 0.5f : 0;
-            }
+            //if (Input.GetKeyUp(KeyCode.Space))
+            //{
+            //    AudioListener.volume = (AudioListener.volume == 0) ? 0.5f : 0;
+            //}
 
             //if (Input.GetKeyUp(KeyCode.F1))
             //{
@@ -921,22 +980,12 @@ namespace PI.ProjectionToolkit
             //}
         }
 
-        //public void SetLoadedProjectHud()
-        //{
-        //    objRightPanel.SetActive(currentProject != null);
-        //    objRightPanelHolding.SetActive(currentProject == null);
-        //    objRightPanel.SetActive(currentProject != null);
-        //    objProject.SetActive(currentProject != null);
-        //    if (currentProject != null)
-        //    {
-        //        HideBackground();
-        //    }
-        //}
-
-        //public void HideBackground()
-        //{
-        //    objBackground.SetActive(false);
-        //}
+        public void UpdateVolume()
+        {
+            AudioListener.volume = sliderVolume.value;
+            PlayerPrefs.SetFloat("volume", AudioListener.volume);
+            PlayerPrefs.Save();
+        }
 
         public void SetBackgroundImage()
         {

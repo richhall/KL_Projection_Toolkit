@@ -15,6 +15,9 @@ namespace PI.ProjectionToolkit
         public ProjectCameraListItem cameraListItem;
         public ProjectManager projectManager;
         public UnityEngine.Camera displayCamera;
+        public bool AttachedToDisplay2 = false;
+        public bool AttachedToDisplay3 = false;
+        public bool AttachedToDisplay4 = false;
 
         public void Setup()
         {
@@ -50,6 +53,17 @@ namespace PI.ProjectionToolkit
             camera.transform.localScale = this.camera.scale.GetVector3();
             //set camera values
             this.camera.SetCamera(camera);
+        }
+
+
+        public void UpdateCamera(Models.Camera camera, bool updateDisplay2, bool updateDisplay3, bool updateDisplay4)
+        {
+            if (!cameraItem.setToRecord)
+            {
+                this.camera = camera;
+                this.camera.SetCamera(cameraItem.camera);
+                this.camera.SetTransform(this.cameraContainer);
+            }
         }
     }
     
