@@ -33,7 +33,7 @@ namespace PI.ProjectionToolkit.UI
 
         private bool settingUp = true;
 
-        public delegate void cameraEditorItemDelegate(PI.ProjectionToolkit.Models.Camera camera, bool updateDisplay2, bool updateDisplay3, bool updateDisplay4);
+        public delegate void cameraEditorItemDelegate(PI.ProjectionToolkit.Models.Camera camera, bool changeFieldOfViewOverFocalLength, bool updateDisplay2, bool updateDisplay3, bool updateDisplay4);
         public event cameraEditorItemDelegate OnCameraChanged;
 
         void Start()
@@ -53,9 +53,9 @@ namespace PI.ProjectionToolkit.UI
         }
 
 
-        public void TriggerCameraChange()
+        public void TriggerCameraChange(bool changeFieldOfViewOverFocalLength = true)
         {
-            if (!settingUp && OnCameraChanged != null) OnCameraChanged(this.camera, checkDisplay2.isOn, checkDisplay3.isOn, checkDisplay4.isOn);
+            if (!settingUp && OnCameraChanged != null) OnCameraChanged(this.camera, changeFieldOfViewOverFocalLength, checkDisplay2.isOn, checkDisplay3.isOn, checkDisplay4.isOn);
         }
 
 
@@ -104,7 +104,7 @@ namespace PI.ProjectionToolkit.UI
         private void FocalLength_OnValueChanged(decimal value)
         {
             if (!settingUp) camera.focalLength = (float)value;
-            TriggerCameraChange();
+            TriggerCameraChange(false);
         }
 
         private void SensorX_OnValueChanged(decimal value)
@@ -172,5 +172,15 @@ namespace PI.ProjectionToolkit.UI
             return this.camera;
         }
 
+        public void UpdateFovAndFocalLength(PI.ProjectionToolkit.Models.Camera camera)
+        {
+            this.camera.fieldOfView = camera.fieldOfView;
+            this.camera.focalLength = camera.focalLength;
+            settingUp = true;
+            fieldOfView.SetData(this.camera.fieldOfView);
+            focalLength.SetData(this.camera.focalLength);
+            settingUp = false;
+
+        }
     }
 }
