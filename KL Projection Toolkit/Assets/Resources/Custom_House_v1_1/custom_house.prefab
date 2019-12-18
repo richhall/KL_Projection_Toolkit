@@ -83,7 +83,7 @@ MonoBehaviour:
   _nameFilter: 
   _targetTexture: {fileID: 8400000, guid: da21f6f393076d549ba3c217d7b1b09d, type: 2}
   _targetRenderer: {fileID: 6780931629424564613}
-  _targetMaterialProperty: _MainTex
+  _targetMaterialProperty: 
 --- !u!114 &2100010343251348893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,7 +142,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6831134112146685633}
-  m_Mesh: {fileID: -6518093772795002541, guid: 6d9bacad5da772d419e17f6ac1766459, type: 3}
+  m_Mesh: {fileID: -6518093772795002541, guid: a24813a6453d16949a3d84ee33880422, type: 3}
 --- !u!23 &6780931629424564613
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -160,7 +160,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2829662047671782933, guid: 6d9bacad5da772d419e17f6ac1766459, type: 3}
+  - {fileID: 2829662047671782933, guid: a24813a6453d16949a3d84ee33880422, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

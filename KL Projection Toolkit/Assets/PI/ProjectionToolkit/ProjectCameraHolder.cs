@@ -56,12 +56,14 @@ namespace PI.ProjectionToolkit
         }
 
 
-        public void UpdateCamera(Models.Camera camera, bool updateDisplay2, bool updateDisplay3, bool updateDisplay4)
+        public void UpdateCamera(Models.Camera camera, bool changeFieldOfViewOverFocalLength, bool updateDisplay2, bool updateDisplay3, bool updateDisplay4)
         {
             if (!cameraItem.setToRecord)
             {
                 this.camera = camera;
-                this.camera.SetCamera(cameraItem.camera);
+                this.camera.SetCamera(cameraItem.camera, changeFieldOfViewOverFocalLength);
+                camera.fieldOfView = cameraItem.camera.fieldOfView;
+                camera.focalLength = cameraItem.camera.focalLength;
                 this.camera.SetTransform(this.cameraContainer);
             }
         }

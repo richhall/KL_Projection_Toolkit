@@ -14,6 +14,19 @@ namespace PI.ProjectionToolkit.UI
         public delegate void floatItemDelegate(decimal value);
         public event floatItemDelegate OnValueChanged;
 
+        private void Start()
+        {
+            txtValue.onValueChanged.AddListener(delegate { ValueChangeCheck(); });
+        }
+
+        public void ValueChangeCheck()
+        {
+            decimal val = GetData();
+            if (clamp && val > (decimal)maximum) val = (decimal)maximum;
+            SetData(val);
+            if (OnValueChanged != null) OnValueChanged(val);
+        }
+
         public void SetData(float val)
         {
             txtValue.text = val.ToString();

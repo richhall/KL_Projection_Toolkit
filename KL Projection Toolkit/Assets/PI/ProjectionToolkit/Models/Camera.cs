@@ -34,13 +34,19 @@ namespace PI.ProjectionToolkit.Models
         public float nearClipPlane = 0.3f;
         public float farClipPlane = 1000f;
 
-        public void SetCamera(UnityEngine.Camera camera)
+        public void SetCamera(UnityEngine.Camera camera, bool changeFieldOfViewOverFocalLength = true)
         {
             if (camera == null) return;
             if (camera.orthographic) return;// throw new Exception("Unable to set an Orthographic camera");
             if (!camera.usePhysicalProperties) return;// throw new Exception("Unable to set an Orthographic camera");
-            camera.fieldOfView = fieldOfView;
-            camera.focalLength = focalLength;
+            if (changeFieldOfViewOverFocalLength)
+            {
+                camera.fieldOfView = fieldOfView;
+            }
+            else
+            {
+                camera.focalLength = focalLength;
+            }
             camera.sensorSize = sensorSize.GetVector2();
             camera.lensShift = lensShift.GetVector2();
             camera.gateFit = gateFit;

@@ -81,9 +81,10 @@ namespace PI.ProjectionToolkit
             cameraEditor.OnCameraChanged += CameraEditor_OnCameraChanged;
         }
 
-        private void CameraEditor_OnCameraChanged(Models.Camera camera, bool updateDisplay2, bool updateDisplay3, bool updateDisplay4)
+        private void CameraEditor_OnCameraChanged(Models.Camera camera, bool changeFieldOfViewOverFocalLength, bool updateDisplay2, bool updateDisplay3, bool updateDisplay4)
         {
-            currentCameraHolder.UpdateCamera(camera, updateDisplay2, updateDisplay3, updateDisplay4);
+            currentCameraHolder.UpdateCamera(camera, changeFieldOfViewOverFocalLength, updateDisplay2, updateDisplay3, updateDisplay4);
+            cameraEditor.UpdateFovAndFocalLength(camera);
         }
 
         private VideoCaptureCtrlBase.StatusType lastRecordingStatus = VideoCaptureCtrlBase.StatusType.NOT_START;
@@ -208,11 +209,18 @@ namespace PI.ProjectionToolkit
             {
                 foreach (var camera in projectorStack.projectors)
                 {
+                    //add stack transform details
+                    camera.position.x += projectorStack.position.x;
+                    camera.position.y += projectorStack.position.y;
+                    camera.position.z += projectorStack.position.z;
+                    camera.rotation.x += projectorStack.rotation.x;
+                    camera.rotation.y += projectorStack.rotation.y;
+                    camera.rotation.z += projectorStack.rotation.z;
+                    camera.rotation.w += projectorStack.rotation.w;
                     if (camera.defaultCamera) defaultIndex = index;
                     cameras.Add(AddCamera(camera, index, projectorStack.name));
                     index += 1;
                 }
-                //add stack
             }
             foreach (var camera in _project.projectionSite.cameras)
             {
