@@ -39,14 +39,14 @@ namespace PI.ProjectionToolkit.Models
             if (camera == null) return;
             if (camera.orthographic) return;// throw new Exception("Unable to set an Orthographic camera");
             if (!camera.usePhysicalProperties) return;// throw new Exception("Unable to set an Orthographic camera");
-            if (changeFieldOfViewOverFocalLength)
-            {
+          //  if (changeFieldOfViewOverFocalLength)
+        //    {
                 camera.fieldOfView = fieldOfView;
-            }
-            else
-            {
+         //   }
+        //    else
+        //    {
                 camera.focalLength = focalLength;
-            }
+        //    }
             camera.sensorSize = sensorSize.GetVector2();
             camera.lensShift = lensShift.GetVector2();
             camera.gateFit = gateFit;
