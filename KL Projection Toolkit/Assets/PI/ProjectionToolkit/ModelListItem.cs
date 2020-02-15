@@ -40,7 +40,7 @@ namespace PI.ProjectionToolkit
             targetMaterialProperty = targetMaterial;
             SetBackground();
             if (objModel != null) modelItem = objModel.GetComponent<ModelItem>();
-            if (modelItem != null) modelItem.prefabSpoutReceiver = prefabSpoutReceiver;
+            if (modelItem != null) modelItem.prefabSyphonReceiver = prefabSpoutReceiver;
         }
 
         public void MaterialClick()

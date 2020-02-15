@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 930700228793834262}
   m_Layer: 0
-  m_Name: SpoutContainer
+  m_Name: SyphonContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,10 +40,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2155371673165644776}
   - component: {fileID: 4322102014608930239}
-  - component: {fileID: 7424634088900920695}
   - component: {fileID: 6375596091903287007}
+  - component: {fileID: 6417516717898491419}
   m_Layer: 0
-  m_Name: custom_house_projection_model
+  m_Name: projection_model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,22 +99,6 @@ VideoPlayer:
   m_Looping: 1
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
---- !u!114 &7424634088900920695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3148634911551566331}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62f7dec0b00674947bc631624c21970a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _nameFilter: 
-  _targetTexture: {fileID: 8400000, guid: da21f6f393076d549ba3c217d7b1b09d, type: 2}
-  _targetRenderer: {fileID: 497039255854491891}
-  _targetMaterialProperty: _MainTex
 --- !u!114 &6375596091903287007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,11 +112,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 4322102014608930239}
-  spoutReceiver: {fileID: 7424634088900920695}
-  prefabSpoutReceiver: {fileID: 0}
-  spoutContainer: {fileID: 283334096760564682}
+  syphonClient: {fileID: 6417516717898491419}
+  prefabSyphonReceiver: {fileID: 3148634911551566331}
+  syphonContainer: {fileID: 283334096760564682}
   obj: {fileID: 8916696711826789478}
   material: {fileID: 2100000, guid: 963cffa533b957841bdc329ab97a37f6, type: 2}
+--- !u!114 &6417516717898491419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3148634911551566331}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b79770b2944d4cdeb52083e0a22da31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _appName: 
+  _serverName: 
+  _targetTexture: {fileID: 8400000, guid: da21f6f393076d549ba3c217d7b1b09d, type: 2}
+  _targetRenderer: {fileID: 497039255854491891}
+  _targetMaterialProperty: _MainTex
+  _nullTexture: {fileID: 2800000, guid: 4d452f854bc6b43488690d49f3cd2e9c, type: 3}
 --- !u!1 &8916696711826789478
 GameObject:
   m_ObjectHideFlags: 0

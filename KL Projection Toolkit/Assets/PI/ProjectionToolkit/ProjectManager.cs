@@ -12,9 +12,10 @@ using TMPro;
 using UnityEngine.Networking;
 using RockVR.Video;
 using SimpleFileBrowser;
-using Klak.Spout;
+using Klak.Syphon;
 using Michsky.UI.ModernUIPack;
 using PI.ProjectionToolkit.UI;
+using System.Runtime.InteropServices;
 
 namespace PI.ProjectionToolkit
 {
@@ -49,9 +50,9 @@ namespace PI.ProjectionToolkit
         public TextMeshProUGUI txtRecordingTimer;
         private Animator animRecordingPanel;
         private VideoCapture activeVideoCapture;
-        public UnityEngine.UI.Button btnSpoutModal;
-        public HorizontalSelector spoutSelector;
-        public GameObject prefabSpoutReceiver;
+        public UnityEngine.UI.Button btnSyphonModal;
+        public HorizontalSelector syphonSelector;
+        public GameObject prefabSyphonReceiver;
 
         public ProjectCameraHolder currentCameraHolder;
         public CameraEditor cameraEditor;
@@ -389,7 +390,7 @@ namespace PI.ProjectionToolkit
                 //add list item
                 var listItem = Instantiate(prefab, objModelList.transform);
                 var modelListItem = listItem.GetComponent<ModelListItem>();
-                modelListItem.SetData(model.name, model.name, objModel, model.targetMaterialProperty, prefabSpoutReceiver);
+                modelListItem.SetData(model.name, model.name, objModel, model.targetMaterialProperty, prefabSyphonReceiver);
                 modelListItem.OnSpoutClick += ModelListItem_OnSpoutClick;
                 modelListItem.OnMaterialClick += ModelListItem_OnMaterialClick;
                 modelListItem.OnVideoClick += ModelListItem_OnVideoClick;
@@ -433,23 +434,50 @@ namespace PI.ProjectionToolkit
             if (modelItem != null)
             {
                 tmpModelListItem = listItem;
-                spoutSelector.SetElements(GetSpoutList());
-                btnSpoutModal.onClick.Invoke();
+                Tuple<string, string>[] t = GetSyphonList();
+
+                var names = new List<string>();
+                for (var i = 0; i < t.Count(); i++)
+                {
+                    names[i] = String.Format("{0}/{1}", t[i].Item1, t[i].Item2);
+                }
+
+                    syphonSelector.SetElements(names);
+                btnSyphonModal.onClick.Invoke();
             }
         }
 
-        public void SpoutSelected()
+        public void SyphonSelected()
         {
-            tmpModelListItem.modelItem.SetSpout(spoutSelector.selectedElement);
+            var split = syphonSelector.selectedElement.Split('/');
+            if (split.Count() != 2)
+            {
+                return;
+            }
+            else {
+                tmpModelListItem.modelItem.SetSyphon(split[0], split[1]);
+            }
         }
 
-        private List<string> GetSpoutList()
+        private Tuple<string, string>[] GetSyphonList()
         {
-            var count = PluginEntry.CountSharedObjects();
-            var names = new List<string>();
+
+
+            var list = Plugin_CreateServerList();
+            var count = Plugin_GetServerListCount(list);
+            var names = new Tuple<string, string>[count];
             for (var i = 0; i < count; i++)
-                names.Add(PluginEntry.GetSharedObjectNameString(i));
-            if (count == 0) names.Add("NONE");
+            {
+
+                var pName = Plugin_GetNameFromServerList(list, i);
+                var pAppName = Plugin_GetAppNameFromServerList(list, i);
+
+                var name = (pName != IntPtr.Zero) ? Marshal.PtrToStringAnsi(pName) : "(no name)";
+                var appName = (pAppName != IntPtr.Zero) ? Marshal.PtrToStringAnsi(pAppName) : "(no app name)";
+                names[i] = Tuple.Create(appName, name);
+            }
+
+
             return names;
         }
 
@@ -463,6 +491,25 @@ namespace PI.ProjectionToolkit
             this.applicationManager.LoadProject(this.CurrentProject.GetProjectAsProjectReference(), true);
             this.applicationManager.ShowErrorMessage("Your site details, such as cameras and models, have been reloaded", null);
         }
+
+        #region Native plugin entry points
+
+        [DllImport("KlakSyphon")]
+        static extern IntPtr Plugin_CreateServerList();
+
+        [DllImport("KlakSyphon")]
+        static extern void Plugin_DestroyServerList(IntPtr list);
+
+        [DllImport("KlakSyphon")]
+        static extern int Plugin_GetServerListCount(IntPtr list);
+
+        [DllImport("KlakSyphon")]
+        static extern IntPtr Plugin_GetNameFromServerList(IntPtr list, int index);
+
+        [DllImport("KlakSyphon")]
+        static extern IntPtr Plugin_GetAppNameFromServerList(IntPtr list, int index);
+
+        #endregion
     }
 
 }

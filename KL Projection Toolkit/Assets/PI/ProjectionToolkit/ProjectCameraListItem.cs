@@ -36,10 +36,10 @@ namespace PI.ProjectionToolkit
         private bool lastSetToRecord = false;
         private void Update()
         {
-            if(lastSelected != selected || lastSetToRecord != setToRecord)
-            {
+           // if(lastSelected != selected || lastSetToRecord != setToRecord)
+         //   {
                 Setup();
-            }
+          //  }
         }
 
         public void Setup()

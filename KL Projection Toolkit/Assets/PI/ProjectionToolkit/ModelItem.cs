@@ -5,49 +5,61 @@ using PI.ProjectionToolkit.UI;
 using System.Collections;
 using System.Linq;
 using UnityEngine.Video;
-using Klak.Spout;
+//using Klak.Spout;
+using Klak.Syphon;
+
 
 namespace PI.ProjectionToolkit
 {
     public class ModelItem : MonoBehaviour
     {
         public VideoPlayer videoPlayer;
-        public SpoutReceiver spoutReceiver;
-        public GameObject prefabSpoutReceiver;
-        public GameObject spoutContainer;
+        public SyphonClient syphonClient;
+        public GameObject prefabSyphonReceiver;
+        public GameObject syphonContainer;
         public GameObject obj;
         public Material material;
-        
+
+        void Start()
+        {
+#if UNITY_STANDALONE_OSX
+            Debug.Log("Standalone OSX");
+#endif
+        }
+
+
         public void SetVideo(string url)
         {
-            ClearSpoutContainer();
+            ClearSyphonContainer();
             videoPlayer.enabled = true;
             videoPlayer.url = url;
             videoPlayer.Play();
         }
 
-        public void SetSpout(string name)
+        public void SetSyphon(string appName, string serverName)
         {
             if (videoPlayer.isPlaying) videoPlayer.Stop();
             videoPlayer.enabled = false;
-            ClearSpoutContainer();
-            var objSpoutReceiver = Instantiate(prefabSpoutReceiver, spoutContainer.transform);
-            var newSpoutReceiver = objSpoutReceiver.GetComponent<SpoutReceiver>();
-            newSpoutReceiver.targetTexture = spoutReceiver.targetTexture;
-            newSpoutReceiver.targetRenderer = spoutReceiver.targetRenderer;
-            newSpoutReceiver.nameFilter = name;
+            ClearSyphonContainer();
+            var objSyphonClient = Instantiate(prefabSyphonReceiver, syphonContainer.transform);
+            var newSyphonClient = objSyphonClient.GetComponent<SyphonClient>();
+            newSyphonClient.targetTexture = syphonClient.targetTexture;
+            newSyphonClient.targetRenderer = syphonClient.targetRenderer;
+            newSyphonClient.appName = appName;
+            newSyphonClient.serverName = serverName;
+
         }
 
         public void SetMaterial()
         {
             if (videoPlayer.isPlaying) videoPlayer.Stop();
             videoPlayer.enabled = false;
-            ClearSpoutContainer();
+            ClearSyphonContainer();
         }
 
-        private void ClearSpoutContainer()
+        private void ClearSyphonContainer()
         {
-            foreach (Transform child in spoutContainer.transform) Destroy(child.gameObject);            
+            foreach (Transform child in syphonContainer.transform) Destroy(child.gameObject);            
         }
     }
 }
