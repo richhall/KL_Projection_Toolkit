@@ -239,7 +239,9 @@ namespace PI.ProjectionToolkit
             var cameraListItem = listItem.GetComponent<ProjectCameraListItem>();
             cameraListItem.SetData(camera, index, this, type);
             //add camera to cameras
-            GameObject prefab = prefabCameraItem;
+            //GameObject prefab = prefabCameraItem;
+            GameObject prefab = Instantiate(Resources.Load<GameObject>(_project.projectionSite.folder + "/" + camera.prefab), objModelContainer.transform);
+
             switch (camera.cameraType)
             {
                 case Models.CameraType.WalkAbout:
