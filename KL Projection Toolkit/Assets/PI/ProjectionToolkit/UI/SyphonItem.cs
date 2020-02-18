@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
@@ -32,7 +33,9 @@ namespace PI.ProjectionToolkit.UI
 
         public void Click()
         {
+#if UNITY_STANDALONE_OSX
             syphonManager.SetSyphon(this.txtName.text);
+#endif
         }
     }
 }

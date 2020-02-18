@@ -1,4 +1,4 @@
-﻿#if UNITY_STANDALONE_WIN
+﻿
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -30,8 +30,9 @@ namespace PI.ProjectionToolkit.UI
 
         public void Click()
         {
+#if UNITY_STANDALONE_WIN
             spoutManager.SetSpout(this.txtName.text);
+#endif
         }
     }
 }
-#endif

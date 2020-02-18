@@ -406,7 +406,7 @@ namespace PI.ProjectionToolkit
                 modelListItem.SetData(model.name, model.projectionSurface, model.name, objModel, model.targetMaterialProperty, prefabSyphonReceiver);
 
                 #if UNITY_STANDALONE_WIN
-                modelListItem.OnSpoutClick += ModelListItem_OnSpoutSyphonClick;
+                modelListItem.OnSyphonClick += ModelListItem_OnSpoutSyphonClick;
 #endif
 #if UNITY_STANDALONE_OSX
                 modelListItem.OnSyphonClick += ModelListItem_OnSpoutSyphonClick;
@@ -465,7 +465,7 @@ namespace PI.ProjectionToolkit
 #endif
 
 #if UNITY_STANDALONE_WIN
-                spoutSelector.SetElements(GetSpoutSpoutList());
+                spoutSelector.SetElements(GetSpoutSyphonList());
                 spoutSelector.selectedElement = spoutSelector.elements[0];
                 btnSpoutModal.onClick.Invoke();
 #endif
@@ -524,7 +524,7 @@ namespace PI.ProjectionToolkit
             var count = PluginEntry.CountSharedObjects();
             var names = new List<string>();
             for (var i = 0;i < count; i++)
-                nameString.Add(PluginEntry.GetSharedObjectNameString(i));
+                namesString.Add(PluginEntry.GetSharedObjectNameString(i));
             if (count == 0) namesString.Add("NONE");
 #endif
 

@@ -1,9 +1,9 @@
-﻿#if UNITY_STANDALONE_OSX
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Linq;
+#if UNITY_STANDALONE_OSX
 using Klak.Syphon;
 
 namespace PI.ProjectionToolkit
@@ -131,6 +131,22 @@ namespace PI.ProjectionToolkit
         static extern IntPtr Plugin_GetAppNameFromServerList(IntPtr list, int index);
 
 #endregion
+    }
+}
+#endif
+#if UNITY_STANDALONE_WIN
+namespace PI.ProjectionToolkit
+{
+    public class SyphonManager : MonoBehaviour
+    {
+        public GameObject objListing;
+        public GameObject prefabSyphonItem;
+        public Sprite imgBackground;
+        public Sprite imgBackgroundSelected;
+        public int updateCount = 50;
+        public GameObject objSpoutReceivedContainer;
+        public GameObject prefabSyphonReceiver;
+
     }
 }
 #endif

@@ -6,8 +6,8 @@ using System.Collections;
 using System.Linq;
 using UnityEngine.Video;
 
-#if UNITY_STANALONE_WIN
-//using Klak.Spout;
+#if UNITY_STANDALONE_WIN
+using Klak.Spout;
 #endif
 
 #if UNITY_STANDALONE_OSX
@@ -74,12 +74,12 @@ namespace PI.ProjectionToolkit
             videoPlayer.enabled = false;
             ClearSpoutSyphonContainer();
             var objSpoutReceiver = Instantiate(prefabSpoutReceiver, spoutSyphonContainer.transform);
-            var newSpoutReceiver = objSyphonClient.GetComponent<SpoutReceiver>();
+            var newSpoutReceiver = objSpoutReceiver.GetComponent<SpoutReceiver>();
             newSpoutReceiver.targetTexture = targetTexture;
             newSpoutReceiver.targetRenderer = targetRenderer;
             newSpoutReceiver.nameFilter = name;
             newSpoutReceiver.enabled = true;
-            newSpoutReceiver.targetMaterialProperty = targetMaterialProperty;
+      //     newSpoutReceiver.targetMaterialProperty = targetMaterialProperty;
 
         }
 #endif

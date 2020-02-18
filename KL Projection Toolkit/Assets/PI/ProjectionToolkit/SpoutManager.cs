@@ -93,6 +93,15 @@ namespace PI.ProjectionToolkit
 {
     public class SpoutManager : MonoBehaviour
     {
+        public GameObject objListing;
+        public GameObject prefabSpoutItem;
+        public Sprite imgBackground;
+        public Sprite imgBackgroundSelected;
+        public int updateCount = 50;
+        public GameObject objSpoutReceivedContainer;
+        public GameObject prefabSpoutReceiver;
+
+
     }
 }
 #endif
