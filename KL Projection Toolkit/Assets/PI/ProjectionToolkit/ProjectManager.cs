@@ -458,15 +458,37 @@ namespace PI.ProjectionToolkit
                 tmpModelListItem = listItem;
 
 #if UNITY_STANDALONE_OSX
+                 if (syphonSelector.selectedElement.Length == 0) {
+                    syphonSelector.selectedElement = syphonSelector.elements[0];
+                    syphonSelector.defaultIndex = 0;
+                } else
+                {
+                    for (int i = 0; i < syphonSelector.elements.Count; i++)
+                    {
+                        if (syphonSelector.selectedElement == syphonSelector.elements[i]) { syphonSelector.defaultIndex = i; }
+                    }
+                }
+
                 syphonSelector.SetElements(GetSpoutSyphonList());
-                syphonSelector.selectedElement = syphonSelector.elements[0];
+
                 btnSyphonModal.onClick.Invoke();
 
 #endif
 
 #if UNITY_STANDALONE_WIN
+                //spoutSelector.SetElements(GetSpoutSyphonList());
+
+                if (spoutSelector.selectedElement.Length == 0) {
+                    spoutSelector.selectedElement = spoutSelector.elements[0];
+                    spoutSelector.defaultIndex = 0;
+                } else
+                {
+                    for (int i = 0; i < spoutSelector.elements.Count; i++)
+                    {
+                        if (spoutSelector.selectedElement == spoutSelector.elements[i]) { spoutSelector.defaultIndex = i; }
+                    }
+                }
                 spoutSelector.SetElements(GetSpoutSyphonList());
-                spoutSelector.selectedElement = spoutSelector.elements[0];
                 btnSpoutModal.onClick.Invoke();
 #endif
 
