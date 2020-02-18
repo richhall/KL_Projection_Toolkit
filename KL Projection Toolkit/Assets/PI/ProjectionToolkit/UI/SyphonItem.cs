@@ -10,19 +10,19 @@ namespace PI.ProjectionToolkit.UI
         public TextMeshProUGUI txtName;
         public Image imgBackground;
         private PI.ProjectionToolkit.SyphonManager syphonManager;
-        private string serverName;
+
 
         void Start()
         {
         }
 
-        public void SetData(string appName, string serverName, Sprite background, SyphonManager syphonManager)
+        public void SetData(string name, Sprite background, SyphonManager syphonManager)
         {
-            this.name = appName;
-            this.serverName = serverName;
-            this.txtName.text = appName;
+            this.name = name;
+            this.txtName.text = name;
             ChangeBackground(background);
             this.syphonManager = syphonManager;
+            this.txtName.enabled = true;
         }
 
         public void ChangeBackground(Sprite background)
@@ -32,7 +32,7 @@ namespace PI.ProjectionToolkit.UI
 
         public void Click()
         {
-            syphonManager.SetSyphon(Tuple.Create(this.txtName.text,this.serverName));
+            syphonManager.SetSyphon(this.txtName.text);
         }
     }
 }

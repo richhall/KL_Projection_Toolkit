@@ -12,7 +12,13 @@ using TMPro;
 using UnityEngine.Networking;
 using RockVR.Video;
 using SimpleFileBrowser;
+
+#if UNITY_STANDALONE_OSX
 using Klak.Syphon;
+#endif
+#if UNITY_STANDALONE_WIN
+using Klak.Spout;
+#endif
 using Michsky.UI.ModernUIPack;
 using PI.ProjectionToolkit.UI;
 using System.Runtime.InteropServices;
@@ -53,6 +59,9 @@ namespace PI.ProjectionToolkit
         public UnityEngine.UI.Button btnSyphonModal;
         public HorizontalSelector syphonSelector;
         public GameObject prefabSyphonReceiver;
+        public UnityEngine.UI.Button btnSpoutModal;
+        public HorizontalSelector spoutSelector;
+        public GameObject prefabSpoutReceiver;
 
         public ProjectCameraHolder currentCameraHolder;
         public CameraEditor cameraEditor;
@@ -391,9 +400,18 @@ namespace PI.ProjectionToolkit
                 var prefab = model.projectionSurface ? prefabModelListItemIteractive : prefabModelListItem;
                 //add list item
                 var listItem = Instantiate(prefab, objModelList.transform);
+
+
                 var modelListItem = listItem.GetComponent<ModelListItem>();
-                modelListItem.SetData(model.name, model.name, objModel, model.targetMaterialProperty, prefabSyphonReceiver);
-                modelListItem.OnSpoutClick += ModelListItem_OnSpoutClick;
+                modelListItem.SetData(model.name, model.projectionSurface, model.name, objModel, model.targetMaterialProperty, prefabSyphonReceiver);
+
+                #if UNITY_STANDALONE_WIN
+                modelListItem.OnSpoutClick += ModelListItem_OnSpoutSyphonClick;
+#endif
+#if UNITY_STANDALONE_OSX
+                modelListItem.OnSyphonClick += ModelListItem_OnSpoutSyphonClick;
+               
+#endif
                 modelListItem.OnMaterialClick += ModelListItem_OnMaterialClick;
                 modelListItem.OnVideoClick += ModelListItem_OnVideoClick;
             }
@@ -430,27 +448,35 @@ namespace PI.ProjectionToolkit
         }
 
         private ModelListItem tmpModelListItem;
-        private void ModelListItem_OnSpoutClick(ModelListItem listItem)
+     
+
+        private void ModelListItem_OnSpoutSyphonClick(ModelListItem listItem)
         {
             var modelItem = listItem.objModel.GetComponent<ModelItem>();
             if (modelItem != null)
             {
                 tmpModelListItem = listItem;
-                Tuple<string, string>[] t = GetSyphonList();
 
-                var names = new List<string>();
-                for (var i = 0; i < t.Count(); i++)
-                {
-                    names[i] = String.Format("{0}/{1}", t[i].Item1, t[i].Item2);
-                }
-
-                    syphonSelector.SetElements(names);
+#if UNITY_STANDALONE_OSX
+                syphonSelector.SetElements(GetSpoutSyphonList());
+                syphonSelector.selectedElement = syphonSelector.elements[0];
                 btnSyphonModal.onClick.Invoke();
+
+#endif
+
+#if UNITY_STANDALONE_WIN
+                spoutSelector.SetElements(GetSpoutSpoutList());
+                spoutSelector.selectedElement = spoutSelector.elements[0];
+                btnSpoutModal.onClick.Invoke();
+#endif
+
+
             }
         }
 
-        public void SyphonSelected()
+        public void SpoutSyphonSelected()
         {
+#if UNITY_STANDALONE_OSX
             var split = syphonSelector.selectedElement.Split('/');
             if (split.Count() != 2)
             {
@@ -459,12 +485,17 @@ namespace PI.ProjectionToolkit
             else {
                 tmpModelListItem.modelItem.SetSyphon(split[0], split[1]);
             }
+#endif
+#if UNITY_STANDALONE_WIN
+            tmpModelListItem.modelItem.SetSpout(spoutSelector.selectedElement);
+#endif
+
         }
 
-        private Tuple<string, string>[] GetSyphonList()
+        private List<string> GetSpoutSyphonList()
         {
-
-
+            var namesString = new List<string>();
+#if UNITY_STANDALONE_OSX
             var list = Plugin_CreateServerList();
             var count = Plugin_GetServerListCount(list);
             var names = new Tuple<string, string>[count];
@@ -479,8 +510,27 @@ namespace PI.ProjectionToolkit
                 names[i] = Tuple.Create(appName, name);
             }
 
+            
+            for (var i = 0; i < names.Count(); i++)
+            {
+                namesString.Add($"{names[i].Item1}/{names[i].Item2}");
+            }
 
-            return names;
+            if (count == 0) namesString.Add("NONE");
+
+#endif
+
+#if UNITY_STANDALONE_WIN
+            var count = PluginEntry.CountSharedObjects();
+            var names = new List<string>();
+            for (var i = 0;i < count; i++)
+                nameString.Add(PluginEntry.GetSharedObjectNameString(i));
+            if (count == 0) namesString.Add("NONE");
+#endif
+
+            return namesString;
+
+
         }
 
         public void SaveProject()
@@ -494,8 +544,9 @@ namespace PI.ProjectionToolkit
             this.applicationManager.ShowErrorMessage("Your site details, such as cameras and models, have been reloaded", null);
         }
 
-        #region Native plugin entry points
 
+#region Native plugin entry points
+#if UNITY_STANDALONE_OSX
         [DllImport("KlakSyphon")]
         static extern IntPtr Plugin_CreateServerList();
 
@@ -511,7 +562,9 @@ namespace PI.ProjectionToolkit
         [DllImport("KlakSyphon")]
         static extern IntPtr Plugin_GetAppNameFromServerList(IntPtr list, int index);
 
-        #endregion
+#endif
+#endregion
+
     }
 
 }

@@ -57,7 +57,8 @@ namespace Klak.Syphon
 
         public string targetMaterialProperty {
             get { return _targetMaterialProperty; }
-            set { targetMaterialProperty = value; }
+            //RH amended setter for toolkit
+            set { _targetMaterialProperty = value; }
         }
 
         #endregion

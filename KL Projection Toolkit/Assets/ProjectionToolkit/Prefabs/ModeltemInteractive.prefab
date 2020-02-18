@@ -664,7 +664,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1976125479783500214}
-        m_MethodName: SpoutClick
+        m_MethodName: SyphonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1903,6 +1903,7 @@ MonoBehaviour:
   index: 0
   displayIndex: 0
   txtName: {fileID: 1976125479796529555}
+  spoutSyphonButton: {fileID: 1976125478259982073}
   txtType: {fileID: 1976125478759026852}
   imgIcon: {fileID: 1976125479325523993}
   imgBackground: {fileID: 1976125478209996304}

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_STANDALONE_WIN
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -33,3 +34,4 @@ namespace PI.ProjectionToolkit.UI
         }
     }
 }
+#endif

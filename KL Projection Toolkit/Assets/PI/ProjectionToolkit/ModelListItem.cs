@@ -13,6 +13,7 @@ namespace PI.ProjectionToolkit
         public int index = 0;
         public int displayIndex = 0;
         public TextMeshProUGUI txtName;
+        public TextMeshProUGUI spoutSyphonButton;
         public TextMeshProUGUI txtType;
         public UnityEngine.UI.Image imgIcon;
         public UnityEngine.UI.Image imgBackground;
@@ -26,13 +27,14 @@ namespace PI.ProjectionToolkit
         public event modelListItemDelegate OnMaterialClick;
         public event modelListItemDelegate OnVideoClick;
         public event modelListItemDelegate OnSpoutClick;
+        public event modelListItemDelegate OnSyphonClick;
 
         void Active()
         {
             SetBackground();
         }
 
-        public void SetData(string name, string type, GameObject model, string targetMaterial, GameObject prefabSpoutReceiver)
+        public void SetData(string name, bool interactive, string type, GameObject model, string targetMaterial, GameObject prefabSpoutReceiver)
         {
             txtName.text = name;
             txtType.text = name;
@@ -41,6 +43,16 @@ namespace PI.ProjectionToolkit
             SetBackground();
             if (objModel != null) modelItem = objModel.GetComponent<ModelItem>();
             if (modelItem != null) modelItem.prefabSyphonReceiver = prefabSpoutReceiver;
+            if (interactive)
+            {
+#if UNITY_STANDALONE_OSX
+                spoutSyphonButton.text = "APPLY SYPHON";
+#endif
+#if UNITY_STANDALONE_WIN
+                spoutSyphonButton.text = "APPLY SPOUT";
+#endif
+            }
+
         }
 
         public void MaterialClick()
@@ -57,6 +69,11 @@ namespace PI.ProjectionToolkit
         public void SpoutClick()
         {
             if (OnSpoutClick != null) OnSpoutClick(this);
+        }
+
+        public void SyphonClick()
+        {
+            if (OnSyphonClick != null) OnSyphonClick(this);
         }
 
 

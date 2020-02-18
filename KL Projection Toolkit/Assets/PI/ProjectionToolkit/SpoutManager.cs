@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+#if UNITY_STANDALONE_WIN
 using Klak.Spout;
 
 namespace PI.ProjectionToolkit
@@ -85,3 +87,12 @@ namespace PI.ProjectionToolkit
         }
     }
 }
+#endif
+#if UNITY_STANDALONE_OSX
+namespace PI.ProjectionToolkit
+{
+    public class SpoutManager : MonoBehaviour
+    {
+    }
+}
+#endif

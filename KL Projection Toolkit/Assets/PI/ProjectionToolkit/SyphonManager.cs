@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_STANDALONE_OSX
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -12,7 +13,7 @@ namespace PI.ProjectionToolkit
         public GameObject objListing;
         public GameObject prefabSyphonItem;
         SyphonClient _receiver;
-        Tuple<string,string> selectedSource = Tuple.Create("","");
+        string selectedSource;
         public Sprite imgBackground;
         public Sprite imgBackgroundSelected;
         public int updateCount = 50;
@@ -25,7 +26,7 @@ namespace PI.ProjectionToolkit
 
         void Start()
         {
-           int currentCountgg = 0;
+           
     }
 
         void Update()
@@ -40,10 +41,17 @@ namespace PI.ProjectionToolkit
 
         private string[] lastList = null;
         private List<PI.ProjectionToolkit.UI.SyphonItem> syphonItems;
+
+
         private void RebuildList()
         {
-            Tuple<string,string>[] sourceList = GetSyphonList();
-          
+            string[] sourceList = GetSpoutSyphonList();
+            if (lastList != null)
+            {
+                bool areEqual = lastList.SequenceEqual(sourceList);
+                if (areEqual) return;
+            }
+            lastList = sourceList;
             syphonItems = new List<UI.SyphonItem>();
             //clear the transform
             foreach (Transform child in objListing.transform) Destroy(child.gameObject);
@@ -51,17 +59,18 @@ namespace PI.ProjectionToolkit
             {
                 var projectGameObject = Instantiate(prefabSyphonItem, objListing.transform);
                 var item = projectGameObject.GetComponent<PI.ProjectionToolkit.UI.SyphonItem>();
-                item.SetData(source.Item2,source.Item1, source.Item1 == selectedSource.Item1 ? imgBackgroundSelected : imgBackground, this);
+                item.SetData(source, source == selectedSource ? imgBackgroundSelected : imgBackground, this);
                 syphonItems.Add(item);
             }
         }
 
-        private Tuple<string, string>[] GetSyphonList()
+        private string[] GetSpoutSyphonList()
         {
-
-
+            
+#if UNITY_STANDALONE_OSX
             var list = Plugin_CreateServerList();
             var count = Plugin_GetServerListCount(list);
+            var namesString = new string[count];
             var names = new Tuple<string, string>[count];
             for (var i = 0; i < count; i++)
             {
@@ -73,30 +82,38 @@ namespace PI.ProjectionToolkit
                 var appName = (pAppName != IntPtr.Zero) ? Marshal.PtrToStringAnsi(pAppName) : "(no app name)";
                 names[i] = Tuple.Create(appName, name);
             }
-          
-   
-            return names;
-        }
 
-        public void SetSyphon(Tuple<string,string> source)
-        {
-            if (selectedSource.Item1 != source.Item1)
+
+            for (var i = 0; i < names.Count(); i++)
             {
-                selectedSource = source;
-                foreach (Transform child in objSpoutReceivedContainer.transform) Destroy(child.gameObject);
-                //create new receiver
-                var projectGameObject = Instantiate(prefabSyphonReceiver, objSpoutReceivedContainer.transform);
-                _receiver = projectGameObject.GetComponent<SyphonClient>();
-                _receiver.appName = selectedSource.Item1;
-                _receiver.serverName = selectedSource.Item2;
-                foreach (var item in syphonItems)
-                {
-                    item.ChangeBackground(item.name == selectedSource.Item1 ? imgBackgroundSelected : imgBackground);
-                }
+                namesString[i] = ($"{names[i].Item1}/{names[i].Item2}");
             }
+
+
+
+#endif
+
+#if UNITY_STANDALONE_WIN
+            var count = PluginEntry.CountSharedObjects();
+            var namesString = new string[count];
+            var names = new List<string>();
+            for (var i = 0;i < count; i++)
+                nameString[i] =PluginEntry.GetSharedObjectNameString(i);
+    
+#endif
+
+            return namesString;
+
+
         }
 
-        #region Native plugin entry points
+        public void SetSyphon(string filter)
+        {
+//            if (selectedSource.Item1 != source.Item1)
+            
+        }
+
+#region Native plugin entry points
 
         [DllImport("KlakSyphon")]
         static extern IntPtr Plugin_CreateServerList();
@@ -113,6 +130,7 @@ namespace PI.ProjectionToolkit
         [DllImport("KlakSyphon")]
         static extern IntPtr Plugin_GetAppNameFromServerList(IntPtr list, int index);
 
-        #endregion
+#endregion
     }
 }
+#endif
