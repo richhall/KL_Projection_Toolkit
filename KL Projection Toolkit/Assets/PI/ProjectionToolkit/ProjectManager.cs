@@ -48,6 +48,8 @@ namespace PI.ProjectionToolkit
         public GameObject btnRefresh;
         public GameObject btnRecord;
         public GameObject btnStopRecord;
+        public GameObject btnProject;
+        public GameObject btnStopProject;
 
         public VideoCaptureCtrl videoCaptureCtrl;
 
@@ -65,6 +67,16 @@ namespace PI.ProjectionToolkit
 
         public ProjectCameraHolder currentCameraHolder;
         public CameraEditor cameraEditor;
+
+        public enum ProjectionStatusType
+        {
+            NOT_START,
+            STARTED,
+            PAUSED,
+            STOPPED,
+            FINISH,
+        }
+        public ProjectionStatusType projectionStatus { get; set; }
 
         private Project _project = null;
         public Project CurrentProject
@@ -87,6 +99,7 @@ namespace PI.ProjectionToolkit
 
         private void Start()
         {
+            projectionStatus = ProjectionStatusType.NOT_START;
             animRecordingPanel = objRecordingPanel.GetComponent<Animator>();
             cameraEditor.OnCameraChanged += CameraEditor_OnCameraChanged;
         }
@@ -182,6 +195,7 @@ namespace PI.ProjectionToolkit
         {
             RockVR.Video.PathConfig.SaveFolder = project.recordFolder + "/";
             btnRecord.SetActive(true);
+            btnProject.SetActive(true);
             btnSave.SetActive(true);
             btnRefresh.SetActive(true);
             if (_project != null && _project.id == project.id)
@@ -333,7 +347,47 @@ namespace PI.ProjectionToolkit
                     break;
             }
         }
-        
+
+        //RH similar functionlaity to record project virtually from multiple projectors
+        public void Project()
+        {
+            switch (projectionStatus)
+            {
+                case ProjectionStatusType.STOPPED:
+                case ProjectionStatusType.NOT_START:
+                case ProjectionStatusType.FINISH:
+                    int projectorsWithVideos = 0;
+                    foreach (ProjectCameraItem child in objCamerasContainer.GetComponentsInChildren<ProjectCameraItem>())
+                    {
+                        if (child.VideoSet) { projectorsWithVideos += 1; }
+                    }
+                    if (projectorsWithVideos > 0)
+                    {
+                        btnProject.SetActive(false);
+                        btnStopProject.SetActive(true);
+                        foreach (ProjectCameraItem child in objCamerasContainer.GetComponentsInChildren<ProjectCameraItem>())
+                        {
+                            if (child.VideoSet) { child.PlayVideo(); }
+                        }
+                    }
+                    else
+                    {
+                        //show error
+                        applicationManager.ShowErrorMessage("To start projecting please select a projector to project");
+                        btnProject.SetActive(true);
+                        btnStopProject.SetActive(false);
+                    }
+                    break;
+                case ProjectionStatusType.STARTED:
+                    btnProject.SetActive(true);
+                    btnStopProject.SetActive(false);
+                    foreach (ProjectCameraItem child in objCamerasContainer.GetComponentsInChildren<ProjectCameraItem>())
+                    {
+                        if (child.VideoSet) { child.StopVideo(); }
+                    }
+                    break;
+            }
+        }
 
         public void SetMainCamera()
         {
@@ -417,7 +471,7 @@ namespace PI.ProjectionToolkit
             }
             SetCamera(defaultIndex);
         }
-
+ 
         private void ModelListItem_OnVideoClick(ModelListItem listItem)
         {
             if (listItem.modelItem != null)
@@ -438,6 +492,28 @@ namespace PI.ProjectionToolkit
             }
         }
 
+        // RH added dialog to selct video to project virtually
+
+        public void ProjectCameraListItem_OnVideoClick(ProjectCameraHolder holder)
+        {
+            if (holder.cameraItem.objVideoProjector != null)
+            {
+                FileBrowser.SetFilters(true, new FileBrowser.Filter("Videos", ".mp4", ".mov"));
+                FileBrowser.SetDefaultFilter(".mp4");
+                StartCoroutine(ShowVideoPathDialogCoroutine(holder));
+            }
+        }
+
+              IEnumerator ShowVideoPathDialogCoroutine(ProjectCameraHolder holder)
+                {
+                    yield return FileBrowser.WaitForLoadDialog(false, CurrentProject.path, "Select Video");
+
+                    if (FileBrowser.Success)
+                    {
+                        holder.cameraItem.SetVideo(FileBrowser.Result);
+                    }
+                }
+              
         private void ModelListItem_OnMaterialClick(ModelListItem listItem)
         {
             var modelItem = listItem.objModel.GetComponent<ModelItem>();

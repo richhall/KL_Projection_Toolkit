@@ -23,6 +23,7 @@ namespace PI.ProjectionToolkit
         {
             cameraListItem.OnRecordClick += CameraListItem_OnRecordClick;
             cameraListItem.OnStopRecordClick += CameraListItem_OnStopRecordClick;
+            cameraListItem.OnProjectClick += CameraListItem_OnProjectClick;
             camera.SetCamera(cameraItem.camera);
         }
 
@@ -38,6 +39,11 @@ namespace PI.ProjectionToolkit
             cameraItem.setToRecord = true;
             cameraItem.setToRecord = projectManager.SetRecordController();
             //if(cameraItem.setToRecord) cameraListItem.CameraRecording();
+        }
+
+        private void CameraListItem_OnProjectClick()
+        {
+            projectManager.ProjectCameraListItem_OnVideoClick(this);
         }
 
         public void SetDisplayCamera()

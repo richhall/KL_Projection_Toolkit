@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 using PI.ProjectionToolkit.Models;
 using TMPro;
 using PI.ProjectionToolkit.UI;
+using UnityEngine.Video;
 
 namespace PI.ProjectionToolkit
 {
@@ -26,6 +27,14 @@ namespace PI.ProjectionToolkit
         public bool setToRecord = false;
         public GameObject objSetToRecord;
         public GameObject objStopRecord;
+        public GameObject objSetToProject;
+
+
+
+        public delegate void projectCameraListItemDelegate();
+        public event projectCameraListItemDelegate OnRecordClick;
+        public event projectCameraListItemDelegate OnStopRecordClick;
+        public event projectCameraListItemDelegate OnProjectClick;
 
         void Start()
         {
@@ -73,14 +82,17 @@ namespace PI.ProjectionToolkit
                 case Models.CameraType.Projector:
                     txtType.text = "Physical Projector";
                     imgIcon.sprite = imgProjector;
+                    objSetToProject.SetActive(true);
                     break;
                 case Models.CameraType.Virtual:
                     txtType.text = "Virtual Camera";
                     imgIcon.sprite = imgCamera;
+                    objSetToProject.SetActive(false);
                     break;
                 case Models.CameraType.WalkAbout:
                     txtType.text = "Walk About Camera";
                     imgIcon.sprite = imgWalkAround;
+                    objSetToProject.SetActive(false);
                     break;
             }
             if (!string.IsNullOrEmpty(type)) txtType.text = type;
@@ -88,9 +100,7 @@ namespace PI.ProjectionToolkit
             imgBackground.sprite = imgBackgroundNormal;
         }
 
-        public delegate void projectCameraListItemDelegate();
-        public event projectCameraListItemDelegate OnRecordClick;
-        public event projectCameraListItemDelegate OnStopRecordClick;
+
 
         //public void CameraNormal()
         //{
@@ -114,12 +124,19 @@ namespace PI.ProjectionToolkit
 
         public void OnRecordButtonClick()
         {
-            if (OnRecordClick != null) OnRecordClick();
+            if (OnRecordClick != null) OnRecordClick() ;
         }
 
         public void OnStopRecordButtonClick()
         {
             if (OnStopRecordClick != null) OnStopRecordClick();
+        }
+
+        public void OnProjectButtonClick()
+        {
+
+                if (OnProjectClick != null) OnProjectClick();
+
         }
     }
 }

@@ -25,8 +25,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1222007574087960}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 2.722, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4721989386402504}
@@ -36,7 +36,7 @@ Transform:
   - {fileID: 6619038486762367907}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114055198846046020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,24 +50,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   live: 1
-  aspectRatio: 1.6
-  throwRatio: 1
+  aspectRatio: 1.3333334
+  throwRatio: 1.381
   shift_v: 0
   shift_h: 0
   keystoneH: 0
   keystoneV: 0
-  brightness: 2.4
-  range: 20
-  renderTexture: {fileID: 0}
+  brightness: 6.86
+  range: 50
+  renderTexture: {fileID: 8400000, guid: aa56754217c59944cb42a3ca56c072f5, type: 2}
   imageInterval: 0.05
   colour: 1
   cookieSize: 3
   maxProcessingTime: 0.02
-  borderSize: 2
+  borderSize: 1
   forceLegacyMethod: 0
-  showLightPath: 0
-  lightPathMaterial: {fileID: 0}
-  lightPathRange: 0
+  showLightPath: 1
+  lightPathMaterial: {fileID: 2100000, guid: a5fb836f089131f4d89f0870d43174a1, type: 2}
+  lightPathRange: 50
 --- !u!114 &114121363596148992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89cf90cf1b4a85041afa228f53faf999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoToProject: {fileID: 0}
+  videoToProject: {fileID: 32900000, guid: bb9da17ef64627c4485e20f87b718010, type: 3}
   audioSrc: {fileID: 82673852061793168}
   loop: 1
   playOnAwake: 0
@@ -253,10 +253,10 @@ Light:
   serializedVersion: 9
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2.4
-  m_Range: 20
-  m_SpotAngle: 53.130104
-  m_InnerSpotAngle: 39.53434
+  m_Intensity: 6.86
+  m_Range: 50
+  m_SpotAngle: 39.806232
+  m_InnerSpotAngle: 39.30765
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
@@ -344,10 +344,10 @@ Light:
   serializedVersion: 9
   m_Type: 0
   m_Color: {r: 0, g: 0, b: 1, a: 1}
-  m_Intensity: 2.4
-  m_Range: 20
-  m_SpotAngle: 53.130104
-  m_InnerSpotAngle: 39.53434
+  m_Intensity: 6.86
+  m_Range: 50
+  m_SpotAngle: 39.806232
+  m_InnerSpotAngle: 39.30765
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
@@ -435,10 +435,10 @@ Light:
   serializedVersion: 9
   m_Type: 0
   m_Color: {r: 0, g: 1, b: 0, a: 1}
-  m_Intensity: 2.4
-  m_Range: 20
-  m_SpotAngle: 53.130104
-  m_InnerSpotAngle: 39.53434
+  m_Intensity: 6.86
+  m_Range: 50
+  m_SpotAngle: 39.806232
+  m_InnerSpotAngle: 39.30765
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
@@ -502,7 +502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6619038486762367907
 Transform:
   m_ObjectHideFlags: 0
@@ -554,7 +554,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a5fb836f089131f4d89f0870d43174a1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -562,6 +562,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

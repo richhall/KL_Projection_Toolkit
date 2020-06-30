@@ -24,6 +24,9 @@ namespace PI.ProjectionToolkit
         public UnityEngine.Camera camera;
         public UnityEngine.Camera recordingCamera;
         public VideoCapture videoCapture;
+        public GameObject objVideoProjector;
+        private UnityEngine.Video.VideoPlayer _videoPlayer;
+        public bool VideoSet { get; protected set; }
 
         private void Start()
         {
@@ -41,6 +44,33 @@ namespace PI.ProjectionToolkit
             this.index = index;
             //set up the video capture
             SetupVideoCapture();
+        }
+
+
+
+        public void SetVideo(string url)
+        {
+
+            _videoPlayer = objVideoProjector.GetComponent<UnityEngine.Video.VideoPlayer>();       
+            _videoPlayer.enabled = true;
+            _videoPlayer.url = url;
+            VideoSet = true;
+            //objVideoProjector.GetComponent<ProjectVideo>().PlayVideoProjector();
+            //_videoPlayer.Play();
+        }
+
+        public void PlayVideo()
+        {
+            objVideoProjector.GetComponent<ProjectVideo>().PlayVideoProjector();
+            _videoPlayer.Play();
+            _projectManager.projectionStatus = ProjectManager.ProjectionStatusType.STARTED;
+        }
+
+        public void StopVideo()
+        {
+            _videoPlayer.Stop();
+            _videoPlayer.targetTexture.Release();
+            _projectManager.projectionStatus = ProjectManager.ProjectionStatusType.STOPPED;
         }
 
         private void SetupVideoCapture()
